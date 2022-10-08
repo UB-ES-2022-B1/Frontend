@@ -1,6 +1,6 @@
 # ES
 
-## Librerías necesarias:
+## Librerías necesarias PYTHON 3.7:
 Backend:
 - djangorestframework 
 - django-cors-headers
