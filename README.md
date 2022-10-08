@@ -4,3 +4,4 @@
 Backend:
 - djangorestframework 
 - django-cors-headers
+- pyodbc
