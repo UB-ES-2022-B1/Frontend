@@ -1,5 +1,6 @@
 # ES
 
-## Librerías necesarias en Backend
+## Librerías necesarias:
+Backend:
 - djangorestframework 
 - django-cors-headers
