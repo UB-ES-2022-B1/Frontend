@@ -20,6 +20,11 @@ from django.urls import path
 from django.urls import re_path
 from clients import views
 urlpatterns = [
+
+    #Ruta de administración de Django, quitar en producción
+    #api/clients devuelve el listado completo de clientes
+    #api/clients/id devuelve los datos de un solo cliente
+    #api/client/mail recupera la información de un cliente via mail
     path('admin/', admin.site.urls),
     re_path(r'^api/clients/$', views.clients_list),
     re_path(r'^api/clients/([0-9])$', views.clients_detail),
