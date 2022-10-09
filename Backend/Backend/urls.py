@@ -23,6 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^api/clients/$', views.clients_list),
     re_path(r'^api/clients/([0-9])$', views.clients_detail),
-    re_path(r'^api/client/([0-9])$', views.client_detail),
-
+    re_path(r'^api/client/(?P<mail>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$',views.client_detail,name="mail"),
 ]
