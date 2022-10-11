@@ -6,3 +6,5 @@ Backend:
 - django-cors-headers
 - pyodbc
 - mssql-django
+- pyjwt
+- passlib
