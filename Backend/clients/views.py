@@ -10,7 +10,7 @@ from passlib.hash import pbkdf2_sha256
 from .models import Client
 from .serializers import *
 
-
+#Endpoint para detalles de un cliente
 @api_view(['GET', 'POST'])
 def client_detail(request,mail):
 
