@@ -1,21 +1,17 @@
 import './App.css';
 import { useState } from 'react';
-import Button from './Button';
+import Home from './routes/main/Home.js'
+import About from './routes/about/About.js';
+import { Route, Routes } from 'react-router-dom';
+
 
 function App() {
-
-  const [count, setCount] = useState(0)
-
-  const incrementCount = (increment) => {
-    console.log('increment called')
-    setCount(count + increment)
-    console.log(count)
-  }
-
   return (
     <div className="App">
-      <h1>Count = {count}</h1>
-      <Button increment={1} onClickFunction={incrementCount} />
+      <Routes>
+        <Route path='/' element={ <Home/> } />
+        <Route path='about' element={<About/>}/>
+      </Routes>
     </div>
   );
 }
