@@ -29,7 +29,6 @@ class ClientTests(APITestCase):
         """
         Ensure we can create a new client object.
         """
-
         client = cl()
 
         response = client.get('http://localhost:8000/api/clients/')

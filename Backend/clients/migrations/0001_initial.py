@@ -23,6 +23,7 @@ class Migration(migrations.Migration):
                 ('country', models.CharField(max_length=30, verbose_name='Country')),
                 ('birthdate', models.DateField(verbose_name='Birth Date')),
                 ('registrationDate', models.DateField(auto_now_add=True, verbose_name='Registration Date')),
+
             ],
         ),
     ]

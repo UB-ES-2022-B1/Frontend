@@ -5,15 +5,15 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework import parsers
 from passlib.hash import pbkdf2_sha256
-from lock import lock
+import jwt,json
 
+from lock import lock
 from .models import Client
 from .serializers import *
 
 #Endpoint para agregar un nuevo cliente y obtener la información de este vía mail
 @api_view(['GET', 'POST'])
 def client_detail(request,mail):
-
 
     if request.method == 'GET':
         try:
@@ -69,3 +69,26 @@ def clients_detail(request, pk):
     elif request.method == 'DELETE':
         client.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+def login(request):
+    serializer = ClientLoginSerializer(data=request.data)
+    client = serializer.validate(request.data)
+    if client == "Invalid password!":
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    if client == "Invalid username/password":
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    payload = {
+        'email': client.email,
+        'name': client.name,
+        'surname': client.surname,
+    }
+    jwt_token = {'token': jwt.encode(payload, "XiqX28pxavz8SYivUlLxeIg495zSxNMlP7djRjPLEGxCIrxiMU")}
+    return Response(json.dumps(jwt_token))
+
+
+
+
+
+

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Housh.apps.HoushConfig',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'clients'
 ]

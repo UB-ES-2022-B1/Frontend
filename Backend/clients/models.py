@@ -11,9 +11,14 @@ class Client(models.Model):
     country = models.CharField("Country",max_length=30)
     birthdate = models.DateField("Birth Date")
     registrationDate = models.DateField("Registration Date", auto_now_add=True)
-
+    failedLoginAttemps = models.IntegerField("Number of Failed logins",default=0)
     def __str__(self):
         return self.name
     #Método para cambiar la contraseña del usuario.
     def set_password(self,password):
         self.password = password
+
+    def increment_failed_login(self):
+        self.failedLoginAttemps += 1
+    def reset_failed_logins(self):
+        self.failedLoginAttemps = 0
