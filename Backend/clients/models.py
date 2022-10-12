@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+# Creación de la clase Cliente
 
 class Client(models.Model):
     name = models.CharField("Name", max_length=30)
@@ -14,6 +14,6 @@ class Client(models.Model):
 
     def __str__(self):
         return self.name
-
+    #Método para cambiar la contraseña del usuario.
     def set_password(self,password):
         self.password = password

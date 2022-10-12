@@ -10,7 +10,7 @@ from passlib.hash import pbkdf2_sha256
 from .models import Client
 from .serializers import *
 
-#Endpoint para detalles de un cliente
+#Endpoint para agregar un nuevo cliente y obtener la información de este vía mail
 @api_view(['GET', 'POST'])
 def client_detail(request,mail):
 
@@ -40,6 +40,7 @@ def client_detail(request,mail):
 
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+#Endpoint para obtener la lista de clientes.
 @api_view(['GET'])
 def clients_list(request):
     if request.method == 'GET':
@@ -50,7 +51,7 @@ def clients_list(request):
         return Response(serializer.data)
 
 
-
+#Endpoint para actualizar la información de un cliente o borrarlo.
 @api_view(['PUT', 'DELETE'])
 def clients_detail(request, pk):
     try:

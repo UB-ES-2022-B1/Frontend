@@ -11,16 +11,18 @@ class ClientTests(APITestCase):
         """
         Ensure we can create a new client object.
         """
-        url = reverse(clients_list)
+
         data = {'name': 'Lucas',
         'surname': 'Garcia',
+        'password': 'ASD1235',
         'email': 'lgarcia@yahoo.com',
         'phone': '123091243',
         'country': 'Argentina',
         'birthdate': '1987-06-12'}
-        response = self.client.post(url, data, format='json')
+
+        response = self.client.post('http://localhost:8000/api/client/lgarcia@yahoo.com/', data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Client.objects.count(), 2)
+        self.assertEqual(Client.objects.count(),3)
         self.assertEqual(Client.objects.get(name='Lucas').name, 'Lucas')
 
     def test_get_account_by_email(self):
@@ -29,5 +31,6 @@ class ClientTests(APITestCase):
         """
 
         client = cl()
-        response = client.get('http://localhost:8000/api/client/joe@email.com')
-        print(response.status_code)# == 200
+
+        response = client.get('http://localhost:8000/api/clients/')
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
