@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework import parsers
 from passlib.hash import pbkdf2_sha256
-
+from lock import lock
 
 from .models import Client
 from .serializers import *
@@ -30,15 +30,15 @@ def client_detail(request,mail):
             data = Client.objects.get(email=mail)
             return Response(status=status.HTTP_409_CONFLICT)
         except Client.DoesNotExist:
+            with lock.lock:
+                serializer = ClientSerializer(data=request.data)
+                if serializer.is_valid():
+                    instance = serializer.save()
+                    instance.set_password(pbkdf2_sha256.hash(request.data['password']))
+                    instance.save()
+                    return Response(status=status.HTTP_201_CREATED)
 
-            serializer = ClientSerializer(data=request.data)
-            if serializer.is_valid():
-                instance = serializer.save()
-                instance.set_password(pbkdf2_sha256.hash(request.data['password']))
-                instance.save()
-                return Response(status=status.HTTP_201_CREATED)
-
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #Endpoint para obtener la lista de clientes.
 @api_view(['GET'])
