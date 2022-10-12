@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# Welcome to Remix!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- [Remix Docs](https://remix.run/docs)
+- [Netlify Functions](https://www.netlify.com/products/functions/)
 
-## Available Scripts
+## Netlify Setup
 
-In the project directory, you can run:
+NO ES NECESARI FER AQUEST PAS, ES PER FER DEPLOYMENT A NETLIFY
 
-### `npm start`
+1. Install the [Netlify CLI](https://www.netlify.com/products/dev/):
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```sh
+npm i -g netlify-cli
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+If you have previously installed the Netlify CLI, you should update it to the latest version:
 
-### `npm test`
+```sh
+npm i -g netlify-cli@latest
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Sign up and log in to Netlify:
 
-### `npm run build`
+```sh
+netlify login
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Create a new site:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+netlify init
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Development
 
-### `npm run eject`
+Instaleu les dependencies
+```sh
+npm install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Per obrir en localhost:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```sh
+npm run dev
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Open up [http://localhost:3000](http://localhost:3000), and you should be ready to go!
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The Netlify CLI builds a production version of your Remix App Server and splits it into Netlify Functions that run locally. This includes any custom Netlify functions you've developed. The Netlify CLI runs all of this in its development mode.
 
-## Learn More
+```sh
+netlify dev
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Open up [http://localhost:3000](http://localhost:3000), and you should be ready to go!
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Note: When running the Netlify CLI, file changes will rebuild assets, but you will not see the changes to the page you are on unless you do a browser refresh of the page. Due to how the Netlify CLI builds the Remix App Server, it does not support hot module reloading.
 
-### Code Splitting
+## Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+There are two ways to deploy your app to Netlify, you can either link your app to your git repo and have it auto deploy changes to Netlify, or you can deploy your app manually. If you've followed the setup instructions already, all you need to do is run this:
 
-### Analyzing the Bundle Size
+```sh
+# preview deployment
+netlify deploy --build
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# production deployment
+netlify deploy --build --prod
+```
