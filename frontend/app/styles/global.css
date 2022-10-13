@@ -1,0 +1,25 @@
+.body{
+font-family: Circular,
+-apple-system,
+BlinkMacSystemFont,
+Roboto,
+Helvetica Neue,
+sans-serif;
+}
+
+.disp {
+    display: flex;
+  justify-content: space-evenly;
+}
+
+.grid-container {
+    display: grid;
+    padding: 130px;
+    column-gap: 10px;
+    grid-template-columns: repeat(6, 1fr);
+    justify-content: space-evenly;
+  }
+
+  .grid-item {
+    padding: 20px;
+  }
