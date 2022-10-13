@@ -14,7 +14,7 @@ export default function Index() {
 
   return (
     <div>
-      <CardTable ids={ids}></CardTable>
+      <CardTable></CardTable>
     </div>
   );
 }

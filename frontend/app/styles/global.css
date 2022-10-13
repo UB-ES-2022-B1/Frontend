@@ -9,7 +9,7 @@ sans-serif;
 
 .disp {
     display: flex;
-  justify-content: space-evenly;
+    justify-content: space-evenly;
 }
 
 .grid-container {
@@ -20,6 +20,6 @@ sans-serif;
     justify-content: space-evenly;
   }
 
-  .grid-item {
-    padding: 20px;
-  }
+.grid-item {
+padding: 20px;
+}
