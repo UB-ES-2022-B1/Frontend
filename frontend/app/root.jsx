@@ -1,3 +1,8 @@
+import styles from './styles/global.css'
+
+export function links(){
+  return [{rel: "stylesheet",href:styles}];
+}
 const {
   Links,
   LiveReload,
