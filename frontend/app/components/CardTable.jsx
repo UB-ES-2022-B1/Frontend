@@ -19,7 +19,7 @@ export default function(params)
     }
 
     return(
-        <div class="grid-container">
+        <div className="grid-container">
             {listItems.map((id)=>{
                 return <div class="grid-item"><HouseCard id={id}/></div>
             })}
