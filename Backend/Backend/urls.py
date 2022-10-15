@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import re_path
 from clients import views
+from rest_framework.authtoken.views import obtain_auth_token
+
 
 urlpatterns = [
 

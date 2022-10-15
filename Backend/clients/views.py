@@ -29,7 +29,11 @@ def client_detail(request,mail):
 
         try:
             data = Client.objects.get(email=mail)
-            return Response(status=status.HTTP_409_CONFLICT)
+            response = {}
+            response['success'] = False
+            response['message'] = "User already exist!"
+            response['status'] = status.HTTP_409_CONFLICT
+            return Response(response)
         except Client.DoesNotExist:
             with lock.lock:
                 serializer = ClientSerializer(data=request.data)
@@ -75,20 +79,31 @@ def clients_detail(request, pk):
 def login(request):
     serializer = ClientLoginSerializer(data=request.data)
     client = serializer.validate(request.data)
+    response = {}
+    response['success'] = False
+
     if client == "Invalid password!":
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        response['message'] = "Invalid password"
+        response['status'] = status.HTTP_400_BAD_REQUEST
+        return Response(response)
     if client == "Invalid username":
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        response['message'] = "Invalid username!"
+        response['status'] = status.HTTP_404_NOT_FOUND
+        return Response(response)
     if client == "User block!":
-        return Response(status=status.HTTP_423_LOCKED)
+        response['message'] = "User block!"
+        response['status'] = status.HTTP_423_LOCKED
+        return Response(response)
 
     payload = {
         'email': client.email,
         'name': client.name,
         'surname': client.surname,
     }
-    jwt_token = {'token': str(jwt.encode(payload, "XiqX28pxavz8SYivUlLxeIg495zSxNMlP7djRjPLEGxCIrxiMU"))[1:]}
-    return Response(json.dumps(jwt_token))
+    response['success'] = True
+    response['token'] = str(jwt.encode(payload, "XiqX28pxavz8SYivUlLxeIg495zSxNMlP7djRjPLEGxCIrxiMU"))[1:]
+
+    return Response(response)
 
 
 
