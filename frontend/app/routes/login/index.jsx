@@ -1,12 +1,25 @@
 import { useLoaderData } from "@remix-run/react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+
+import { Input, Button, InputGroup, InputLeftElement,InputRightElement } from '@chakra-ui/react'
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+} from '@chakra-ui/react'
 
 
 export default function Index() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(false)
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState(false)
   const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 
   //Validate 
@@ -24,35 +37,47 @@ export default function Index() {
   const handleSubmit = (event) => {
     // Prevent page reload
     event.preventDefault();
+    console.log('submited')
   };
 
-  return (
-    <div className="login-form">
+  useEffect(()=>setEmailError(email===''),[email])
+  useEffect(()=>setPasswordError(password===''),[password])
 
-    {isSubmitted ? <div>Logged in</div> :
-    // <form onSubmit={handleSubmit}>
-    //   <FormGroup controlId="username" bsSize="large">
-    //     <ControlLabel>Username</ControlLabel>
-    //     <FormControl
-    //     autoFocus
-    //     type="text"
-    //     value={username}
-    //     onChange={e => setUsername(e.target.value)}
-    //     />
-    //   </FormGroup>
-    //   <FormGroup controlId="password" bsSize="large">
-    //     <ControlLabel>Password</ControlLabel>
-    //     <FormControl
-    //     value={password}
-    //     onChange={e => setPassword(e.target.value)}
-    //     type="password"
-    //     />
-    //   </FormGroup>
-    //   <Button block bsSize="large" disabled={!performValidation()} type="submit">
-    //     Login
-    //   </Button>
-    // </form>
-    null
+
+  return (
+    <div className="login-form" width="500px" center='align'>
+
+    {isLoggedIn ? <div>Logged in</div> :
+      <form onSubmit={handleSubmit}>
+        <FormControl isInvalid={emailError}>
+          <FormLabel>Email</FormLabel>
+          <Input type='email' value={email} onChange={(e)=>setEmail(e.target.value)} />
+          {!emailError ? null : (
+            <FormErrorMessage>Email is required.</FormErrorMessage>
+          )}
+        </FormControl>
+        <FormControl isInvalid={emailError}>
+          <FormLabel>Password</FormLabel>
+            <InputGroup>
+              <Input
+                type={show ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)
+                } />
+              <InputRightElement width='4.5rem'>
+                <Button h='1.75rem' size='sm' onClick={handleClick}>
+                  {show ? 'Hide' : 'Show'}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          {!passwordError ? null : (
+            <FormErrorMessage>Password is required.</FormErrorMessage>
+          )}
+        </FormControl>
+        <Button mt={4} colorScheme='teal' isLoading={isSubmitting} type='submit'>
+          Submit
+        </Button>
+      </form>
     }
 
 
