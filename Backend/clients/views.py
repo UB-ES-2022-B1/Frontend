@@ -5,7 +5,8 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework import parsers
 from passlib.hash import pbkdf2_sha256
-import jwt,json
+import jwt, json
+#import jwt,json
 
 from lock import lock
 from .models import Client
@@ -86,7 +87,7 @@ def login(request):
         'name': client.name,
         'surname': client.surname,
     }
-    jwt_token = {'token': jwt.encode(payload, "XiqX28pxavz8SYivUlLxeIg495zSxNMlP7djRjPLEGxCIrxiMU")}
+    jwt_token = {'token': str(jwt.encode(payload, "XiqX28pxavz8SYivUlLxeIg495zSxNMlP7djRjPLEGxCIrxiMU"))[1:]}
     return Response(json.dumps(jwt_token))
 
 

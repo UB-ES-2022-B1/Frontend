@@ -84,7 +84,7 @@ class ClientTests(APITestCase):
         #Lets log in correctly
         response = self.client.post('http://localhost:8000/api/clients/login/', data_good,
                                     format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         #Try log in with tocken
 
