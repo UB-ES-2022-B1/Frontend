@@ -33,3 +33,55 @@ class ClientTests(APITestCase):
 
         response = client.get('http://localhost:8000/api/clients/')
         self.assertEqual(response.status_code,status.HTTP_200_OK)
+
+    def test_log_in(self):
+        """
+            Ensure we can log in and the tocken is created
+            Ensure that the counter for wrong paswords works as intended
+            Ensure that once the pasword has been written wrong 5 times, the account is blocket for good
+        """
+        #first register two users
+
+        data_registro1 = {'name': 'mail',
+                'surname': 'falso1',
+                'password': 'ASD1235',
+                'email': 'mailfalso1@yahoo.com',
+                'phone': '123091243',
+                'country': 'Argentina',
+                'birthdate': '1987-06-12'}
+        data_registro2 = {'name': 'mail',
+                'surname': 'falso2',
+                'password': 'ASD1235',
+                'email': 'mailfalso2@yahoo.com',
+                'phone': '123091243',
+                'country': 'Narnia',
+                'birthdate': '1987-06-12'}
+        self.client.post('http://localhost:8000/api/client/mailfalso1@yahoo.com/', data_registro1, format='json')
+        self.client.post('http://localhost:8000/api/client/mailfalso2@yahoo.com/', data_registro2, format='json')
+
+        data_good = {'email': 'mailfalso1@yahoo.com',
+                     'password': 'ASD1235'}
+        data_bad = {'email': 'mailfalso2@yahoo.com',
+                    'password': 'ASD1111'}
+
+        # Ensure that the counter for wrong paswords works as intended
+        response = self.client.post('http://localhost:8000/api/client/login/mailfalso1@yahoo.com/', data_bad,
+                                    format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        print(Client.objects.get(email=data_good['email']))
+        self.assertEqual(Client.objects.get(email=data_good['email']).failedLoginAttemps, 1)
+
+        # Lets block the account
+
+        #Lets log in correctly
+        response = self.client.post('http://localhost:8000/api/client/login/mailfalso1@yahoo.com/', data_good,
+                                    format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        #Try log in with tocken
+
+
+
+
+
+
