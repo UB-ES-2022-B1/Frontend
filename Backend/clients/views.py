@@ -78,6 +78,8 @@ def login(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
     if client == "Invalid username/password":
         return Response(status=status.HTTP_404_NOT_FOUND)
+    if client == "User block!":
+        return Response(status=status.HTTP_423_LOCKED)
 
     payload = {
         'email': client.email,

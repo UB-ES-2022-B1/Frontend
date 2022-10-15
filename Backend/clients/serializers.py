@@ -26,9 +26,11 @@ class ClientLoginSerializer(serializers.Serializer):
 
             if pbkdf2_sha256.verify(data['password'], client.password):
 
-                if client.failedLoginAttemps > 0:
-                    client.reset_failed_logins()
-                return client
+                    if client.failedLoginAttemps >= 0 and client.failedLoginAttemps < 5:
+                        client.reset_failed_logins()
+                        return client
+                    else:
+                        return "User block!"
             else:
                 client.increment_failed_login()
                 return "Invalid password!"
