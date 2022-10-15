@@ -76,7 +76,7 @@ def login(request):
     client = serializer.validate(request.data)
     if client == "Invalid password!":
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    if client == "Invalid username/password":
+    if client == "Invalid username":
         return Response(status=status.HTTP_404_NOT_FOUND)
     if client == "User block!":
         return Response(status=status.HTTP_423_LOCKED)

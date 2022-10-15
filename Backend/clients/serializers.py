@@ -35,4 +35,4 @@ class ClientLoginSerializer(serializers.Serializer):
                 client.increment_failed_login()
                 return "Invalid password!"
         except:
-            return "Invalid username/password"
+            return "Invalid username"

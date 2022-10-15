@@ -67,11 +67,16 @@ class ClientTests(APITestCase):
         # Ensure that the counter for wrong paswords works as intended
         response = self.client.post('http://localhost:8000/api/client/login/mailfalso1@yahoo.com/', data_bad,
                                     format='json')
+        #print(Client.objects.get(email=data_good['email']).email)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        print(Client.objects.get(email=data_good['email']))
         self.assertEqual(Client.objects.get(email=data_good['email']).failedLoginAttemps, 1)
 
         # Lets block the account
+        for n in [2,3,4]:
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+            self.assertEqual(Client.objects.get(email=data_good['email']).failedLoginAttemps, 2)
+        self.assertEqual(response.status_code, status.HTTP_423_LOCKED)
+        self.assertEqual(Client.objects.get(email=data_good['email']).failedLoginAttemps, 2)
 
         #Lets log in correctly
         response = self.client.post('http://localhost:8000/api/client/login/mailfalso1@yahoo.com/', data_good,
