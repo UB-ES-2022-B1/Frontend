@@ -34,10 +34,22 @@ export default function Index() {
     return null
     };
 
-  const handleSubmit = (event) => {
+  async function handleSubmit(event){
     // Prevent page reload
     event.preventDefault();
-    console.log('submited')
+    console.log('Submitted')
+    let jsonData={"email":email,"password":password}
+    console.log(JSON.stringify(jsonData))
+    let response = await fetch('http://localhost:8000/api/clients/login/',
+          {
+            method:'POST',
+            mode:'cors',
+            body: JSON.stringify(jsonData),
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          })
+    console.log(response.json())
   };
 
   useEffect(()=>setEmailError(email===''),[email])
