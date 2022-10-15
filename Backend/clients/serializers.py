@@ -28,11 +28,18 @@ class ClientLoginSerializer(serializers.Serializer):
 
                     if client.failedLoginAttemps >= 0 and client.failedLoginAttemps < 5:
                         client.reset_failed_logins()
+                        client.save()
                         return client
                     else:
                         return "User block!"
             else:
-                client.increment_failed_login()
-                return "Invalid password!"
+                if client.failedLoginAttemps < 5:
+                    client.increment_failed_login()
+                    client.save()
+                    return "Invalid password!"
+                else:
+                    return "User block!"
+
+
         except:
             return "Invalid username"

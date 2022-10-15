@@ -59,27 +59,30 @@ class ClientTests(APITestCase):
         self.client.post('http://localhost:8000/api/client/mailfalso1@yahoo.com/', data_registro1, format='json')
         self.client.post('http://localhost:8000/api/client/mailfalso2@yahoo.com/', data_registro2, format='json')
 
-        data_good = {'email': 'mailfalso1@yahoo.com',
-                     'password': 'ASD1235'}
+        data_good = {"email": "mailfalso1@yahoo.com",
+                     "password": "ASD1235"}
         data_bad = {'email': 'mailfalso2@yahoo.com',
                     'password': 'ASD1111'}
 
         # Ensure that the counter for wrong paswords works as intended
-        response = self.client.post('http://localhost:8000/api/client/login/mailfalso1@yahoo.com/', data_bad,
+        response = self.client.post('http://localhost:8000/api/clients/login/', data_bad,
                                     format='json')
-        #print(Client.objects.get(email=data_good['email']).email)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(Client.objects.get(email=data_good['email']).failedLoginAttemps, 1)
+        self.assertEqual(Client.objects.get(email=data_bad['email']).failedLoginAttemps, 1)
+
 
         # Lets block the account
-        for n in [2,3,4]:
+        for n in [2,3,4,5]:
+            response = self.client.post('http://localhost:8000/api/clients/login/', data_bad,
+                                        format='json')
             self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-            self.assertEqual(Client.objects.get(email=data_good['email']).failedLoginAttemps, 2)
+            self.assertEqual(Client.objects.get(email=data_bad['email']).failedLoginAttemps, n)
+        response = self.client.post('http://localhost:8000/api/clients/login/', data_bad,
+                                    format='json')
         self.assertEqual(response.status_code, status.HTTP_423_LOCKED)
-        self.assertEqual(Client.objects.get(email=data_good['email']).failedLoginAttemps, 2)
 
         #Lets log in correctly
-        response = self.client.post('http://localhost:8000/api/client/login/mailfalso1@yahoo.com/', data_good,
+        response = self.client.post('http://localhost:8000/api/clients/login/', data_good,
                                     format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
