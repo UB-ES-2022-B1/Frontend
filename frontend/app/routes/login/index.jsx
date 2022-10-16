@@ -2,7 +2,7 @@ import { useLoaderData } from "@remix-run/react";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun'
 
-import { Input, Button, InputGroup, InputLeftElement,InputRightElement } from '@chakra-ui/react'
+import { Text, Input, Button, InputGroup, InputLeftElement,InputRightElement } from '@chakra-ui/react'
 import {
   FormControl,
   FormLabel,
@@ -44,7 +44,6 @@ export default function Index() {
     setIsSubmitting(true)
     console.log('Submitted')
     let jsonData={"email":email,"password":password}
-    console.log(JSON.stringify(jsonData))
     let response = fetch('http://localhost:8000/api/clients/login/',
           {
             method:'POST',
@@ -55,15 +54,20 @@ export default function Index() {
             }
           })
           .then(response => response.json())
-          .then(() =>{
-            setIsSubmitting(false)
-            console.log('response correct? ', resp)
-            })
           .catch((error)=>{
-            console.log('error detected')
             setIsSubmitting(false)
-            setErrorMessages(error.error)
+            setErrorMessages('Something went wrong')
           })
+
+          const {success, message, token} = await response
+          setIsSubmitting(false)
+          if(success){
+            setIsLoggedIn(true)
+            //TODO: Save token to local storage
+          }
+          else{
+            setErrorMessages(message)
+          }
     }
     else
     {
@@ -88,13 +92,18 @@ export default function Index() {
   const updateEmailError = useEffectWithoutFirstRun(validateEmail,[email])
   const updatePasswordError = useEffectWithoutFirstRun(validatePassword,[password])
 
+  const logOut = () =>{
+    setIsLoggedIn(false)
+    console.log('aa')
+    //TODO: Remove token from local storage
+  }
 
   return (
     <div className="login-form">
       <Flex width="full" align="center" justifyContent="center" padding={"20px"}>
         <Box p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg">
           <Box textAlign="center">
-            <Heading>Login</Heading>
+            <Heading>{isLoggedIn?'Logged in':'Login'}</Heading>
           </Box>
           <Box my={4} textAlign="left">
 
@@ -102,11 +111,11 @@ export default function Index() {
               <Box textAlign="center">
                 <Text>{email} logged in!</Text>
                 <Button
-                  variantColor="orange"
+                  colorScheme="orange"
                   variant="outline"
                   width="full"
                   mt={4}
-                  onClick={() => setIsLoggedIn(false)}
+                  onClick={() => logOut()}
                 >
                   Sign out
                 </Button>
