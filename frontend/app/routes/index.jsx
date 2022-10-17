@@ -3,7 +3,7 @@ import CardTable from "~/components/CardTable";
 import HouseCard from "~/components/HouseCard";
 import Menubutton from "~/components/Menubutton";
 import Dropdown from "~/components/Dropdown";
-
+import FormControl from "~/components/Navbar/FormControl";
 
 export const loader = ({
   params,
@@ -19,7 +19,7 @@ export default function Index() {
 
   return (
     <div>
-      <Dropdown></Dropdown>
+      <FormControl></FormControl>
        <CardTable></CardTable>
     </div>
   );

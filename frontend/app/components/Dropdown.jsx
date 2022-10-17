@@ -7,7 +7,7 @@ export function links() {
 export default function Dropdown() {
   const items = [
     {
-      slug: "/link1/",
+      slug: "/Register/",
       anchor: "Regístrate"
     },
     {
