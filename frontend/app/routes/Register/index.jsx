@@ -83,8 +83,8 @@ export default function Index() {
     if (!emailError && !passwordError && !nomError && !cognomsError && !telefonError && !dataError) {
       setIsSubmitting(true)
       console.log('Submitted')
-      let jsonData = { "email": email, "password": password, "name": nom, "surname": cognoms, "phone": `${phonePattern[country].prefix}${telefon}`, "birthdate": data }
-      let response = fetch(`http://localhost:8000/api/client/${email}`,
+      let jsonData = { "email": email, "password": password, "name": nom, "surname": cognoms, "phone": `${phonePattern[country].prefix}${telefon}`, "birthdate": data, "country":country}
+      let response = fetch(`http://localhost:8000/api/client/${email}/`,
         {
           method: 'POST',
           mode: 'cors',
@@ -98,15 +98,19 @@ export default function Index() {
           setIsSubmitting(false)
           setErrorMessages('Something went wrong')
         })
-
-      const { success, message, token } = await response
-      setIsSubmitting(false)
-      if (success) {
-        setIsRegistered(true)
-        //TODO: Save token to local storage
+      try{
+        const { success, message, token } = await response
+        setIsSubmitting(false)
+        if (success) {
+          setIsRegistered(true)
+          //TODO: Save token to local storage
+        }
+        else {
+          setErrorMessages(message)
+        }
       }
-      else {
-        setErrorMessages(message)
+      catch(e){
+        setErrorMessages('Unknown error')
       }
     }
     else {
