@@ -3,6 +3,7 @@ import CardTable from "~/components/CardTable";
 import HouseCard from "~/components/HouseCard";
 import Menubutton from "~/components/Menubutton";
 import Dropdown from "~/components/Dropdown";
+import Navbar from "~/components/Navbar/Navbar";
 
 
 export const loader = ({
@@ -19,7 +20,7 @@ export default function Index() {
 
   return (
     <div>
-      <Dropdown></Dropdown>
+      <Navbar></Navbar>
        <CardTable></CardTable>
     </div>
   );
