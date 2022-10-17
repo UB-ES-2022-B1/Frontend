@@ -9,6 +9,7 @@
   "dependencies": {
     "@chakra-ui/react": "^2.3.5",
     "@emotion/react": "^11.10.4",
+    "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.4",
     "@netlify/functions": "^1.0.0",
     "@remix-run/netlify": "^1.7.2",
