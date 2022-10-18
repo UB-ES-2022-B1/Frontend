@@ -160,7 +160,7 @@ export default function Index() {
       setIsSubmitting(true)
       console.log('Submitted')
       let jsonData = { "email": email, "password": password, "name": nom, "surname": cognoms, "phone": `${prefix}${telefon}`, "birthdate": data, "country": pais }
-      let response = fetch(`http://localhost:8000/api/client/${email}/`,
+      let response = fetch(`http://localhost:8000/accounts/register`,
         {
           method: 'POST',
           mode: 'cors',
@@ -175,14 +175,13 @@ export default function Index() {
           setErrorMessages('Something went wrong')
         })
       try {
-        const { success, message, token } = await response
+        const {success, msg} = await response
         setIsSubmitting(false)
-        if (success) {
+        if(success){
           setIsRegistered(true)
-          //TODO: Save token to local storage
         }
-        else {
-          setErrorMessages(message)
+        else{
+          setErrorMessages(msg)
         }
       }
       catch (e) {
@@ -354,6 +353,21 @@ export default function Index() {
             <Heading>{isRegistered ? 'Registered' : 'Register'}</Heading>
           </Box>
 
+
+          {isRegistered ?
+              <Box textAlign="center">
+                <Text>{email} registered!</Text>
+                <Button
+                  colorScheme="orange"
+                  variant="outline"
+                  width="full"
+                  mt={4}
+                  onClick={() => location.href = 'http://localhost/jsredirect/home.html'}
+                >
+                  Home
+                </Button>
+              </Box>
+          :
           <Box my={4} textAlign="left">
             <form onSubmit={handleSubmit}>
 
@@ -438,6 +452,7 @@ export default function Index() {
             </form>
 
           </Box>
+          }
         </Box>
       </Flex>
     </div >

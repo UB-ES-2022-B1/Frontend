@@ -1,7 +1,7 @@
 import { useLoaderData } from "@remix-run/react";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun'
-import useLocalStorage from '~/utils/localStorage'
+import { useLocalStorage } from '~/utils/localStorage'
 
 import { Text, Input, Button, InputGroup, InputLeftElement,InputRightElement } from '@chakra-ui/react'
 import {
@@ -33,10 +33,9 @@ export default function Index() {
   const [passwordError, setPasswordError] = useState(false)
   const [errorMessages, setErrorMessages] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [refreshToken,setRefreshToken]=useLocalStorage('refresh_token','')
   const [accessToken,setAccessToken]=useLocalStorage('access_token','')
-
+  const [isLoggedIn, setIsLoggedIn] = useState(accessToken!='')
 
   async function handleSubmit(event){
     event.preventDefault();
@@ -144,6 +143,7 @@ export default function Index() {
                 >
                   Sign out
                 </Button>
+                {errorMessages && <ErrorMessage message={errorMessages} />}
               </Box>
               :
               <form onSubmit={handleSubmit}>
