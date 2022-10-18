@@ -132,6 +132,19 @@ export default function Index() {
           <Box my={4} textAlign="left">
 
             {isLoggedIn ?
+              <>
+              <Box textAlign="center">
+                <Text>{email} registered!</Text>
+                <Button
+                  colorScheme="orange"
+                  variant="outline"
+                  width="full"
+                  mt={4}
+                  onClick={() => location.href = '/'}
+                >
+                  Home
+                </Button>
+              </Box>
               <Box textAlign="center">
                 <Text>{email} logged in!</Text>
                 <Button
@@ -145,6 +158,7 @@ export default function Index() {
                 </Button>
                 {errorMessages && <ErrorMessage message={errorMessages} />}
               </Box>
+              </>
               :
               <form onSubmit={handleSubmit}>
                 <FormControl isInvalid={emailError}>
