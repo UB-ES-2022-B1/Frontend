@@ -1,6 +1,7 @@
 import { useLoaderData } from "@remix-run/react";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun'
+import useLocalStorage from '~/utils/localStorage'
 
 import { Text, Input, Button, InputGroup, InputLeftElement,InputRightElement } from '@chakra-ui/react'
 import {
@@ -33,7 +34,8 @@ export default function Index() {
   const [errorMessages, setErrorMessages] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [refreshToken,setRefreshToken]=useLocalStorage('refresh_token','')
+  const [accessToken,setAccessToken]=useLocalStorage('access_token','')
 
 
   async function handleSubmit(event){
@@ -44,7 +46,7 @@ export default function Index() {
     setIsSubmitting(true)
     console.log('Submitted')
     let jsonData={"email":email,"password":password}
-    let response = fetch('http://localhost:8000/api/clients/login/',
+    let response = fetch('http://localhost:8000/accounts/login',
           {
             method:'POST',
             mode:'cors',
@@ -59,14 +61,15 @@ export default function Index() {
             setErrorMessages('Something went wrong')
           })
 
-          const {success, message, token} = await response
+          const {success, msg, refresh, access} = await response
           setIsSubmitting(false)
           if(success){
             setIsLoggedIn(true)
-            //TODO: Save token to local storage
+            setAccessToken(access)
+            setRefreshToken(refresh)
           }
           else{
-            setErrorMessages(message)
+            setErrorMessages(msg)
           }
     }
     else
@@ -92,10 +95,32 @@ export default function Index() {
   const updateEmailError = useEffectWithoutFirstRun(validateEmail,[email])
   const updatePasswordError = useEffectWithoutFirstRun(validatePassword,[password])
 
-  const logOut = () =>{
-    setIsLoggedIn(false)
-    console.log('aa')
-    //TODO: Remove token from local storage
+  async function logOut(){
+    let response = fetch('http://localhost:8000/accounts/logout',
+          {
+            method:'POST',
+            mode:'cors',
+            body:{'access':accessToken,'refresh':refreshToken},
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          })
+          .then(response => response.json())
+          .catch((error)=>{
+            setIsSubmitting(false)
+            setErrorMessages('Something went wrong')
+          })
+
+          const {success, msg} = await response
+          setIsSubmitting(false)
+          if(success){
+            setIsLoggedIn(false)
+            setAccessToken('')
+            setRefreshToken('')
+          }
+          else{
+            setErrorMessages(msg)
+          }
   }
 
   return (
