@@ -1,6 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
 import SimpleImageSlider from "react-simple-image-slider";
-
+import example2 from '~/assets/example2.webp'
 
 export const houseLoader = (id) => 
 {
@@ -8,7 +8,7 @@ export const houseLoader = (id) =>
         {
             images: [
                 { url: "https://www.w3schools.com/howto/img_nature_wide.jpg" },
-                { url: "~/assets/example2.webp" },
+                { url: example2 },
             ],
             location: 'Castelldefels, España',
             sublocation: 'Playa de Castelldefels',

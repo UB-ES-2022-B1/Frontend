@@ -1,7 +1,5 @@
 import { useLoaderData } from "@remix-run/react";
 import CardTable from "~/components/CardTable";
-import HouseCard from "~/components/HouseCard";
-import Menubutton from "~/components/Menubutton";
 import Dropdown from "~/components/Dropdown";
 import Navbar from "~/components/Navbar/Navbar";
 

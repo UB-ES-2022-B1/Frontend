@@ -21,7 +21,7 @@ const {
 
 export const meta = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "Unibnb",
   viewport: "width=device-width,initial-scale=1",
 });
 

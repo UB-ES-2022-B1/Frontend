@@ -13,12 +13,25 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 
-Small change
 
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import re_path
+from clients import views
+from rest_framework.authtoken.views import obtain_auth_token
+
 
 urlpatterns = [
+
+    #Ruta de administración de Django, quitar en producción
+    #api/clients devuelve el listado completo de clientes
+    #api/clients/id devuelve los datos de un solo cliente
+    #api/client/mail recupera la información de un cliente via mail
     path('admin/', admin.site.urls),
+    re_path(r'^api/clients/$', views.clients_list),
+    re_path(r'^api/clients/([0-9])$', views.clients_detail),
+    re_path(r'^api/client/(?P<mail>[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/$', views.client_detail, name="mail"),
+    re_path(r'^api/clients/login/$', views.login),
+
 ]
