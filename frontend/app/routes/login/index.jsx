@@ -134,7 +134,7 @@ export default function Index() {
             {isLoggedIn ?
               <>
               <Box textAlign="center">
-                <Text>{email} registered!</Text>
+                <Text>{email} logged in!</Text>
                 <Button
                   colorScheme="orange"
                   variant="outline"
@@ -144,9 +144,6 @@ export default function Index() {
                 >
                   Home
                 </Button>
-              </Box>
-              <Box textAlign="center">
-                <Text>{email} logged in!</Text>
                 <Button
                   colorScheme="orange"
                   variant="outline"
