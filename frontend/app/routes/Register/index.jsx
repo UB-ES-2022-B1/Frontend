@@ -2,77 +2,153 @@ import { useLoaderData } from "@remix-run/react";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun'
 import { calculateAge } from '~/utils/dateUtils';
-
-import { Text, Input, Button, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/react'
+import ErrorMessage from '~/components/ErrorMessage'
+import 'react-phone-input-2/lib/style.css'
+import { getCountries, getCountryCallingCode } from 'react-phone-number-input/input'
+import en from 'react-phone-number-input/locale/en.json'
+import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
+import React from 'react';
 import {
   FormControl,
   FormLabel,
   FormErrorMessage,
   FormHelperText,
-} from '@chakra-ui/react'
-
-import {
+  Select,
   Flex,
   Box,
   Heading,
-} from '@chakra-ui/react';
-
-import ErrorMessage from '~/components/ErrorMessage'
-
-import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
-
-import React from 'react';
-
+  Input, 
+  Button, 
+  InputGroup, 
+  InputLeftElement, 
+  InputRightElement 
+} from '@chakra-ui/react'
+const pattern =  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 const phonePattern = {
   'US': {
     'prefix': '+1',
     'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
-    'flag': 'url'
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/2560px-Flag_of_the_United_States.svg.png'
   },
   'SPAIN': {
     'prefix': '+34',
     'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
-    'flag': 'url'
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Bandera_de_Espa%C3%B1a.svg/800px-Bandera_de_Espa%C3%B1a.svg.png'
+  },
+  'CHINA': {
+    'prefix': '+86',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/200px-Flag_of_the_People%27s_Republic_of_China.svg.png'
+  },
+  'UK': {
+    'prefix': '+44',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/a/ae/Flag_of_the_United_Kingdom.svg'
+  },
+  'France': {
+    'prefix': '+33',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Flag_of_France.svg/270px-Flag_of_France.svg.png'
+  },
+  'GERMANY': {
+    'prefix': '+49',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/640px-Flag_of_Germany.svg.png'
+  },
+  'ITALI': {
+    'prefix': '+39',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Flag_of_Italy.svg/1200px-Flag_of_Italy.svg.png'
+  },
+  'SWITZERLAND': {
+    'prefix': '+41',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/1200px-Flag_of_Switzerland.svg.png'
+  },
+  'BELGIUM': {
+    'prefix': '+32',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Flag_of_Belgium.svg/1182px-Flag_of_Belgium.svg.png'
+  },
+  'NETHERLANDS': {
+    'prefix': '+31',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Flag_of_the_Netherlands.svg/1280px-Flag_of_the_Netherlands.svg.png'
+  },
+  'DENMARK': {
+    'prefix': '+45',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Flag_of_Denmark.svg/1200px-Flag_of_Denmark.svg.png'
+  },
+  'AUSRTIA': {
+    'prefix': '+43',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Flag_of_Austria.svg/640px-Flag_of_Austria.svg.png'
+  },
+  'NORWAY': {
+    'prefix': '+47',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Flag_of_Norway.svg/2560px-Flag_of_Norway.svg.png'
+  },
+  'SWEDEN': {
+    'prefix': '+46',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Flag_of_Sweden.svg/1200px-Flag_of_Sweden.svg.png'
+  },
+  'GREECE': {
+    'prefix': '+30',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_Greece.svg/1200px-Flag_of_Greece.svg.png'
+  },
+  'HUNGARY': {
+    'prefix': '+36',
+    'pattern': /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/,
+    'flag': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Flag_of_Hungary.svg/640px-Flag_of_Hungary.svg.png'
   },
 
 }
 
-
 export default function Index() {
   const [show, setShow] = useState(false)
   const handleClick = () => setShow(!show)
+
   const [email, setEmail] = useState('');
-  const [nom, setNom] = useState('');
-  const [cognoms, setCognoms] = useState('');
-  const [telefon, setTelefon] = useState('');
-
-
-  const [country, setCountry] = useState('US');
-
-  const [data, setData] = useState('');
-  const [dataError, setDataError] = useState(false);
-
-  const [nomError, setNomError] = useState(false);
-
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState('')
 
+  const [nom, setNom] = useState('');
+  const [nomError, setNomError] = useState(false);
+  const [nameErrorMessages, setNameErrorMessages] = useState('');
+
+  const [cognoms, setCognoms] = useState('');
+  const [cognomsError, setCognomsError] = useState(false);
+  const [cognomsErrorMessages, setCognomsErrorMessages] = useState('');
+
+  const [telefon, setTelefon] = useState('');
+  const [telefonError, setTelefonError] = useState(false);
+  const [telefonErrorMessage, setTelefonErrorMessage] = useState('');
+
+  const [country, setCountry] = useState('');
+  const [pais, setPais] = useState('');
+  const [prefix, setPrefix] = useState('');
+  const [telefonCountryError, setTelefonCountryError] = useState(false);
+  const [telefonCountryErrorMessage, setTelefonCountryErrorMessage] = useState('');
+
+  const [data, setData] = useState('');
+  const [dataError, setDataError] = useState(false);
+  const [dateErrorMessages, setDateErrorMessages] = useState('')
+
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState(false)
+  const [passwordErrorMessages, setpasswordErrorMessages] = useState('')
 
   const [terms, setTerms] = useState(false)
   const [errorTerms, setErorTerms] = useState(false)
-
-
-  const [telefonError, setTelefonError] = useState(false);
-  const [cognomsError, setCognomsError] = useState(false);
-  const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState(false)
   const [errorMessages, setErrorMessages] = useState('');
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
-  const [nameErrorMessages, setNameErrorMessages] = useState('');
-  const [telefonErrorMessage, setTelefonErrorMessage] = useState('');
-  const [cognomsErrorMessages, setCognomsErrorMessages] = useState('');
-  const [dateErrorMessages, setDateErrorMessages] = useState('')
+
   const current = new Date();
   const currentDate = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
 
@@ -80,10 +156,10 @@ export default function Index() {
   async function handleSubmit(event) {
     event.preventDefault();
     setErrorMessages('')
-    if (!emailError && !passwordError && !nomError && !cognomsError && !telefonError && !dataError) {
+    if (!emailError && !passwordError && !nomError && !cognomsError && !telefonError && !dataError && !telefonCountryError) {
       setIsSubmitting(true)
       console.log('Submitted')
-      let jsonData = { "email": email, "password": password, "name": nom, "surname": cognoms, "phone": `${phonePattern[country].prefix}${telefon}`, "birthdate": data, "country":country}
+      let jsonData = { "email": email, "password": password, "name": nom, "surname": cognoms, "phone": `${prefix}${telefon}`, "birthdate": data, "country": pais }
       let response = fetch(`http://localhost:8000/api/client/${email}/`,
         {
           method: 'POST',
@@ -98,7 +174,7 @@ export default function Index() {
           setIsSubmitting(false)
           setErrorMessages('Something went wrong')
         })
-      try{
+      try {
         const { success, message, token } = await response
         setIsSubmitting(false)
         if (success) {
@@ -109,7 +185,7 @@ export default function Index() {
           setErrorMessages(message)
         }
       }
-      catch(e){
+      catch (e) {
         setErrorMessages('Unknown error')
       }
     }
@@ -156,7 +232,7 @@ export default function Index() {
     if (cognoms === '') {
       setCognomsErrorMessages('Surname is required');
       setCognomsError(true);
-    } else if (cognoms.match(/^[A-Za-z]+$/) === null) {
+    } else if (cognoms.match(/[0-9]+/) !=null) {
       setCognomsErrorMessages('Surname is incorrect');
       setCognomsError(true);
     } else {
@@ -171,7 +247,7 @@ export default function Index() {
       setTelefonErrorMessage('Phone is required')
       setTelefonError(true)
     }
-    else if (telefon.match(phonePattern[country].pattern) == null) {
+    else if (telefon.match(pattern) == null) {
       setTelefonErrorMessage('Invalid phone number')
       setTelefonError(true)
     }
@@ -180,6 +256,19 @@ export default function Index() {
       setTelefonError(false)
     }
   }, [telefon])
+
+  const validateTelefonCountry = useCallback(() => {
+    console.log('validate telefon country', country)
+    if (country === '') {
+      setTelefonCountryErrorMessage('Phone country is required')
+      setTelefonCountryError(true)
+    }
+    else {
+      setTelefonCountryErrorMessage('')
+      setTelefonCountryError(false)
+      
+    }
+  }, [country])
 
 
   const validateData = useCallback(() => {
@@ -203,9 +292,31 @@ export default function Index() {
 
   }, [data])
 
-
   const validatePassword = useCallback(() => {
-    setPasswordError(password === '')
+    if(password.length<8){
+      setpasswordErrorMessages('Minimum 8 characters');
+      setPasswordError(true);
+    }
+    else if (password.match(/(?=.*?[A-Z])/)==null){
+      setpasswordErrorMessages("At least one uppercase letter");
+      setPasswordError(true);
+    }
+    else if (password.match(/(?=.*?[a-z])/)==null){
+      setpasswordErrorMessages("At least one lowercase letter");
+      setPasswordError(true);
+    }
+    else if (password.match(/(?=.*?[0-9])/)==null){
+      setpasswordErrorMessages("At least one digit");
+      setPasswordError(true);
+    }
+    else if (password.match(/(?=.*?[#?.,!@$%^&*-])/)==null){
+      setpasswordErrorMessages("At least one special character");
+      setPasswordError(true);
+    }
+    else{
+      setPasswordError(password === '')
+
+    }
   }, [password])
 
 
@@ -214,6 +325,7 @@ export default function Index() {
     validateData()
     validateCognoms()
     validateNom()
+    validateTelefonCountry()
     validateTelefon()
     validatePassword()
     setErorTerms(!terms)
@@ -224,9 +336,15 @@ export default function Index() {
   useEffectWithoutFirstRun(validateData, [data])
   useEffectWithoutFirstRun(validateTelefon, [telefon])
   useEffectWithoutFirstRun(validateNom, [nom])
+  useEffectWithoutFirstRun(validateTelefonCountry, [country])
   useEffectWithoutFirstRun(validateCognoms, [cognoms])
   useEffectWithoutFirstRun(() => setErorTerms(!terms), [terms])
+  useEffect(()=>console.log(prefix),[prefix])
 
+  useEffect(()=>{
+    setPrefix(country.replace(/^[A-Za-z ]+/,''))
+    setPais(country.replace(/(\+)([0-9]+)/,''))
+  },[country])
 
   return (
     <div className="register-form">
@@ -253,8 +371,21 @@ export default function Index() {
                   <FormErrorMessage>{cognomsErrorMessages}</FormErrorMessage>
                 )}
               </FormControl>
+
+
               <FormControl isInvalid={telefonError}>
                 <FormLabel>Telephone</FormLabel>
+                <Select type='txt' value={country} onChange={(e) => setCountry(e.target.value)}>
+                  {getCountries().map((c) => (
+                    <option key={c.value} value={c.value}>
+                      {en[c]} +{getCountryCallingCode(c)}
+                    </option>
+                  ))}
+                </Select>
+                {!telefonCountryError ? null : (
+                  <FormErrorMessage>{telefonCountryErrorMessage}</FormErrorMessage>
+                )}
+                <br></br>
                 <Input type='text' value={telefon} onChange={(e) => setTelefon(e.target.value)} />
                 {!telefonError ? null : (
                   <FormErrorMessage>{telefonErrorMessage}</FormErrorMessage>
@@ -288,7 +419,7 @@ export default function Index() {
                     </InputRightElement>
                   </InputGroup>
                   {!passwordError ? null : (
-                    <FormErrorMessage>Password is required.</FormErrorMessage>
+                    <FormErrorMessage>{passwordErrorMessages}</FormErrorMessage>
                   )}
                 </FormControl>
                 <FormControl isInvalid={errorTerms}>
@@ -300,7 +431,7 @@ export default function Index() {
               </FormControl>
               {errorMessages && <ErrorMessage message={errorMessages} />}
               <Box textAlign="center">
-                <Button mt={4} colorScheme='teal' isLoading={isSubmitting} onClick={validateParameters} type='submit' isDisabled={emailError || passwordError || nomError || cognomsError || telefonError || dataError || errorTerms} >
+                <Button mt={4} colorScheme='teal' isLoading={isSubmitting} onClick={validateParameters} type='submit' isDisabled={emailError || passwordError || nomError || cognomsError || telefonError || dataError || telefonCountryError || errorTerms } >
                   Register
                 </Button>
               </Box>
