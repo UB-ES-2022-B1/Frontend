@@ -8,6 +8,7 @@ import { getCountries, getCountryCallingCode } from 'react-phone-number-input/in
 import en from 'react-phone-number-input/locale/en.json'
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 import React from 'react';
+import {Text} from '@chakra-ui/react'
 import {
   FormControl,
   FormLabel,
@@ -362,7 +363,7 @@ export default function Index() {
                   variant="outline"
                   width="full"
                   mt={4}
-                  onClick={() => location.href = 'http://localhost/jsredirect/home.html'}
+                  onClick={() => location.href = '/'}
                 >
                   Home
                 </Button>
