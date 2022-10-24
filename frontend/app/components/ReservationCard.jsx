@@ -18,7 +18,9 @@ import Contador from "./Navbar/Contador";
 export default function (params) {
     const [travelers, setTravelers] = useState(1);
     const [travelersText, setTravelersText] = useState('traveler');
-    const [textTravelersMax, setTextTravelersMax] = useState('A maximum of ' + travelers + travelersText + ' can stay in this accommodation, without including babies.');
+    const maxTravelers = 10;
+    const textTravelersMax = 'A maximum of ' + maxTravelers + ' travelers can stay in this accommodation, without including babies.';
+
 
     const [startDay, setStartDay] = useState('');
     const [endDay, setEndDay] = useState('');
@@ -41,7 +43,6 @@ export default function (params) {
         setTravelers(travelers + 1);
     }
     const travelersChange = () => {
-
         if (travelers < 2) {
             setTravelersText('traveler')
         }
@@ -53,6 +54,7 @@ export default function (params) {
 
 
     return (
+
         <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='4'>
             <Box p='3'>
                 <Text fontSize='xl' as='b'>{moneyDay} € night</Text >
@@ -76,17 +78,21 @@ export default function (params) {
                         {({ isOpen }) => (
                             <>
                                 <MenuButton isActive={isOpen} as={Button} minWidth='350px' variant='unstyled'>
-                                    {travelers} {travelersText}
+                                    {travelers} {'traveler'}{travelers > 1 ? 's' : ''}
                                 </MenuButton>
-                                <MenuList minWidth='350px' variant='unstyled'>
+                                <MenuList minWidth='350px' variant='unstyled' maxWidth='351px'>
                                     <Box p='3'>
                                         <Text fontSize='md' >Adults
                                             <Button disabled={travelers <= 1} onClick={decrease}>-</Button>
-                                            <Button disabled={travelers >= 16} onClick={increase}>+</Button>
+                                            <Button disabled={travelers >= maxTravelers} onClick={increase}>+</Button>
                                         </Text >
                                     </Box>
-                                    <Text fontSize='xs' >{textTravelersMax}</Text>
-                                    <Button variant='link'><Text as='u' fontSize='s'>Close</Text></Button>
+                                    <Box p='3'>
+                                        <Text fontSize='xs' >{textTravelersMax}</Text>
+                                        <Button variant='link'><Text as='u' fontSize='s'>Close</Text></Button>
+                                    </Box>
+
+
                                 </MenuList>
                             </>
                         )}
