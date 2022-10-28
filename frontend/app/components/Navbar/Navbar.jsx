@@ -27,7 +27,9 @@ export default function (params) {
 
     return (
         <Flex width="full" align="center" justifyContent="center" padding={"20px"}>
-            <Text fontSize='4xl'>AIRBNB</Text>
+            <div align="left">
+                <a href="/"><img width='135' height='40' src='https://1000marcas.net/wp-content/uploads/2020/01/Logo-Airbnb.png' /></a>
+            </div>
             <Spacer />
             <Box p={8} maxWidth="1000px" borderWidth={1} borderRadius={8} boxShadow="lg">
                 <Box textAlign="center">
