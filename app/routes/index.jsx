@@ -1,8 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
-import TypeGroup from "~/components/Type-group";
-import Dropdown from "~/components/Dropdown";
-import FlorPlant from "~/components/FloorPlant";
-import Navbar from "~/components/Navbar/Navbar";
+import CardTable from "~/components/CardTable";
+import FloorPlant from "~/components/FloorPlant";
 
 
 export const loader = ({
@@ -18,7 +16,7 @@ export default function Index() {
   let ids = useLoaderData()
 
   return (
-      <Navbar></Navbar>
+      <FloorPlant></FloorPlant>
     
   );
 }

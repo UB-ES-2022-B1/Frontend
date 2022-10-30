@@ -4,21 +4,20 @@ import {
     PopoverContent,
     PopoverHeader,
     PopoverBody,
+    PopoverFooter,
     PopoverArrow,
     PopoverCloseButton,
+    PopoverAnchor,
     Portal,
     Input,
     Button,
     FormControl,
     Flex,
     Box,
-    Spacer,
-    Text,
-    IconButton,
-    Divider,
-    Center,
+    Heading,
+    Spacer ,
+    Text ,
 } from '@chakra-ui/react'
-import { Search2Icon } from '@chakra-ui/icons'
 
 import Contador from './Contador';
 import Dropdown from "~/components/Dropdown";
@@ -27,88 +26,86 @@ import Dropdown from "~/components/Dropdown";
 export default function (params) {
 
     return (
-        <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
-            <Text fontSize='3xl'>LOGO</Text>
+        <Flex width="full" align="center" justifyContent="center" padding={"20px"}>
+            <Text fontSize='4xl'>AIRBNB</Text>
             <Spacer />
-            <Box p={1} maxWidth="1000px" borderWidth={1} borderRadius={30} boxShadow="lg">
-                <Center height='50px'>
+            <Box p={8} maxWidth="1000px" borderWidth={1} borderRadius={8} boxShadow="lg">
+                <Box textAlign="center">
+                
+                    <FormControl as='fieldset'>
+                        <Popover>
+                            <PopoverTrigger>
+                                <Button >Destiny</Button>
+                            </PopoverTrigger>
+                            <Portal>
+                                <PopoverContent>
+                                    <PopoverArrow />
 
-                    <Box textAlign="center">
+                                    <PopoverCloseButton />
+                                    <PopoverBody>
+                                        <Input placeholder='Destino' />
+                                    </PopoverBody>
+                                </PopoverContent>
+                            </Portal>
+                        </Popover>
 
-                        <FormControl as='fieldset'>
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Button variant='ghost' borderRadius={30}>Destiny</Button>
-                                </PopoverTrigger>
-                                <Portal>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverHeader>Where?</PopoverHeader>
-                                        <PopoverCloseButton />
-                                        <PopoverBody>
+                        <Popover>
+                            <PopoverTrigger>
+                                <Button>Arrival</Button>
+                            </PopoverTrigger>
+                            <Portal>
+                                <PopoverContent>
+                                    <PopoverArrow />
+                                    <PopoverHeader>When?</PopoverHeader>
+                                    <PopoverCloseButton />
+                                    <PopoverBody>
+                                        <Input type='date' />
+                                    </PopoverBody>
+                                </PopoverContent>
+                            </Portal>
+                        </Popover>
 
-                                            <Input placeholder='Destiny' />
+                        <Popover>
+                            <PopoverTrigger>
+                                <Button>Departure</Button>
+                            </PopoverTrigger>
+                            <Portal>
+                                <PopoverContent>
+                                    <PopoverArrow />
+                                    <PopoverHeader>When?</PopoverHeader>
+                                    <PopoverCloseButton />
+                                    <PopoverBody>
+                                        <Input type='date' />
+                                    </PopoverBody>
+                                </PopoverContent>
+                            </Portal>
+                        </Popover>
 
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Portal>
-                            </Popover>
+                        <Popover>
+                            <PopoverTrigger>
+                                <Button>Travellers</Button>
+                            </PopoverTrigger>
+                            <Portal>
+                                <PopoverContent>
+                                    <PopoverArrow />
+                                    <PopoverHeader>How many?</PopoverHeader>
+                                    <PopoverCloseButton />
+                                    <PopoverBody>
+                                        <Contador />
 
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Button variant='ghost' borderRadius={30}>Arrival</Button>
-                                </PopoverTrigger>
-                                <Portal>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverHeader>When?</PopoverHeader>
-                                        <PopoverCloseButton />
-                                        <PopoverBody>
-                                            <Input type='date' />
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Portal>
-                            </Popover>
+                                    </PopoverBody>
+                                </PopoverContent>
+                            </Portal>
+                        </Popover>
 
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Button variant='ghost' borderRadius={30}>Departure</Button>
-                                </PopoverTrigger>
-                                <Portal>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverHeader>When?</PopoverHeader>
-                                        <PopoverCloseButton />
-                                        <PopoverBody>
-                                            <Input type='date' />
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Portal>
-                            </Popover>
+                    </FormControl>
 
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Button variant='ghost' borderRadius={30}>Travellers</Button>
-                                </PopoverTrigger>
-                                <Portal>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverHeader>How many?</PopoverHeader>
-                                        <PopoverCloseButton />
-                                        <PopoverBody>
-                                            <Contador />
-
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Portal>
-                            </Popover>
-                            <IconButton colorScheme='purple' borderRadius={30} aria-label='Search' icon={<Search2Icon />} />
-                        </FormControl>
-                    </Box>
-                </Center>
-            </Box>
-            <Spacer />
-            <Dropdown />
-        </Flex >
+                    
+                </Box>
+                
+        </Box>
+        <Spacer /><Dropdown/>
+        
+      </Flex >
     );
 }
