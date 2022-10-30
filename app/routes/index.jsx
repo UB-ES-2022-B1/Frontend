@@ -1,7 +1,10 @@
 import { useLoaderData } from "@remix-run/react";
 import CardTable from "~/components/CardTable";
 import Dropdown from "~/components/Dropdown";
+
+import HouseTitle from "~/components/HouseTitle";
 import Navbar from "~/components/Navbar/Navbar";
+import ReservationCard from "~/components/ReservationCard";
 
 
 export const loader = ({
@@ -17,9 +20,7 @@ export default function Index() {
   let ids = useLoaderData()
 
   return (
-    <div>
-      <Navbar></Navbar>
-       <CardTable></CardTable>
-    </div>
+      <ReservationCard></ReservationCard>
+    
   );
 }

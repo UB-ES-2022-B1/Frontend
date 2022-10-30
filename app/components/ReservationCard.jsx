@@ -83,8 +83,8 @@ export default function (params) {
                                 <MenuList minWidth='350px' variant='unstyled' maxWidth='351px'>
                                     <Box p='3'>
                                         <Text fontSize='md' >Adults
-                                            <Button disabled={travelers <= 1} onClick={decrease}>-</Button>
-                                            <Button disabled={travelers >= maxTravelers} onClick={increase}>+</Button>
+                                            <Button borderRadius={30} disabled={travelers <= 1} onClick={decrease}>-</Button>
+                                            <Button borderRadius={30} disabled={travelers >= maxTravelers} onClick={increase}>+</Button>
                                         </Text >
                                     </Box>
                                     <Box p='3'>

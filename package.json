@@ -7,6 +7,7 @@
     "start": "cross-env NODE_ENV=production netlify dev"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.11",
     "@chakra-ui/react": "^2.3.5",
     "@emotion/react": "^11.10.4",
     "@emotion/server": "^11.10.0",
@@ -24,6 +25,7 @@
     "react-phone-input-2": "^2.15.1",
     "react-phone-number-input": "^3.2.11",
     "react-redux": "^8.0.4",
+    "react-share": "^4.4.1",
     "react-simple-image-slider": "^2.4.1"
   },
   "devDependencies": {
