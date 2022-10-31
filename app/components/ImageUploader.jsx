@@ -124,27 +124,25 @@ import RemovableImageCard from "./RemovableImageCard";
     // const [removeItems, setRemoveItems] = useState((id)=>{return})
 
     const addImages = (imgs) =>{
+      let count = 0
         Array.from(imgs).forEach((file)=>{
-            let image = {id:currentId,file:file}
+            let image = {id:currentId + count++,file:file}
             setImages((prev)=>[...prev,image])
             setPreviews((prev)=>
             {
                 let newPreviews = showImage(image)
                 return [...prev, newPreviews]
             })
-            setId(currentId+1)
         })
+      setId((currentId)=>currentId+count)
     }
 
+
+
     const removeItem = useCallback((id)=>{
-        console.log(previews)
-
-        let newPrevs = previews.filter(item=>item.id !== id)
-        setPreviews(newPrevs) //shown images
-
-        let newImages = images.filter(item=>item.id !== id)
-        setImages(newImages) //files
-    },[images,previews])
+        setPreviews((oldPrev)=>oldPrev.filter(item=>item.id !== id)) //shown images
+        setImages((oldPrev)=>oldPrev.filter(item=>item.id !== id)) //files
+    },[setPreviews,setImages])
 
     const showImage = (image) => {
         let id = image.id
