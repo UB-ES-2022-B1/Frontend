@@ -20,6 +20,7 @@ import {
 } from '@chakra-ui/react';
 
 import { useToast } from '@chakra-ui/react';
+import ImageUploader from "~/components/ImageUploader";
 import { useEffect } from 'react';
 
 const Form1 = () => {
@@ -30,7 +31,10 @@ const Form3 = () => {
 };
 const Form4 = () => {
 };
-const Form5 = () => {
+const Form5 = ({onChangeValue}) => {
+  return (
+    <ImageUploader onChangeValue={onChangeValue}></ImageUploader>
+  );
 };
 const Form6 = () => {
 };
@@ -75,7 +79,7 @@ export default function multistep() {
 				: step === 2 ? <Form2 /> 
 				: step === 3 ? <Form3 />
 				: step === 4 ? <Form4 />
-				: step === 5 ? <Form5 />
+				: step === 5 ? <Form5 onChangeValue={(e)=>setImages(e.images)}/>
 				: step === 6 ? <Form6 />
 				: step === 7 ? <Form7 />
 				: <Form8 />

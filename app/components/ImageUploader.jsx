@@ -112,7 +112,8 @@ import RemovableImageCard from "./RemovableImageCard";
   });
 
 
-  export default function ImageUploader() {
+  export default function ImageUploader(props) {
+    const {onChangeValue} = props
     const controls = useAnimation();
     const startAnimation = () => controls.start("hover");
     const stopAnimation = () => controls.stop();
@@ -138,7 +139,6 @@ import RemovableImageCard from "./RemovableImageCard";
     }
 
 
-
     const removeItem = useCallback((id)=>{
         setPreviews((oldPrev)=>oldPrev.filter(item=>item.id !== id)) //shown images
         setImages((oldPrev)=>oldPrev.filter(item=>item.id !== id)) //files
@@ -156,6 +156,7 @@ import RemovableImageCard from "./RemovableImageCard";
         }}
     }
 
+    useEffect(()=>onChangeValue({images}),[images])
 
     const printInfo = useEffect(()=>{
         console.log('Images',images)
@@ -164,7 +165,7 @@ import RemovableImageCard from "./RemovableImageCard";
 
     return (
       <><Container my="12">
-            <AspectRatio width="100" ratio={1}>
+            <AspectRatio width="100" ratio={1.6}>
                 <Box
                     borderColor="gray.300"
                     borderStyle="dashed"

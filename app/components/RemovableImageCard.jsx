@@ -22,8 +22,8 @@ function RemovableImageCard(props){
     return(
       <Box
         bg={useColorModeValue('white', 'gray.800')}
-        width="200px"
-        height="200px"
+        width="175px"
+        height="175px"
         borderWidth="1px"
         rounded="lg"
         shadow="lg"
