@@ -28,6 +28,7 @@ import PrivacyType from '~/components/Privacy-type';
 import AddTitle from '~/components/addTitle';
 import AddPrice from '~/components/addPrice';
 import AddDescription from '~/components/addDescription';
+import Location from '../../components/Location';
 
 const Form1 = ({onChangeValue}) => {
   return(
@@ -39,7 +40,10 @@ const Form2 = ({onChangeValue}) => {
     <PrivacyType onChangeValue={onChangeValue}></PrivacyType>
   );
 };
-const Form3 = () => {
+const Form3 = ({onChangeValue}) => {
+  return(
+    <Location onChangeValue={onChangeValue}></Location>
+  )
 };
 const Form4 = ({onChangeValue}) => {
   return(
@@ -80,6 +84,15 @@ export default function multistep() {
   const [descript, setDes] = useState('');
   const [price, setPrice] = useState(50);
   
+  const [location, setLocation] = useState("")
+
+
+	const totalSteps = 8
+
+  const toast = useToast();
+  const [step, setStep] = useState(1);
+  const [progress, setProgress] = useState(100/totalSteps);
+
 
 	useEffect(()=>{
     console.log(ty)
@@ -92,15 +105,8 @@ export default function multistep() {
     console.log(title)
     console.log(descript)
     console.log(price)
-	},[ty,privacy,guests,beds,bedrooms,bathrooms,images,title,descript,price])
-
-	const totalSteps = 8
-
-  const toast = useToast();
-  const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState(100/totalSteps);
-
-
+    console.log('location',location)
+	},[step])
 
   return (
     <>
@@ -122,7 +128,7 @@ export default function multistep() {
 
         { step === 1 ? <Form1 onChangeValue={(e)=>setTy(e.ty)}/> 
 				: step === 2 ? <Form2 onChangeValue={(e)=>setPrivacy(e.privacy)}/> 
-				: step === 3 ? <Form3 />
+				: step === 3 ? <Form3 onChangeValue={(e)=>setLocation(e.location)}/>
 				: step === 4 ? <Form4 onChangeValue={(e)=>{setGuests(e.guests),setBeds(e.beds),setBedrooms(e.bedrooms),setBathrooms(e.bathrooms)}}/>
 				: step === 5 ? <Form5 onChangeValue={(e)=>setImages(e.images)}/>
 				: step === 6 ? <Form6 onChangeValue={(e)=>setTitle(e.title)}/>
