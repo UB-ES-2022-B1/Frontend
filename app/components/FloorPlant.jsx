@@ -7,9 +7,10 @@ import {
 } from '@chakra-ui/react'
 import React, { Component } from 'react';
 import { useState } from 'react';
+import { useEffect } from "react";
 
-export default function (params) {
-
+export default function FloorPlant(props) {
+    const {onChangeValue} = props
     const [beds, setBeds] = useState(1);
     const [bathrooms, setBathrooms] = useState(1);
     const [bedrooms, setBedrooms] = useState(1);
@@ -38,6 +39,8 @@ export default function (params) {
     const increaseBathrooms = () => {
         setBathrooms(bathrooms + 1);
     }
+
+    useEffect(()=>onChangeValue({guests,beds,bedrooms,bathrooms}),[guests,beds,bedrooms,bathrooms])
 
     return (
         <Flex width="full" align="center" justifyContent="center" padding={"20px"} >

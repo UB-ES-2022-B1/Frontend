@@ -5,9 +5,14 @@ import {
     Spacer,
 } from '@chakra-ui/react'
 import { useState } from 'react';
+import { useEffect } from "react";
 
-export default function (params) {
+export default function TypeGroup(props) {
+    const {onChangeValue} = props
     const [ty, setTy] = useState('');
+
+    useEffect(()=>onChangeValue({ty}),[ty])
+
     return (
         <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
             <Box>
