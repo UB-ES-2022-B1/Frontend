@@ -29,7 +29,7 @@ export default function (params) {
     return (
         <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
             <div align="left">
-                <a href="/"><img width='135' height='40' src='https://1000marcas.net/wp-content/uploads/2020/01/Logo-Airbnb.png' /></a>
+                <a href="/"><img width='50' height='40' src='https://www.freepnglogos.com/uploads/logo-home-png/chimney-home-icon-transparent-1.png' /></a>
             </div>
             <Spacer />
             <Box p={1} maxWidth="1000px" borderWidth={1} borderRadius={30} boxShadow="lg">
