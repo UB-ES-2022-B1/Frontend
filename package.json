@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.11",
-    "@chakra-ui/react": "^2.3.5",
+    "@chakra-ui/react": "^2.3.6",
     "@emotion/react": "^11.10.4",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.4",
@@ -22,11 +22,13 @@
     "react": "^18.2.0",
     "react-date-range": "^1.4.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.6.0",
     "react-phone-input-2": "^2.15.1",
     "react-phone-number-input": "^3.2.11",
     "react-redux": "^8.0.4",
     "react-share": "^4.4.1",
-    "react-simple-image-slider": "^2.4.1"
+    "react-simple-image-slider": "^2.4.1",
+    "react-slick": "^0.29.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.7.2",

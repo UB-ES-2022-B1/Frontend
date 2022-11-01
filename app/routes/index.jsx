@@ -4,7 +4,11 @@ import Dropdown from "~/components/Dropdown";
 
 import HouseTitle from "~/components/HouseTitle";
 import Navbar from "~/components/Navbar/Navbar";
-import ReservationCard from "~/components/ReservationCard";
+import Slider from "~/components/slider"
+import HouseTitle from "~/components/HouseTitle"
+import HouseCard from "~/components/HouseCard"
+import HouseDescription from "~/components/HouseDescription"
+import HouseCharacteristics from "../components/HouseCharacteristics";
 
 
 export const loader = ({
@@ -20,7 +24,11 @@ export default function Index() {
   let ids = useLoaderData()
 
   return (
-      <ReservationCard></ReservationCard>
-    
+    <div>
+      <Slider></Slider>
+      <HouseTitle></HouseTitle>
+      <HouseDescription></HouseDescription>
+      <HouseCharacteristics></HouseCharacteristics>
+    </div>
   );
 }
