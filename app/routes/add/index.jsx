@@ -25,6 +25,9 @@ import { useEffect } from 'react';
 import TypeGroup from '~/components/Type-group';
 import FloorPlant from '~/components/FloorPlant';
 import PrivacyType from '~/components/Privacy-type';
+import AddTitle from '~/components/addTitle';
+import AddPrice from '~/components/addPrice';
+import AddDescription from '~/components/addDescription';
 import Location from '../../components/Location';
 
 const Form1 = ({onChangeValue}) => {
@@ -52,12 +55,21 @@ const Form5 = ({onChangeValue}) => {
     <ImageUploader onChangeValue={onChangeValue}></ImageUploader>
   );
 };
-const Form6 = () => {
+const Form6 = ({onChangeValue}) => {
+  return (
+  <AddTitle onChangeValue={onChangeValue}></AddTitle>
+  );
   
 };
-const Form7 = () => {
+const Form7 = ({onChangeValue}) => {
+  return (
+  <AddDescription onChangeValue={onChangeValue} ></AddDescription>
+  );
 };
-const Form8 = () => {
+const Form8 = ({onChangeValue}) => {
+  return (
+  <AddPrice onChangeValue={onChangeValue}></AddPrice>
+  );
 };
 
 export default function multistep() {
@@ -68,6 +80,10 @@ export default function multistep() {
   const [bathrooms, setBathrooms] = useState(1);
   const [bedrooms, setBedrooms] = useState(1);
   const [guests, setGuests] = useState(1);
+  const [title, setTitle] = useState('');
+  const [descript, setDes] = useState('');
+  const [price, setPrice] = useState(50);
+  
   const [location, setLocation] = useState("")
 
 
@@ -86,6 +102,9 @@ export default function multistep() {
     console.log(bedrooms)
     console.log(bathrooms)
 		console.log(images)
+    console.log(title)
+    console.log(descript)
+    console.log(price)
     console.log('location',location)
 	},[step])
 
@@ -112,9 +131,9 @@ export default function multistep() {
 				: step === 3 ? <Form3 onChangeValue={(e)=>setLocation(e.location)}/>
 				: step === 4 ? <Form4 onChangeValue={(e)=>{setGuests(e.guests),setBeds(e.beds),setBedrooms(e.bedrooms),setBathrooms(e.bathrooms)}}/>
 				: step === 5 ? <Form5 onChangeValue={(e)=>setImages(e.images)}/>
-				: step === 6 ? <Form6 />
-				: step === 7 ? <Form7 />
-				: <Form8 />
+				: step === 6 ? <Form6 onChangeValue={(e)=>setTitle(e.title)}/>
+				: step === 7 ? <Form7 onChangeValue={(e)=>setDes(e.descript)}/>
+				: <Form8 onChangeValue={(e)=>setPrice(e.price)} />
 				}
 
 
@@ -156,8 +175,8 @@ export default function multistep() {
                 variant="solid"
                 onClick={() => {
                   toast({
-                    title: 'Account created.',
-                    description: "We've created your account for you.",
+                    title: `${ty} created.`,
+                    description: `Your ${ty} has been created.`,
                     status: 'success',
                     duration: 3000,
                     isClosable: true,
