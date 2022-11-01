@@ -22,26 +22,14 @@ import {
 import { useToast } from '@chakra-ui/react';
 import ImageUploader from "~/components/ImageUploader";
 import { useEffect } from 'react';
-import TypeGroup from '~/components/Type-group';
-import FloorPlant from '~/components/FloorPlant';
-import PrivacyType from '~/components/Privacy-type';
 
-const Form1 = ({onChangeValue}) => {
-  return(
-    <TypeGroup onChangeValue={onChangeValue}></TypeGroup>
-  );
+const Form1 = () => {
 };
-const Form2 = ({onChangeValue}) => {
-  return(
-    <PrivacyType onChangeValue={onChangeValue}></PrivacyType>
-  );
+const Form2 = () => {
 };
 const Form3 = () => {
 };
-const Form4 = ({onChangeValue}) => {
-  return(
-    <FloorPlant onChangeValue={onChangeValue}></FloorPlant>
-  );
+const Form4 = () => {
 };
 const Form5 = ({onChangeValue}) => {
   return (
@@ -49,7 +37,6 @@ const Form5 = ({onChangeValue}) => {
   );
 };
 const Form6 = () => {
-  
 };
 const Form7 = () => {
 };
@@ -58,22 +45,9 @@ const Form8 = () => {
 
 export default function multistep() {
 	const [images, setImages] = useState([])
-  const [privacy, setPrivacy] = useState('');
-  const [ty, setTy] = useState('');
-  const [beds, setBeds] = useState(1);
-  const [bathrooms, setBathrooms] = useState(1);
-  const [bedrooms, setBedrooms] = useState(1);
-  const [guests, setGuests] = useState(1);
-
 	useEffect(()=>{
-    console.log(ty)
-    console.log(privacy)
-    console.log(guests)
-    console.log(beds)
-    console.log(bedrooms)
-    console.log(bathrooms)
 		console.log(images)
-	},[ty,privacy,guests,beds,bedrooms,bathrooms,images])
+	},[images])
 
 	const totalSteps = 8
 
@@ -101,10 +75,10 @@ export default function multistep() {
           isAnimated></Progress>
 
 
-        { step === 1 ? <Form1 onChangeValue={(e)=>setTy(e.ty)}/> 
-				: step === 2 ? <Form2 onChangeValue={(e)=>setPrivacy(e.privacy)}/> 
+        { step === 1 ? <Form1 /> 
+				: step === 2 ? <Form2 /> 
 				: step === 3 ? <Form3 />
-				: step === 4 ? <Form4 onChangeValue={(e)=>{setGuests(e.guests),setBeds(e.beds),setBedrooms(e.bedrooms),setBathrooms(e.bathrooms)}}/>
+				: step === 4 ? <Form4 />
 				: step === 5 ? <Form5 onChangeValue={(e)=>setImages(e.images)}/>
 				: step === 6 ? <Form6 />
 				: step === 7 ? <Form7 />
