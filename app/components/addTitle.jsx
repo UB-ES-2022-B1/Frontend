@@ -28,6 +28,7 @@ import {
 
 export default function addTitle(params)
 {
+    console.log('a')
     const [textAreaCount, setTextAreaCount] = React.useState('');
     const {onChangeValue} = params
 
@@ -44,14 +45,12 @@ export default function addTitle(params)
             </Box>
                 <Box my={4} textAlign="left">
                 
-                <FormControl isInvalid={countError}>
+                
                     <FormLabel>The title of your ad should reveal the highlights of your property</FormLabel>
                     
                     <Input type='txt' value={textAreaCount} rows="3" cols="30" autocomplete="off" placeholder="Beautiful house in Menorca..." onChange={(e) => { setTextAreaCount(e.target.value) }} ></Input>
-                    <p>{textAreaCount}</p>
-                    {!countError ? null : (
-                  <FormErrorMessage>{countErrorMessages}</FormErrorMessage>)}
-                    </FormControl>
+                    
+                    
                 
                 </Box>
                 

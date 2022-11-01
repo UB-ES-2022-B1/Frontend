@@ -120,8 +120,8 @@ export default function multistep() {
 				: step === 4 ? <Form4 onChangeValue={(e)=>{setGuests(e.guests),setBeds(e.beds),setBedrooms(e.bedrooms),setBathrooms(e.bathrooms)}}/>
 				: step === 5 ? <Form5 onChangeValue={(e)=>setImages(e.images)}/>
 				: step === 6 ? <Form6 onChangeValue={(e)=>setTitle(e.title)}/>
-				: step === 7 ? <Form7 onChangeValue={(e)=>setPrice(e.descript)}/>
-				: <Form8 onChangeValue={(e)=>setDes(e.price)} />
+				: step === 7 ? <Form7 onChangeValue={(e)=>setDes(e.descript)}/>
+				: <Form8 onChangeValue={(e)=>setPrice(e.price)} />
 				}
 
 
@@ -163,8 +163,8 @@ export default function multistep() {
                 variant="solid"
                 onClick={() => {
                   toast({
-                    title: 'Account created.',
-                    description: "We've created your account for you.",
+                    title: {ty}+' created.',
+                    description: "You'r " + {ty} + "has been creaetd.",
                     status: 'success',
                     duration: 3000,
                     isClosable: true,
