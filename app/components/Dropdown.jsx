@@ -8,15 +8,15 @@ export default function Dropdown() {
   const items = [
     {
       slug: "/register/",
-      anchor: "Regístrate"
+      anchor: "Register"
     },
     {
       slug: "/login/",
-      anchor: "Iniciar sesión"
+      anchor: "Log in"
     },
     {
-      slug: "/link3/",
-      anchor: "Ofrecer alojamiento"
+      slug: "/add/",
+      anchor: "Host your place"
     }
   ];
 
