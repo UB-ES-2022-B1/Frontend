@@ -25,6 +25,7 @@ import { useEffect } from 'react';
 import TypeGroup from '~/components/Type-group';
 import FloorPlant from '~/components/FloorPlant';
 import PrivacyType from '~/components/Privacy-type';
+import Location from '../../components/Location';
 
 const Form1 = ({onChangeValue}) => {
   return(
@@ -36,7 +37,10 @@ const Form2 = ({onChangeValue}) => {
     <PrivacyType onChangeValue={onChangeValue}></PrivacyType>
   );
 };
-const Form3 = () => {
+const Form3 = ({onChangeValue}) => {
+  return(
+    <Location onChangeValue={onChangeValue}></Location>
+  )
 };
 const Form4 = ({onChangeValue}) => {
   return(
@@ -64,6 +68,15 @@ export default function multistep() {
   const [bathrooms, setBathrooms] = useState(1);
   const [bedrooms, setBedrooms] = useState(1);
   const [guests, setGuests] = useState(1);
+  const [location, setLocation] = useState("")
+
+
+	const totalSteps = 8
+
+  const toast = useToast();
+  const [step, setStep] = useState(1);
+  const [progress, setProgress] = useState(100/totalSteps);
+
 
 	useEffect(()=>{
     console.log(ty)
@@ -73,15 +86,8 @@ export default function multistep() {
     console.log(bedrooms)
     console.log(bathrooms)
 		console.log(images)
-	},[ty,privacy,guests,beds,bedrooms,bathrooms,images])
-
-	const totalSteps = 8
-
-  const toast = useToast();
-  const [step, setStep] = useState(1);
-  const [progress, setProgress] = useState(100/totalSteps);
-
-
+    console.log('location',location)
+	},[step])
 
   return (
     <>
@@ -103,7 +109,7 @@ export default function multistep() {
 
         { step === 1 ? <Form1 onChangeValue={(e)=>setTy(e.ty)}/> 
 				: step === 2 ? <Form2 onChangeValue={(e)=>setPrivacy(e.privacy)}/> 
-				: step === 3 ? <Form3 />
+				: step === 3 ? <Form3 onChangeValue={(e)=>setLocation(e.location)}/>
 				: step === 4 ? <Form4 onChangeValue={(e)=>{setGuests(e.guests),setBeds(e.beds),setBedrooms(e.bedrooms),setBathrooms(e.bathrooms)}}/>
 				: step === 5 ? <Form5 onChangeValue={(e)=>setImages(e.images)}/>
 				: step === 6 ? <Form6 />
