@@ -15,8 +15,9 @@ export default function Index() {
 
     return (
         <Box>
-            <Slider></Slider>
             <HouseTitle></HouseTitle>
+            <Slider></Slider>
+
             <HouseDescription></HouseDescription>
 
             <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
