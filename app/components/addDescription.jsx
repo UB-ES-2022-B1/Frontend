@@ -25,24 +25,14 @@ import {
   InputRightElement 
 } from '@chakra-ui/react'
 
-export default function addDescription(){
+export default function addDescription(params){
 const [textArea, setTextAreaCount] = React.useState('');
-    const [textError, settextError] = useState(false)
-    const [textErrorMessages, settextErrorMessages] = useState('')
+    const [textError, settextError] = useState(false);
+    const {onChangeValue} = params
 
-
+    useEffect(()=>onChangeValue({textArea}),[textArea])
                 
-    const validatetext = useCallback(() => {
-        if(textArea.length>500){
-            settextErrorMessages('Maximum 500 characters.');
-            settextError(true);
-        }
-        
-        else{
-            settextError(textArea === '')
     
-        }
-      }, [textArea])
   return(
     <div className="register-form">
         <Flex width="full" align="center" justifyContent="center" padding={"80px"}>
@@ -55,7 +45,7 @@ const [textArea, setTextAreaCount] = React.useState('');
                 <FormControl isInvalid={textError}>
                     <FormLabel>Write your description</FormLabel>
                     
-                    <Input type='txt'rows="3" cols="30" autocomplete="off" placeholder="Enjoy the comfort of this accommodation and have a great time..." onChange={(e) => { settextError(e.target.value) }}></Input>
+                    <Input type='txt'rows="3" value={textArea} cols="30" autocomplete="off" placeholder="Enjoy the comfort of this accommodation and have a great time..." onChange={(e) => { setTextAreaCount(e.target.value) }}></Input>
                     <p>{textArea}</p>
                     {!textError ? null : (
                   <FormErrorMessage>{textErrorMessages}</FormErrorMessage>)}

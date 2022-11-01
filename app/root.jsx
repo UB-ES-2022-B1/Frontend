@@ -72,7 +72,7 @@ export default function App() {
   return (
     <Document>
       <ChakraProvider>
-        <Outlet />
+          <Outlet />
       </ChakraProvider>
     </Document>
   )

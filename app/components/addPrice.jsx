@@ -34,13 +34,15 @@ import {
   InputRightElement 
 } from '@chakra-ui/react'
 
-export default function addPrice()
+export default function addPrice(params)
 {
 
     const format = (val) => `$` + val
     const parse = (val) => val.replace(/^\$/, '')
 
     const [value, setValue] = React.useState('50')
+    const {onChangeValue} = params
+    useEffect(()=>onChangeValue({value}),[value])
     
 
     return(

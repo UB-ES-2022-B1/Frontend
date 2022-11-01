@@ -26,34 +26,13 @@ import {
 } from '@chakra-ui/react'
 
 
-export default function addTitle()
+export default function addTitle(params)
 {
     const [textAreaCount, setTextAreaCount] = React.useState('');
-    const [countError, setcountError] = useState(false)
-    const [countErrorMessages, setcountErrorMessages] = useState('')
+    const {onChangeValue} = params
 
-    ;
-
-    
+    useEffect(()=>onChangeValue({textAreaCount}),[textAreaCount])
                 
-    const validateCount = useCallback(() => {
-        if(textAreaCount.length>50){
-            setcountErrorMessages('Maximum 50 characters.');
-            setcountError(true);
-        }
-        
-        else{
-            setcountError(textAreaCount === '')
-    
-        }
-      }, [textAreaCount])
-
-
-    const recalculate = e => {
-        console.log("event value:", e);
-        setTextAreaCount(e.target.value.length);
-        
-      };
 
     return(
 
@@ -68,7 +47,7 @@ export default function addTitle()
                 <FormControl isInvalid={countError}>
                     <FormLabel>The title of your ad should reveal the highlights of your property</FormLabel>
                     
-                    <Input type='txt'rows="3" cols="30" autocomplete="off" placeholder="Beautiful house in Menorca..." onChange={(e) => { setcountError(e.target.value) }}></Input>
+                    <Input type='txt' value={textAreaCount} rows="3" cols="30" autocomplete="off" placeholder="Beautiful house in Menorca..." onChange={(e) => { setTextAreaCount(e.target.value) }} ></Input>
                     <p>{textAreaCount}</p>
                     {!countError ? null : (
                   <FormErrorMessage>{countErrorMessages}</FormErrorMessage>)}
