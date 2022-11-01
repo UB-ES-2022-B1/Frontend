@@ -112,12 +112,12 @@ export default function (params) {
                 <Text fontSize='md'>{moneyTotalDays} €</Text >
             </Box>
             <Box display='flex' alignItems='baseline'>
-                <Button variant='link'><Text as='u' fontSize='s'>Cleaning costs</Text></Button>
+                <Button variant='link'><Text as='u' fontSize='s'>Taxes</Text></Button>
                 <Spacer />
                 <Text fontSize='md'>{cleaningCosts} €</Text >
             </Box>
             <Box display='flex' alignItems='baseline'>
-                <Button variant='link'><Text as='u' fontSize='s'>Sevice commission</Text></Button>
+                <Button variant='link'><Text as='u' fontSize='s'>Extra costs</Text></Button>
                 <Spacer />
                 <Text fontSize='md'>{serviceComision} €</Text >
             </Box>
