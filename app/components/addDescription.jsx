@@ -30,7 +30,7 @@ const [textArea, setTextAreaCount] = React.useState('');
     const [textError, settextError] = useState(false);
     const {onChangeValue} = params
 
-    useEffect(()=>onChangeValue({textArea}),[textArea])
+    useEffect(()=>onChangeValue({'descript':textArea}),[textArea])
                 
     
   return(
@@ -42,14 +42,13 @@ const [textArea, setTextAreaCount] = React.useState('');
             </Box>
                 <Box my={4} textAlign="left">
                 
-                <FormControl isInvalid={textError}>
+                
                     <FormLabel>Write your description</FormLabel>
                     
                     <Input type='txt'rows="3" value={textArea} cols="30" autocomplete="off" placeholder="Enjoy the comfort of this accommodation and have a great time..." onChange={(e) => { setTextAreaCount(e.target.value) }}></Input>
-                    <p>{textArea}</p>
-                    {!textError ? null : (
-                  <FormErrorMessage>{textErrorMessages}</FormErrorMessage>)}
-                    </FormControl>
+                    
+                    
+                    
                   
                 </Box>
                 

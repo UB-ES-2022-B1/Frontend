@@ -28,11 +28,11 @@ import {
 
 export default function addTitle(params)
 {
-    console.log('a')
+    
     const [textAreaCount, setTextAreaCount] = React.useState('');
     const {onChangeValue} = params
 
-    useEffect(()=>onChangeValue({textAreaCount}),[textAreaCount])
+    useEffect(()=>onChangeValue({'title':textAreaCount}),[textAreaCount])
                 
 
     return(

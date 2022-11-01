@@ -51,15 +51,21 @@ const Form5 = ({onChangeValue}) => {
     <ImageUploader onChangeValue={onChangeValue}></ImageUploader>
   );
 };
-const Form6 = (onChangeValue) => {
+const Form6 = ({onChangeValue}) => {
+  return (
   <AddTitle onChangeValue={onChangeValue}></AddTitle>
+  );
   
 };
-const Form7 = (onChangeValue) => {
+const Form7 = ({onChangeValue}) => {
+  return (
   <AddDescription onChangeValue={onChangeValue} ></AddDescription>
+  );
 };
-const Form8 = (onChangeValue) => {
+const Form8 = ({onChangeValue}) => {
+  return (
   <AddPrice onChangeValue={onChangeValue}></AddPrice>
+  );
 };
 
 export default function multistep() {
@@ -163,8 +169,8 @@ export default function multistep() {
                 variant="solid"
                 onClick={() => {
                   toast({
-                    title: {ty}+' created.',
-                    description: "You'r " + {ty} + "has been creaetd.",
+                    title: `${ty} created.`,
+                    description: `Your ${ty} has been created.`,
                     status: 'success',
                     duration: 3000,
                     isClosable: true,

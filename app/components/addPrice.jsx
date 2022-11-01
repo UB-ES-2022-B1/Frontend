@@ -42,7 +42,7 @@ export default function addPrice(params)
 
     const [value, setValue] = React.useState('50')
     const {onChangeValue} = params
-    useEffect(()=>onChangeValue({value}),[value])
+    useEffect(()=>onChangeValue({'price':value}),[value])
     
 
     return(
