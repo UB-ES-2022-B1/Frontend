@@ -28,20 +28,24 @@ import {
 
 import React, { useState, useCallback } from 'react'
 
+
+
 export default function (params) {
-    const [description] = params;
+    const [privacy,type,guests, beds, bedrooms, bathrooms] = params;
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [name, setName] = useState('');
 
 
     return (
         <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
             <Box p='3' >
-                <Box>
-                    <Text fontSize='xl'>
-                        {description}
-                    </Text>
-                </Box>
+                <Text>
+                    {privacy} + {ty}
+                </Text>
+                <Text fontSize='xs'>
+                    {guests} + guests · + {bedrooms} + bedrooms · + {beds} + beds · + {bathrooms} + bathrooms
+                </Text>
             </Box>
         </Flex>
-
     )
-    }
+}

@@ -43,10 +43,8 @@ import {
 
 
 export default function (params) {
-    const title = "Escapada soleada frente al mar, Castelldefels Playa";
-    const location = "Castelldefels, Catalunya, España";
+    const [title, location] = params;
     const { isOpen, onOpen, onClose } = useDisclosure();
-
     const [name, setName] = useState('');
 
 

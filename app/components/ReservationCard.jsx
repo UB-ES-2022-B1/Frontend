@@ -16,21 +16,20 @@ import Contador from "./Navbar/Contador";
 
 
 export default function (params) {
+    const {moneyDay, taxes, extra} = params;
     const [travelers, setTravelers] = useState(1);
     const [travelersText, setTravelersText] = useState('traveler');
     const maxTravelers = 10;
     const textTravelersMax = 'A maximum of ' + maxTravelers + ' travelers can stay in this accommodation, without including babies.';
 
-
     const [startDay, setStartDay] = useState('');
     const [endDay, setEndDay] = useState('');
     const totalDay = endDay - startDay;
 
-    const [moneyDay, setMoneyDay] = useState(0);
     const [moneyTotalDays, setMoneyTotalDays] = useState(moneyDay * totalDay);
-    const serviceComision = 0;
-    const cleaningCosts = 0;
-    const [moneyTotal, setMoneyTotal] = useState(moneyTotalDays + serviceComision + cleaningCosts);
+
+
+    const [moneyTotal, setMoneyTotal] = useState(moneyTotalDays + taxes + extra);
 
     const current = new Date();
     const currentDate = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
@@ -114,12 +113,12 @@ export default function (params) {
             <Box display='flex' alignItems='baseline'>
                 <Button variant='link'><Text as='u' fontSize='s'>Taxes</Text></Button>
                 <Spacer />
-                <Text fontSize='md'>{cleaningCosts} €</Text >
+                <Text fontSize='md'>{taxes} €</Text >
             </Box>
             <Box display='flex' alignItems='baseline'>
                 <Button variant='link'><Text as='u' fontSize='s'>Extra costs</Text></Button>
                 <Spacer />
-                <Text fontSize='md'>{serviceComision} €</Text >
+                <Text fontSize='md'>{extra} €</Text >
             </Box>
             <Center height='50px'>
                 <Box>
