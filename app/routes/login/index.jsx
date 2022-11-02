@@ -19,8 +19,6 @@ import {
 
 import ErrorMessage from '~/components/ErrorMessage'
 
-import React from 'react';
-import Cookies from 'js-cookie';
 
 const validate = (value) => {
   return value != ''

@@ -104,4 +104,27 @@ padding: 20px;
     color: white;
   }
   
-  
+  .slider-container{
+    margin: 0 auto;
+    overflow-x: hidden;
+    
+
+  }
+
+  .slider{
+    display:flex;
+    cursor: grab;
+
+  }
+
+  .item{
+    height: 40rem;
+    max-width: 30rem;
+    padding: 2rem
+  }
+
+  .item img{
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+  }
