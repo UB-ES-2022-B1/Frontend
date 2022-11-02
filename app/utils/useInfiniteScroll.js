@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { INFINITE_SCROLL_RELOAD_HEIGHT } from './constants';
 
-const useInfiniteScroll = (callback) => {
+const useInfiniteScroll = (callback,max) => {
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
@@ -16,7 +17,10 @@ const useInfiniteScroll = (callback) => {
   }, [isFetching]);
 
   function handleScroll() {
-    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || isFetching) return;
+    // console.log(document.documentElement.scrollHeight)
+    // console.log(document.documentElement.scrollTop)
+    // console.log(document.documentElement.clientHeight)
+    if (document.documentElement.scrollHeight - document.documentElement.scrollTop > document.documentElement.clientHeight/INFINITE_SCROLL_RELOAD_HEIGHT || isFetching) return;
     setIsFetching(true);
   }
 

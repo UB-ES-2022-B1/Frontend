@@ -18,7 +18,6 @@ export default function Index() {
 
   return (
     <div>
-      <Navbar></Navbar>
        <CardTable></CardTable>
     </div>
   );
