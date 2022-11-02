@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 
 import ErrorMessage from '~/components/ErrorMessage'
+import { SERVER_DNS } from "~/utils/constants";
 
 
 const validate = (value) => {
@@ -46,7 +47,7 @@ export default function Index() {
     setIsSubmitting(true)
     console.log('Submitted')
     let jsonData={"email":email,"password":password}
-    let response = fetch('https://houshbe.azurewebsites.net/accounts/login',
+    let response = fetch(`${SERVER_DNS}/accounts/login`,
           {
             method:'POST',
             mode:'cors',
@@ -101,7 +102,7 @@ export default function Index() {
   const updatePasswordError = useEffectWithoutFirstRun(validatePassword,[password])
 
   async function logOut(){
-    let response = fetch('https://houshbetesting.azurewebsites.net/accounts/logout',
+    let response = fetch(`${SERVER_DNS}/accounts/logout`,
           {
             method:'POST',
             mode:'cors',

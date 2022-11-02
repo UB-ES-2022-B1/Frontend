@@ -33,6 +33,7 @@ import Location from '../../components/Location';
 
 import { useLocalStorage } from '~/utils/localStorage'
 import ErrorMessage from '~/components/ErrorMessage'
+import { SERVER_DNS } from '~/utils/constants';
 
 
 
@@ -130,7 +131,7 @@ export default function multistep() {
       "billar_table": true,
       "gym": true,
       "TV": true,
-      "WIFI": true,
+      "WIFII": true,
       "dishwasher": true,
       "washing_machine": true,
       "air_conditioning": false,
@@ -142,7 +143,7 @@ export default function multistep() {
       "smoke_detector": false,
       "health_kit": false
     }
-    let response = fetch('https://houshbetesting.azurewebsites.net/houses/register',
+    let response = fetch(`${SERVER_DNS}/houses/register`,
       {
         method: 'POST',
         mode: 'cors',

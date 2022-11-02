@@ -15,6 +15,7 @@ import {
 import { useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { SERVER_DNS } from "~/utils/constants";
 
 export const loader = async ({
     params,
@@ -77,7 +78,7 @@ export default function Index() {
             setPooltable(res.billar_table),
             setGym(res.gym),
             setTv(res.TV),
-            setWifi(res.WIFI),
+            setWifi(res.WIFII),
             setWashingM(res.washing_machine),
             setDish(res.dishwasher),
             setAir(res.air_conditioning),
@@ -91,8 +92,8 @@ export default function Index() {
     }
 
     useEffect(async () => {
-        let jsonData = { "id": params.id }
-        let response = fetch('https://houshbetesting.azurewebsites.net/houses/get-house', {
+        let jsonData = { "id_house": params.id }
+        let response = fetch(`${SERVER_DNS}/houses/get-house`, {
             method: 'POST',
             mode: 'cors',
             body: JSON.stringify(jsonData),
@@ -108,7 +109,7 @@ export default function Index() {
             })
         response = await response;
         if (response.success) {
-            componentsSet(response);
+            componentsSet(response.msg);
         }
         else {
             setInexistent(true)

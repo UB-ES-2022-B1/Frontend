@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useLocalStorage } from '~/utils/localStorage'
 import { useLoaderData } from "@remix-run/react";
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun';
-import Cookies from 'js-cookie';
+import { SERVER_DNS } from "~/utils/constants";
 
 export default function Index() {
   const [products, setProducts] = useState('');
@@ -37,7 +37,7 @@ export default function Index() {
   useEffect(async () => {
 
     let jsonData = { "email": email }
-    let response = fetch('https://houshbetesting.azurewebsites.net/accounts/get-profile', {
+    let response = fetch(`${SERVER_DNS}/accounts/get-profile`, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify(jsonData),
