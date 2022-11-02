@@ -5,8 +5,6 @@
 
 ## Netlify Setup
 
-NO ES NECESARI FER AQUEST PAS, ES PER FER DEPLOYMENT A NETLIFY
-
 1. Install the [Netlify CLI](https://www.netlify.com/products/dev/):
 
 ```sh
@@ -67,3 +65,5 @@ netlify deploy --build
 # production deployment
 netlify deploy --build --prod
 ```
+
+
