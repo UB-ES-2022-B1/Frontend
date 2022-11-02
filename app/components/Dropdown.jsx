@@ -8,21 +8,25 @@ export default function Dropdown() {
   const items = [
     {
       slug: "/register/",
-      anchor: "Regístrate"
+      anchor: "Register"
     },
     {
       slug: "/login/",
-      anchor: "Iniciar sesión"
+      anchor: "Log in"
     },
     {
-      slug: "/link3/",
-      anchor: "Ofrecer alojamiento"
+      slug: "/add/",
+      anchor: "Host your place"
+    },
+    {
+      slug: "/profile/",
+      anchor: "See profile"
     }
   ];
 
   return (
     <div className="Dropdown">
-      <Menubutton dropdownTitle="Usuario" image="https://e7.pngegg.com/pngimages/323/705/png-clipart-user-profile-get-em-cardiovascular-disease-zingah-avatar-miscellaneous-white.png" items={items} />
+      <Menubutton  dropdownTitle="Usuario" image="https://e7.pngegg.com/pngimages/323/705/png-clipart-user-profile-get-em-cardiovascular-disease-zingah-avatar-miscellaneous-white.png" items={items} />
     </div>
   );
 }
