@@ -21,9 +21,9 @@ import React, { useState, useCallback } from 'react'
 
 
 export default function HouseCharacteristics(params) {
-  const [Kitchen,swimming,garden,pooltable,gym,tv,wifi,
+  const {Kitchen,swimming,garden,pooltable,gym,tv,wifi,
     washingMachine,dishwasher,aireAcond,parking,spacious,
-    central,calmed,Alarm,botiquin,smokeDetector] = params;
+    central,calmed,Alarm,botiquin,smokeDetector} = params;
 
   return (
     <Box>

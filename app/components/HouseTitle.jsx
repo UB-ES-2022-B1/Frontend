@@ -43,7 +43,7 @@ import {
 
 
 export default function (params) {
-    const [title, location] = params;
+    const {title, location} = params;
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [name, setName] = useState('');
 

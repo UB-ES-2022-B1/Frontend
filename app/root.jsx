@@ -1,6 +1,7 @@
 import styles from './styles/global.css'
 import { ChakraProvider } from '@chakra-ui/react'
 import React, { useContext, useEffect } from 'react'
+import { DataProvider } from "~/context/DataContext"
 import { withEmotionCache } from '@emotion/react'
 import { ServerStyleContext, ClientStyleContext } from './context'
 
@@ -72,7 +73,9 @@ export default function App() {
   return (
     <Document>
       <ChakraProvider>
-        <Outlet />
+        <DataProvider>
+          <Outlet />
+        </DataProvider>
       </ChakraProvider>
     </Document>
   )

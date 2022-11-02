@@ -19,6 +19,7 @@ import {
 
 import ErrorMessage from '~/components/ErrorMessage'
 
+
 const validate = (value) => {
   return value != ''
 }
@@ -27,7 +28,7 @@ const validate = (value) => {
 export default function Index() {
   const [show, setShow] = useState(false)
   const handleClick = () => setShow(!show)
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useLocalStorage('email', '');
   const [emailError, setEmailError] = useState(false)
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false)
@@ -45,24 +46,29 @@ export default function Index() {
     setIsSubmitting(true)
     console.log('Submitted')
     let jsonData={"email":email,"password":password}
-    let response = fetch('http://localhost:8000/accounts/login',
+    let response = fetch('https://houshbe.azurewebsites.net/accounts/login',
           {
             method:'POST',
             mode:'cors',
+            // credentials: "include",
             body: JSON.stringify(jsonData),
             headers: {
               'Content-Type': 'application/json',
             }
           })
-          .then(response => response.json())
+          .then(response => {
+            return response.json()
+          })
           .catch((error)=>{
             setIsSubmitting(false)
             setErrorMessages('Something went wrong')
           })
 
           const {success, msg, refresh, access} = await response
+          // const {success, msg, token} = await response
           setIsSubmitting(false)
           if(success){
+            //localStorage.setItem('csrftoken',token)
             setIsLoggedIn(true)
             setAccessToken(access)
             setRefreshToken(refresh)
@@ -95,7 +101,7 @@ export default function Index() {
   const updatePasswordError = useEffectWithoutFirstRun(validatePassword,[password])
 
   async function logOut(){
-    let response = fetch('http://localhost:8000/accounts/logout',
+    let response = fetch('https://houshbetesting.azurewebsites.net/accounts/logout',
           {
             method:'POST',
             mode:'cors',
@@ -113,9 +119,8 @@ export default function Index() {
           const {success, msg} = await response
           setIsSubmitting(false)
           if(success){
+            localStorage.removeItem("csrftoken")
             setIsLoggedIn(false)
-            setAccessToken('')
-            setRefreshToken('')
           }
           else{
             setErrorMessages(msg)

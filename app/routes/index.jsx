@@ -1,13 +1,9 @@
 import { useLoaderData } from "@remix-run/react";
-import CardTable from "~/components/CardTable";
+import TypeGroup from "~/components/Type-group";
 import Dropdown from "~/components/Dropdown";
-
-import HouseTitle from "~/components/HouseTitle";
+import FlorPlant from "~/components/FloorPlant";
 import Navbar from "~/components/Navbar/Navbar";
-import Slider from "~/components/slider"
-import HouseCard from "~/components/HouseCard"
-import HouseDescription from "~/components/HouseDescription"
-import HouseCharacteristics from "../components/HouseCharacteristics";
+import CardTable from "~/components/CardTable"
 
 
 export const loader = ({
@@ -24,10 +20,7 @@ export default function Index() {
 
   return (
     <div>
-      <Slider></Slider>
-      <HouseTitle></HouseTitle>
-      <HouseDescription></HouseDescription>
-      <HouseCharacteristics></HouseCharacteristics>
+       <CardTable></CardTable>
     </div>
   );
 }

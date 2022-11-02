@@ -29,7 +29,7 @@ import {
 import React, { useState, useCallback } from 'react'
 
 export default function (params) {
-    const [description] = params;
+    const {description} = params;
 
 
     return (
