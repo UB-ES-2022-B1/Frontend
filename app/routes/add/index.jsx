@@ -30,6 +30,9 @@ import AddPrice from '~/components/addPrice';
 import AddDescription from '~/components/addDescription';
 import Location from '../../components/Location';
 
+import { useLocalStorage } from '~/utils/localStorage'
+
+
 const Form1 = ({onChangeValue}) => {
   return(
     <TypeGroup onChangeValue={onChangeValue}></TypeGroup>
@@ -135,7 +138,7 @@ export default function multistep() {
       "smoke_detector": false,
       "health_kit": false
     }
-    let response = fetch('https://houshbe.azurewebsites.net/houses/register',
+    let response = fetch('https://houshbetesting.azurewebsites.net/houses/register',
           {
             method:'POST',
             mode:'cors',
@@ -182,7 +185,6 @@ export default function multistep() {
 
   return (
     <>
-    <form onSubmit={handleSubmit}>
       <Box
         borderWidth="1px"
         rounded="lg"
@@ -247,21 +249,21 @@ export default function multistep() {
                 colorScheme="red"
                 variant="solid"
                 isLoading={isSubmitting}
-                type='submit'>
+                type='submit'
+                onClick={handleSubmit}>
                 Submit
               </Button>
             ) : null}
           </Flex>
         </ButtonGroup>
       </Box>
-    </form>
-    {created?toast({
+    {/* {created?toast({
               title: `${ty} created.`,
               description: `Your ${ty} has been created.`,
               status: 'success',
               duration: 3000,
               isClosable: true,
-            }) :  null}
+            }) :  null} */}
     </>
   );
 }

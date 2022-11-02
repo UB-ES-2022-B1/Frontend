@@ -66,7 +66,7 @@ export default function Index() {
             setErrorMessages('Something went wrong')
           })
 
-          const {success, msg, refresh, access, token} = await response
+          const {success, msg, refresh, access} = await response
           // const {success, msg, token} = await response
           setIsSubmitting(false)
           if(success){
