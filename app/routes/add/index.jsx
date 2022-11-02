@@ -83,8 +83,12 @@ export default function multistep() {
   const [title, setTitle] = useState('');
   const [descript, setDes] = useState('');
   const [price, setPrice] = useState(50);
-  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessages,setErrorMessages] = useState('');
+  const [email,setEmail] = useLocalStorage('email',)
+
   const [location, setLocation] = useState("")
+  const [created, setCreated] = useState(false)
 
 
 	const totalSteps = 8
@@ -93,6 +97,74 @@ export default function multistep() {
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(100/totalSteps);
 
+  async function handleSubmit(event)
+  {
+    event.preventDefault();
+    setErrorMessages('')
+    setIsSubmitting(true)
+    console.log('Submitted')
+    let jsonData=
+    {
+      "title": title,
+      "owner": email,
+      "description":descript,
+      "location": location,
+      "base_price": price,
+      "extra_costs": "10",
+      "taxes": "4",
+      "num_hab": bedrooms,
+      "num_beds": beds,
+      "num_bathrooms": bathrooms,
+      "num_people": guests,
+      "company_individual": privacy,
+      "kitchen": true,
+      "swiming_pool": true,
+      "garden": true,
+      "billar_table": true,
+      "gym": true,
+      "TV": true,
+      "WIFI": true,
+      "dishwasher": true,
+      "washing_machine": true,
+      "air_conditioning": false,
+      "free_parking": false,
+      "spacious": false,
+      "central": false,
+      "quite": false,
+      "alarm": false,
+      "smoke_detector": false,
+      "health_kit": false
+    }
+    let response = fetch('https://houshbe.azurewebsites.net/houses/register',
+          {
+            method:'POST',
+            mode:'cors',
+            body: JSON.stringify(jsonData),
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          })
+          .then(response => response.json())
+          .catch((error)=>{
+            setIsSubmitting(false)
+            setErrorMessages('Something went wrong')
+          })
+
+          const {success, msg, id_house} = await response
+          setIsSubmitting(false)
+          if(success){
+            setCreated(true)
+          }
+          else{
+            setErrorMessages(msg)
+          }
+          
+    // else
+    // {
+    //   setErrorMessages("Please enter valid parameters")
+    //   setIsSubmitting(false)
+    // }
+  };
 
 	useEffect(()=>{
     console.log(ty)
@@ -110,6 +182,7 @@ export default function multistep() {
 
   return (
     <>
+    <form onSubmit={handleSubmit}>
       <Box
         borderWidth="1px"
         rounded="lg"
@@ -154,7 +227,7 @@ export default function multistep() {
               </Button>
               <Button
                 w="7rem"
-                isDisabled={step === totalSteps + 1}
+                isDisabled={step === totalSteps}
                 onClick={() => {
                   setStep(step + 1);
                   if (step === 9) {
@@ -173,21 +246,22 @@ export default function multistep() {
                 w="7rem"
                 colorScheme="red"
                 variant="solid"
-                onClick={() => {
-                  toast({
-                    title: `${ty} created.`,
-                    description: `Your ${ty} has been created.`,
-                    status: 'success',
-                    duration: 3000,
-                    isClosable: true,
-                  });
-                }}>
+                isLoading={isSubmitting}
+                type='submit'>
                 Submit
               </Button>
             ) : null}
           </Flex>
         </ButtonGroup>
       </Box>
+    </form>
+    {created?toast({
+              title: `${ty} created.`,
+              description: `Your ${ty} has been created.`,
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+            }) :  null}
     </>
   );
 }
