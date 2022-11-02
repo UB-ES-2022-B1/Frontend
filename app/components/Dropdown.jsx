@@ -26,7 +26,7 @@ export default function Dropdown() {
 
   return (
     <div className="Dropdown">
-      <Menubutton dropdownTitle="Usuario" image="https://e7.pngegg.com/pngimages/323/705/png-clipart-user-profile-get-em-cardiovascular-disease-zingah-avatar-miscellaneous-white.png" items={items} />
+      <Menubutton  dropdownTitle="Usuario" image="https://e7.pngegg.com/pngimages/323/705/png-clipart-user-profile-get-em-cardiovascular-disease-zingah-avatar-miscellaneous-white.png" items={items} />
     </div>
   );
 }

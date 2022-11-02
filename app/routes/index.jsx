@@ -1,7 +1,9 @@
 import { useLoaderData } from "@remix-run/react";
-import CardTable from "~/components/CardTable";
+import TypeGroup from "~/components/Type-group";
 import Dropdown from "~/components/Dropdown";
+import FlorPlant from "~/components/FloorPlant";
 import Navbar from "~/components/Navbar/Navbar";
+import CardTable from "~/components/CardTable"
 
 
 export const loader = ({
