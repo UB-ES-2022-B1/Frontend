@@ -15,8 +15,8 @@ export default function Dropdown() {
       anchor: "Log in"
     },
     {
-      slug: "/link3/",
-      anchor: "Ofrecer alojamiento"
+      slug: "/add/",
+      anchor: "Host your place"
     },
     {
       slug: "/profile/",
