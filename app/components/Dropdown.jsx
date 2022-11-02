@@ -17,6 +17,10 @@ export default function Dropdown() {
     {
       slug: "/add/",
       anchor: "Host your place"
+    },
+    {
+      slug: "/profile/",
+      anchor: "See profile"
     }
   ];
 
