@@ -49,7 +49,6 @@ export default function (params) {
             setTravelersText('travelers')
         }
     }
-    console.log(travelers)
 
 
     return (

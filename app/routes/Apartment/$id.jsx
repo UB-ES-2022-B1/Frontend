@@ -2,8 +2,8 @@ import HouseTitle from "~/components/HouseTitle";
 import Slider from "~/components/slider"
 import ReservationCard from "~/components/ReservationCard"
 import HouseDescription from "~/components/HouseDescription"
-import HouseCharacteristics from "~//components/HouseCharacteristics";
-import CapacidadApartamento from "~//components/CapacidadApartamento";
+import HouseCharacteristics from "~/components/HouseCharacteristics";
+import CapacidadApartamento from "~/components/capacidadApartamento";
 
 import {
     Flex,
@@ -19,13 +19,11 @@ import { useState } from "react";
 export const loader = async ({
     params,
 }) => {
-    console.log(params.id);
     return params;
 };
 
 export default function Index() {
     const params = useLoaderData();
-    console.log(params.id);
 
 
     const [kitchen, setKitchen] = useState('');
@@ -59,7 +57,7 @@ export default function Index() {
     const [extra_costs, setExtra_costs] = useState('');
 
 
-    const [inexistent, setInexistent] = useState('false')
+    const [inexistent, setInexistent] = useState(false)
 
     function componentsSet(res) {
         setTitle(res.title),
@@ -120,7 +118,7 @@ export default function Index() {
 
     return (
         <>
-            {!inexistent ? <h1>No house with this id</h1> :
+            {inexistent ? <h1>No house with this id</h1> :
                 <Box>
                     <HouseTitle
                         title={title}
