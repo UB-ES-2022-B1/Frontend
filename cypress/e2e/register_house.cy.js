@@ -34,5 +34,6 @@ describe("Register house", () => {
     cy.get("[role=button]").contains("-").click();
     cy.get("input[type='text']").clear().type("200");
     cy.get("form").submit();
+    cy.wait(5000);
   });
 });
