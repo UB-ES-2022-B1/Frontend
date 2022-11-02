@@ -18,7 +18,8 @@ export default function Index() {
   let ids = useLoaderData()
 
   return (
-      <Navbar></Navbar>
-      
+    <div>
+       <CardTable></CardTable>
+    </div>
   );
 }
