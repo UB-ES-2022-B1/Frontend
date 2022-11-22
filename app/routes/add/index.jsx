@@ -34,6 +34,7 @@ import Location from '../../components/Location';
 import { useLocalStorage } from '~/utils/localStorage'
 import ErrorMessage from '~/components/ErrorMessage'
 import { SERVER_DNS } from '~/utils/constants';
+import uploadImage from '~/utils/azureStorageBlob'
 
 
 
@@ -102,6 +103,7 @@ export default function multistep() {
 
 
 
+  //useEffect(()=>console.log(images),[images])
   const totalSteps = 8
 
   const [step, setStep] = useState(1);
@@ -111,6 +113,14 @@ export default function multistep() {
     event.preventDefault();
     setErrorMessages('')
     setIsSubmitting(true)
+
+    console.log(images)
+    //Upload images to server
+    let urls = images.map((i)=>{
+      let res = uploadImage(i.file)
+      console.log(res)
+    })
+
     let jsonData =
     {
       "title": title,
