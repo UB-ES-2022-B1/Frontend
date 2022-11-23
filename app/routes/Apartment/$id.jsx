@@ -128,47 +128,59 @@ export default function Index() {
 
                     <Slider></Slider>
 
-                    <HouseDescription
-                        description={description}
-                    ></HouseDescription>
-                    <CapacidadApartamento
-                        privacy={company_individual}
-                        ty=''
-                        guests={num_people}
-                        bedrooms={num_hab}
-                        beds={num_beds}
-                        bathrooms={num_bathrooms}
-                    ></CapacidadApartamento>
-                    <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
+                    <Box marginTop={8}>
+                    <Flex width="full"  justifyContent="center">
+                        <Box marginRight={20}>
+                            <CapacidadApartamento
+                                privacy={company_individual}
+                                ty=''
+                                guests={num_people}
+                                bedrooms={num_hab}
+                                beds={num_beds}
+                                bathrooms={num_bathrooms}
+                            ></CapacidadApartamento>
+
+                            <Divider marginTop={5} marginBottom={5}></Divider>
+
+                            <HouseDescription
+                                description={description}
+                            ></HouseDescription>
+
+                            <Divider marginTop={5} marginBottom={5}></Divider>
+
+                            <HouseCharacteristics
+                                Kitchen={kitchen}
+                                swimming={swimming_pool}
+                                garden={garden}
+                                pooltable={billar_table}
+                                gym={gym}
+                                tv={TV}
+                                wifi={WIFI}
+                                washingMachine={washing_machine}
+                                dishwasher={dishwasher}
+                                aireAcond={air_conditioning}
+                                parking={free_parking}
+                                spacious={spacious}
+                                central={central}
+                                calmed={quite}
+                                Alarm={alarm}
+                                botiquin={health_kit}
+                                smokeDetector={smoke_detector}
+                            ></HouseCharacteristics>
+                        </Box>
+                        <Box>
+                            <ReservationCard
+                                moneyDay={base_price}
+                                taxes={taxes}
+                                extra={extra_costs}
+                            ></ReservationCard>
+                        </Box>
 
 
 
-                        <HouseCharacteristics
-                            Kitchen={kitchen}
-                            swimming={swimming_pool}
-                            garden={garden}
-                            pooltable={billar_table}
-                            gym={gym}
-                            tv={TV}
-                            wifi={WIFI}
-                            washingMachine={washing_machine}
-                            dishwasher={dishwasher}
-                            aireAcond={air_conditioning}
-                            parking={free_parking}
-                            spacious={spacious}
-                            central={central}
-                            calmed={quite}
-                            Alarm={alarm}
-                            botiquin={health_kit}
-                            smokeDetector={smoke_detector}
-                        ></HouseCharacteristics>
 
-                        <ReservationCard
-                            moneyDay={base_price}
-                            taxes={taxes}
-                            extra={extra_costs}
-                        ></ReservationCard>
                     </Flex>
+                    </Box>
                 </Box>}
         </>
     );
