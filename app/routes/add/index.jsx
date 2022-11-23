@@ -100,7 +100,7 @@ export default function multistep() {
   const [houseId, setHouseId] = useState('1');
 
 
-
+  const [token, setToken] = useLocalStorage('access_token','')
 
   const totalSteps = 8
 
@@ -149,6 +149,7 @@ export default function multistep() {
         mode: 'cors',
         body: JSON.stringify(jsonData),
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         }
       })
