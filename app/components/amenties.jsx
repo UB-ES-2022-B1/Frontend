@@ -6,10 +6,12 @@ import {
     Text,
     Heading,
 } from '@chakra-ui/react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
-export default function TypeGroup() {
+export default function Amenties(props) {
+    const { onChangeValue } = props
+
     const [kitchen, setkitchen] = useState(false);
     const [swiming_pool, setswiming_pool] = useState(false);
     const [garden, setgarden] = useState(false);
@@ -28,13 +30,7 @@ export default function TypeGroup() {
     const [smoke_detector, setsmoke_detector] = useState(false);
     const [health_kit, sethealth_kit] = useState(false);
 
-    console.log(kitchen);
-
-
-    const [active, setActive] = useState(false);
-    const handleClick = () => {
-        setActive(!active);
-    };
+    useEffect(() => onChangeValue({ kitchen, smoke_detector, health_kit, swiming_pool, garden, billar_table, gym, spacious, TV, free_parking, air_conditioning, washing_machine, dishwasher, WIFII, central, quite, alarm }), [kitchen, smoke_detector, health_kit, swiming_pool, garden, billar_table, gym, spacious, TV, free_parking, air_conditioning, washing_machine, dishwasher, WIFII, central, quite, alarm])
 
     return (
         <Flex width="700px" align="center" justifyContent="center" padding={"20px"} >
@@ -46,12 +42,12 @@ export default function TypeGroup() {
                     <Text marginY='25px'>You will be able to add more services after posting the ad</Text>
                 </Box>
                 <Box>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: WIFII ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setWIFII(!WIFII) }} >WIFII</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: TV ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setTV(!TV) }} >TV</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: kitchen ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setkitchen(!kitchen) }} >Kitchen</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: washing_machine ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setwashing_machine(!washing_machine) }} >Washing machine</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: free_parking ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setfree_parking(!free_parking) }} >Free parking</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: air_conditioning ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setair_conditioning(!air_conditioning) }} >Air conditioning</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: WIFII ? "#d6d6d6" : "white" }} onClick={() => {  setWIFII(!WIFII) }} >WIFII</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: TV ? "#d6d6d6" : "white" }} onClick={() => {  setTV(!TV) }} >TV</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: kitchen ? "#d6d6d6" : "white" }} onClick={() => {  setkitchen(!kitchen) }} >Kitchen</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: washing_machine ? "#d6d6d6" : "white" }} onClick={() => { setwashing_machine(!washing_machine) }} >Washing machine</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: free_parking ? "#d6d6d6" : "white" }} onClick={() => { setfree_parking(!free_parking) }} >Free parking</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: air_conditioning ? "#d6d6d6" : "white" }} onClick={() => { setair_conditioning(!air_conditioning) }} >Air conditioning</Button>
                 </Box>
                 <Box >
                     <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: 'lg', md: 'lg' }}>
@@ -59,23 +55,23 @@ export default function TypeGroup() {
                     </Heading>
                 </Box>
                 <Box>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: swiming_pool ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setswiming_pool(!swiming_pool) }} >Swiming Pool</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: garden ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setgarden(!garden) }} >Garden</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: billar_table ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setbillar_table(!billar_table) }} >Billar table</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: gym ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setgym(!gym) }} >GYM</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: spacious ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setspacious(!spacious) }} >Spacious</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: dishwasher ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setdishwasher(!dishwasher) }} >Dishwasher</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: central ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setcentral(!central) }} >Central</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: quite ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setquite(!quite) }} >Quite</Button>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: alarm ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setalarm(!alarm) }} >Alarm</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: swiming_pool ? "#d6d6d6" : "white" }} onClick={() => { setswiming_pool(!swiming_pool) }} >Swiming Pool</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: garden ? "#d6d6d6" : "white" }} onClick={() => { setgarden(!garden) }} >Garden</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: billar_table ? "#d6d6d6" : "white" }} onClick={() => { setbillar_table(!billar_table) }} >Billar table</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: gym ? "#d6d6d6" : "white" }} onClick={() => { setgym(!gym) }} >GYM</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: spacious ? "#d6d6d6" : "white" }} onClick={() => { setspacious(!spacious) }} >Spacious</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: dishwasher ? "#d6d6d6" : "white" }} onClick={() => { setdishwasher(!dishwasher) }} >Dishwasher</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: central ? "#d6d6d6" : "white" }} onClick={() => { setcentral(!central) }} >Central</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: quite ? "#d6d6d6" : "white" }} onClick={() => { setquite(!quite) }} >Quite</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: alarm ? "#d6d6d6" : "white" }} onClick={() => { setalarm(!alarm) }} >Alarm</Button>
                     <Box >
                         <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: 'lg', md: 'lg' }}>
                             Do you have any of these security items?
                         </Heading>
                     </Box>
                     <Box >
-                        <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: smoke_detector ? "#d6d6d6" : "white" }} onClick={() => { handleClick; setsmoke_detector(!smoke_detector) }} >Smoke detector</Button>
-                        <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: health_kit ? "#d6d6d6" : "white" }} onClick={() => { handleClick; sethealth_kit(!health_kit) }} >Healh kit</Button>
+                        <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: smoke_detector ? "#d6d6d6" : "white" }} onClick={() => { setsmoke_detector(!smoke_detector) }} >Smoke detector</Button>
+                        <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: health_kit ? "#d6d6d6" : "white" }} onClick={() => { sethealth_kit(!health_kit) }} >Healh kit</Button>
                     </Box>
                 </Box>
             </Box>
