@@ -13,19 +13,32 @@ import {
     Flex,
     Box,
     Spacer,
-    Text,
     IconButton,
-    Divider,
     Center,
 } from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
-
-import Contador from './Contador';
+import { useState } from 'react';
 import Dropdown from "~/components/Dropdown";
 
 
 export default function (params) {
+    const [dateStart, setDateStart] = useState("")
+    const [dateEnd, setDateEnd] = useState("")
+    const [people, setPeople] = useState(0)
+    const [location, setLocation] = useState("")
+    
+    const decrease = () => {
+        setPeople(people - 1);
+    }
 
+    const increase = () => {
+        setPeople(people + 1);
+    }
+
+    console.log(dateEnd);
+    console.log(dateStart);
+    console.log(people);
+    console.log(location);
     return (
         <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
             <div align="left">
@@ -48,9 +61,7 @@ export default function (params) {
                                         <PopoverHeader>Where?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
-
-                                            <Input placeholder='Destiny' />
-
+                                            <Input placeholder='Destiny' onChange={(e) => setLocation(e.target.value)} />
                                         </PopoverBody>
                                     </PopoverContent>
                                 </Portal>
@@ -66,7 +77,7 @@ export default function (params) {
                                         <PopoverHeader>When?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
-                                            <Input type='date' />
+                                            <Input type='date' onChange={(e) => setDateStart(e.target.value)} />
                                         </PopoverBody>
                                     </PopoverContent>
                                 </Portal>
@@ -82,7 +93,7 @@ export default function (params) {
                                         <PopoverHeader>When?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
-                                            <Input type='date' />
+                                            <Input type='date' onChange={(e) => setDateEnd(e.target.value)} />
                                         </PopoverBody>
                                     </PopoverContent>
                                 </Portal>
@@ -98,7 +109,11 @@ export default function (params) {
                                         <PopoverHeader>How many?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
-                                            <Contador />
+                                            <Flex>
+                                                <Button variant='outline' borderRadius={40} disabled={people <= 1} onClick={decrease}>-</Button>{' '}
+                                                <Button variant='ghost' disabled={true}>{people}</Button>
+                                                <Button variant='outline' borderRadius={40} disabled={people > 16} onClick={increase}>+</Button>{' '}
+                                            </Flex>
 
                                         </PopoverBody>
                                     </PopoverContent>
