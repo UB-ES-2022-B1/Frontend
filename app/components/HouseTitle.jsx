@@ -52,7 +52,7 @@ export default function (params) {
         <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
             <Box p='3' >
                 <Box>
-                    <Text fontSize='3xl'>
+                    <Text fontSize='3xl' as='b' >
                         {title}
                     </Text>
                 </Box>
@@ -75,7 +75,7 @@ export default function (params) {
                         </Portal>
                     </Popover>
 
-                    <ButtonGroup variant='outline' spacing='1' >
+                    <ButtonGroup variant='outline' spacing='1' marginLeft={500}>
                         <Popover>
                             <PopoverTrigger>
                                 <Button variant='ghost' aria-label='Compartir' leftIcon={<ExternalLinkIcon />}>

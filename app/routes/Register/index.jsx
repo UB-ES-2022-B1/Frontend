@@ -24,6 +24,7 @@ import {
   InputLeftElement, 
   InputRightElement 
 } from '@chakra-ui/react'
+import { SERVER_DNS } from "~/utils/constants";
 const pattern =  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 const phonePattern = {
   'US': {
@@ -161,7 +162,7 @@ export default function Index() {
       setIsSubmitting(true)
       console.log('Submitted')
       let jsonData = { "email": email, "password": password, "name": nom, "surname": cognoms, "phone": `${prefix}${telefon}`, "birthdate": data, "country": pais }
-      let response = fetch(`http://https://houshbe.azurewebsites.net/accounts/register`,
+      let response = fetch(`${SERVER_DNS}/accounts/register`,
         {
           method: 'POST',
           mode: 'cors',
