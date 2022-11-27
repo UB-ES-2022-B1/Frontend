@@ -60,7 +60,7 @@ export default function (params) {
                     <Popover>
                         <PopoverTrigger>
                             <Button variant='link'>
-                                <Text as='u' frontSize='s' color='black'>{location}</Text>
+                                <Text as='u' fontSize='s' color='black'>{location}</Text>
                             </Button>
                         </PopoverTrigger>
                         <Portal>

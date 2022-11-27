@@ -1,21 +1,20 @@
 import { useLoaderData } from "@remix-run/react";
-import SimpleImageSlider from "react-simple-image-slider";
 import example2 from '~/assets/example2.webp'
+import Slider from "~/components/slider"
 
 export const houseLoader = (id) => 
 {
     return (
         {
             images: [
-                { url: "https://www.w3schools.com/howto/img_nature_wide.jpg" },
-                { url: example2 },
+                "https://www.w3schools.com/howto/img_nature_wide.jpg",
+                example2
             ],
             location: 'Castelldefels, España',
             sublocation: 'Playa de Castelldefels',
             dates:'12-17 oct',
             price:'285€'
         }
-
     )
     // return json(
     //   await fakeDb.project.findMany(
@@ -41,13 +40,10 @@ export default function(params)
     return (
     <div className="housecard">
         <div>
-            <SimpleImageSlider
-                width={200}
-                height={200}
+            <Slider
+                width={'250px'}
+                height={'250px'}
                 images={house.images}
-                showNavs={true}
-                navSize ={25}
-                navMargin={5}
             />
         </div>
         <div>

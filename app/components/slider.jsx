@@ -8,28 +8,66 @@ import Images from '../exports/images';
 import { Image } from '@chakra-ui/react';
 
 
-const settings = {
-  dots: true,
-  arrows: false,
-  fade: true,
-  infinite: true,
-  autoplay: true,
-  speed: 500,
-  autoplaySpeed: 5000,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
 
-export default function slider() {
+function NextArrow(props){
+  if(!props.infinite && props.currentSlide >= props.slideCount-1){
+    return
+  }
+  return <IconButton
+  aria-label="right-arrow"
+  borderRadius="full"
+  position="absolute"
+  right={{ base: '30%', md: '10px' }}
+  top={{ base: '90%', md: '50%' }}
+  transform={'translate(0%, -50%)'}
+  zIndex={2}
+  onClick={props.onClick}>
+  <BiRightArrowAlt />
+</IconButton>
+}
+function PrevArrow(props)
+{
+if(!props.infinite && props.currentSlide <= 0){
+  return
+}
+return <IconButton
+aria-label="left-arrow"
+borderRadius="full"
+position="absolute"
+left={{ base: '30%', md: '10px' }}
+top={{ base: '90%', md: '50%' }}
+transform={'translate(0%, -50%)'}
+zIndex={2}
+onClick={props.onClick}>
+<BiLeftArrowAlt />
+</IconButton>
+}
 
+
+
+export default function slider({height='530px',width='800px',hover=false,infinite=true, images=Images}) {
   const [slider, setSlider] = React.useState('');
+
+  const settings = {
+    dots: true,
+    arrows: true,
+    fade: true,
+    infinite: infinite,
+    autoplay: false,
+    speed: 500,
+    autoplaySpeed: 5000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    nextArrow:<NextArrow infinite={infinite}></NextArrow>,
+    prevArrow:<PrevArrow infinite={infinite}></PrevArrow>
+  };
 
   const top = useBreakpointValue({ base: '90%', md: '50%' });
   const side = useBreakpointValue({ base: '30%', md: '10px' });
 
   return (
     <Flex justifyContent="center" >
-      <Box height={'530px'} width={'800px'} overflow='hidden' alignItems='center' position='relative'>
+      <Box height={height} width={width} overflow='hidden' alignItems='center' position='relative'>
         { }
         <link
           rel="stylesheet"
@@ -43,7 +81,7 @@ export default function slider() {
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
         />
         { }
-        <IconButton
+        {/* <IconButton
           aria-label="left-arrow"
           borderRadius="full"
           position="absolute"
@@ -66,15 +104,18 @@ export default function slider() {
           onClick={() => slider?.slickNext()}>
           <BiRightArrowAlt />
         </IconButton>
-        { }
+        { } */}
 
         <Slider {...settings} ref={(slider) => setSlider(slider)}>
-          {Images.map((url, index) => (
+          {images.map((url, index) => (
             <Box
-              key={index}
+              //key={index}
               position="relative">
               <Image src={url} borderRadius={30} position="relative" fit='scale-down' boxSize="100%"></Image>
             </Box>
+            // <Box boxSize='sm'>
+            //   <Image src={url} position="relative" fit='fill'></Image>
+            // </Box>
           ))}
         </Slider>
       </Box>
