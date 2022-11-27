@@ -1,34 +1,48 @@
 
-import { ACCESS_TOKEN_EXPIRE_TIME } from "~/utils/constants";
+import { ACCESS_TOKEN_EXPIRE_TIME, SERVER_DNS } from "~/utils/constants";
 import Cookies from 'js-cookie'
 
-export const getAccessToken = () => Cookies.get('access_token')
-export const getRefreshToken = () => Cookies.get('refresh_token')
-export const isAuthenticated = () => {
-  console.log(getAccessToken())
-  let access = getAccessToken()
+export async function getAccessToken()
+{ 
+  console.log('getaccestoken called')
+  const refresh = getCookie('refresh_token')
+  if(!refresh.valid){
+    throw new Error("Not logged in")
+  }
+  const access = getCookie('access_token')
+  if(access.valid){
+    return Cookies.get('access_token')
+  }
+  else{
+    const response = fetch(`${SERVER_DNS}/accounts/refresh-token`,
+    {
+      method:'POST',
+      mode:'cors',
+      // credentials: "include",
+      body: JSON.stringify({'refresh':refresh.value}),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .catch(e=>{throw new Error("Unknown error")})
+
+    const {access} = await response
+    const expires = new Date(new Date().getTime() + ACCESS_TOKEN_EXPIRE_TIME)
+    Cookies.set('access_token', access, { expires: expires, sameSite: 'Lax' })
+    return access
+  }
+}
+
+export const getRefreshToken = () =>{ return Cookies.get('refresh_token') }
+export async function isAuthenticated(){
+  let access = await getAccessToken().catch(e=>{return undefined})
+
   return  access !== 'undefined' && typeof access !== 'undefined'
 }
 
-
-export const authenticate = async (redirectedLink,) => {
-  if (getRefreshToken()) {
-    try {
-      const tokens = await refreshTokens() // check if access still valid
-
-      const expires = new Date(new Date().getTime() + ACCESS_TOKEN_EXPIRE_TIME)
-
-      // you will have the exact same setters in your Login page/app too
-      Cookies.set('access_token', tokens.access_token, { expires: expires })
-      Cookies.set('refresh_token', tokens.refresh_token)
-
-      return true
-    } catch (error) {
-      redirectToLogin()
-      return false
-    }
-  }
-
-  redirectToLogin()
-  return false
+export function getCookie(name){
+  let value = Cookies.get(name)
+  //console.log('cokkie',name,value)
+  return {'value':value, 'valid':(value !== 'undefined' && typeof value !== 'undefined')}
 }

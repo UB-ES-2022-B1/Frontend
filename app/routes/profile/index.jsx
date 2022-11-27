@@ -15,6 +15,7 @@ import { useLocalStorage } from '~/utils/localStorage'
 import { useLoaderData } from "@remix-run/react";
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun';
 import { SERVER_DNS } from "~/utils/constants";
+import { getAccessToken } from '~/session';
 
 export default function Index() {
   const [products, setProducts] = useState('');
@@ -35,13 +36,14 @@ export default function Index() {
       setData(res.birthdate)
   }
   useEffect(async () => {
-
+    let token = await getAccessToken()
     let jsonData = { "email": email }
     let response = fetch(`${SERVER_DNS}/accounts/get-profile`, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify(jsonData),
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       }
     })
@@ -54,8 +56,7 @@ export default function Index() {
       });
     response = await response;
     setProducts(response.msg);
-  },[]
-  )
+  },[])
   useEffectWithoutFirstRun(() => componentDidMount(products), [products])
 
   return (

@@ -26,7 +26,11 @@ const validate = (value) => {
   return value != ''
 }
 
-
+// export async function loader({request})
+// {
+//   const isLoggedIn = await isAuthenticated()
+//   return{isLoggedIn}
+// }
 
 export default function Index() {
   const [show, setShow] = useState(false)
@@ -37,7 +41,8 @@ export default function Index() {
   const [passwordError, setPasswordError] = useState(false)
   const [errorMessages, setErrorMessages] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(isAuthenticated())
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  useEffect(()=>{isAuthenticated().then(res => setIsLoggedIn(res))},[])
 
   async function handleSubmit(event){
     event.preventDefault();
@@ -72,8 +77,8 @@ export default function Index() {
             //localStorage.setItem('csrftoken',token)
             setIsLoggedIn(true)
             const expires = new Date(new Date().getTime() + ACCESS_TOKEN_EXPIRE_TIME)
-            Cookies.set('access_token', access, { expires: expires })
-            Cookies.set('refresh_token', refresh)
+            Cookies.set('access_token', access, { expires: expires, sameSite: 'Lax'})
+            Cookies.set('refresh_token', refresh, {sameSite: 'Lax'})
           }
           else{
             setErrorMessages(msg)
@@ -103,12 +108,14 @@ export default function Index() {
   const updatePasswordError = useEffectWithoutFirstRun(validatePassword,[password])
 
   async function logOut(){
+    let access = await getAccessToken()
     let response = fetch(`${SERVER_DNS}/accounts/logout`,
           {
             method:'POST',
             mode:'cors',
-            body:{'access':getAccessToken(),'refresh':getRefreshToken()},
+            body:{'access':access,'refresh':getRefreshToken()},
             headers: {
+              'Authorization': `Bearer ${access}`,
               'Content-Type': 'application/json',
             }
           })
@@ -121,8 +128,8 @@ export default function Index() {
           const {success, msg} = await response
           setIsSubmitting(false)
           if(success){
-            Cookies.set('access_token')
-            Cookies.set('refresh_token')
+            Cookies.remove('access_token')
+            Cookies.remove('refresh_token')
             setIsLoggedIn(false)
           }
           else{

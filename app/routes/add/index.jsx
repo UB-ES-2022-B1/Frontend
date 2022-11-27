@@ -34,6 +34,7 @@ import Location from '../../components/Location';
 import { useLocalStorage } from '~/utils/localStorage'
 import ErrorMessage from '~/components/ErrorMessage'
 import { SERVER_DNS } from '~/utils/constants';
+import { getAccessToken } from '~/session';
 
 
 
@@ -90,7 +91,7 @@ export default function multistep() {
   const [title, setTitle] = useState('');
   const [descript, setDes] = useState('');
   const [price, setPrice] = useState(50);
-  const [email, setEmail] = useLocalStorage('email',)
+  const [email, setEmail] = useLocalStorage('email','')
   const [houseLocation, setLocation] = useState("")
 
 
@@ -101,6 +102,7 @@ export default function multistep() {
 
 
   const [token, setToken] = useLocalStorage('access_token','')
+  useEffect(()=>getAccessToken().then(res=>setToken(res)),[])
 
   const totalSteps = 8
 
