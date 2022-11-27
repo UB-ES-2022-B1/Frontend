@@ -110,22 +110,22 @@ describe("Fix Navbar", () => {
 
         cy.visit("https://test-dev--housh.netlify.app");
         cy.get("*[class='dropdown_activator']").click()
-        cy.get("*[class='item_list']").children().contains("Register").click()
+        cy.get("*[class='item_list']").children().contains("Register").click({force:true})
         cy.url().should('eq', 'https://test-dev--housh.netlify.app/register/')
 
         cy.visit("https://test-dev--housh.netlify.app");
         cy.get("*[class='dropdown_activator']").click()
-        cy.get("*[class='item_list']").children().contains("Log in").click()
+        cy.get("*[class='item_list']").children().contains("Log in").click({force:true})
         cy.url().should('eq', 'https://test-dev--housh.netlify.app/login/')
 
         cy.visit("https://test-dev--housh.netlify.app");
         cy.get("*[class='dropdown_activator']").click()
-        cy.get("*[class='item_list']").children().contains("Host your place").click()
+        cy.get("*[class='item_list']").children().contains("Host your place").click({force:true})
         cy.url().should('eq', 'https://test-dev--housh.netlify.app/add/')
 
         cy.visit("https://test-dev--housh.netlify.app");
         cy.get("*[class='dropdown_activator']").click()
-        cy.get("*[class='item_list']").children().contains("See profile").click()
+        cy.get("*[class='item_list']").children().contains("See profile").click({force:true})
         cy.url().should('eq', 'https://test-dev--housh.netlify.app/profile/')
     });
 });
