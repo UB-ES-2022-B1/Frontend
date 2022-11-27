@@ -37,25 +37,25 @@ describe("Login after 4 attempts", () => {
     cy.get("input[type='email']").type("cypress@cypressauto.com");
     cy.get("input[type='password']").type("falso");
     cy.get("form").submit();
-
+    cy.wait(2000)
     cy.get("*[role='alert']").should("exist").contains("Wrong password")
 
     cy.get("input[type='email']").clear().type("cypress@cypressauto.com");
     cy.get("input[type='password']").clear().type("falso");
     cy.get("form").submit();
-
+    cy.wait(2000)
     cy.get("*[role='alert']").should("exist").contains("Wrong password")
 
     cy.get("input[type='email']").clear().type("cypress@cypressauto.com");
     cy.get("input[type='password']").clear().type("falso");
     cy.get("form").submit();
-
+    cy.wait(2000)
     cy.get("*[role='alert']").should("exist").contains("Wrong password")
 
     cy.get("input[type='email']").clear().type("cypress@cypressauto.com");
     cy.get("input[type='password']").clear().type("falso");
     cy.get("form").submit();
-
+    cy.wait(2000)
     cy.get("*[role='alert']").should("exist").contains("Wrong password")
 
     cy.get("input[type='email']").clear().type("cypress@cypressauto.com");
