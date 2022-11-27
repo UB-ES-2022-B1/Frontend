@@ -1,7 +1,10 @@
 describe("get-profile", () => {
     beforeEach(() => {
     // runs before each test in the block
-        cy.visit("https://test-dev--housh.netlify.app/profile/");
+    cy.clearCookies();
+    cy.visit("https://test-dev--housh.netlify.app");
+    cy.get("*[class='dropdown_activator']").click()
+    cy.get("*[class='item_list']").children().contains("See profile").click({force:true})
   })
   it("doesn't get info", function () {
     cy.get("[class='chakra-text css-0']").contains('Legal name').siblings().should((elem) => {
@@ -17,7 +20,8 @@ describe("get-profile", () => {
 
     cy.visit("https://test-dev--housh.netlify.app");
     cy.get("*[class='dropdown_activator']").click()
-    cy.get("*[class='item_list']").children().contains("See profile").click()
+    cy.get("*[class='item_list']").children().contains("See profile").click({force:true})
+
     cy.url().should('eq', 'https://test-dev--housh.netlify.app/profile/')
 
     cy.get("[class='chakra-text css-0']").contains('Legal name').siblings().should((elem) => {
