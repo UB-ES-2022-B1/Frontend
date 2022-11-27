@@ -15,7 +15,7 @@ describe("Login and Logout", () => {
     cy.get("button[type='button']").contains("Home").should("exist").click({force:true});
 
     cy.get("*[class='dropdown_activator']").click()
-    cy.get("*[class='item_list']").children().contains("See profile").click()
+    cy.get("*[class='item_list']").children().contains("See profile").click({force:true})
 
     cy.get("[class='chakra-text css-0']").contains('Email address').siblings().should((elem) => {
       expect(elem.text()).to.equal('cypress@cypressauto.com');
