@@ -12,7 +12,7 @@ describe("Login and Logout", () => {
     cy.get("input[type='password']").type("CypressTesting$1");
     cy.get("form").submit();
     cy.wait(5000)
-    cy.get("button[type='button']").contains("Home").should("exist").click();
+    cy.get("button[type='button']").contains("Home").should("exist").click({force:true});
 
     cy.get("*[class='dropdown_activator']").click()
     cy.get("*[class='item_list']").children().contains("See profile").click()
