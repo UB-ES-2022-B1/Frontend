@@ -34,15 +34,15 @@ export default function (params) {
     const { privacy, ty, guests, beds, bedrooms, bathrooms } = params;
 
     return (
-<Flex width="full" align="center" justifyContent="center" padding={"20px"} >
-        <Box p='3' >
-            <Text>
-                {privacy}, {ty}
-            </Text>
-            <Text fontSize='xs'>
-                {guests} guests · {bedrooms} bedrooms · {beds} beds · {bathrooms} bathrooms
-            </Text>
-        </Box>
+        <Flex width="full">
+            <Box>
+                <Text as='b' fontSize='2xl'>
+                    {privacy}: {ty}
+                </Text>
+                <Text fontSize='s'>
+                    {guests} guests · {bedrooms} bedrooms · {beds} beds · {bathrooms} bathrooms
+                </Text>
+            </Box>
         </Flex>
     )
 }

@@ -8,52 +8,42 @@ import { getCountries, getCountryCallingCode } from 'react-phone-number-input/in
 import en from 'react-phone-number-input/locale/en.json'
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 import React from 'react';
-import {Text} from '@chakra-ui/react'
+import { Text } from '@chakra-ui/react'
 import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Select,
+  Heading,
   Flex,
   Box,
-  Heading,
-  Input, 
-  Button, 
-  InputGroup, 
-  InputLeftElement, 
-  InputRightElement 
+  Input,
 } from '@chakra-ui/react'
 
-export default function addDescription(params){
-const [textArea, setTextAreaCount] = React.useState('');
-    const [textError, settextError] = useState(false);
-    const {onChangeValue} = params
+export default function addDescription(params) {
+  const [textArea, setTextAreaCount] = React.useState('');
+  const [textError, settextError] = useState(false);
+  const { onChangeValue } = params
 
-    useEffect(()=>onChangeValue({'descript':textArea}),[textArea])
-                
-    
-  return(
-    <div className="register-form">
-        <Flex width="full" align="center" justifyContent="center" padding={"80px"}>
-            <Box p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg">
-            <Box textAlign="center">
-                <Heading>{'WRITE YOUR DESCRIPTION'}</Heading>
-            </Box>
-                <Box my={4} textAlign="left">
-                
-                
-                    <FormLabel>Write your description</FormLabel>
-                    
-                    <Input type='txt'rows="3" value={textArea} cols="30" autocomplete="off" placeholder="Enjoy the comfort of this accommodation and have a great time..." onChange={(e) => { setTextAreaCount(e.target.value) }}></Input>
-                    
-                    
-                    
-                  
-                </Box>
-                
-            </Box>
-        </Flex>
-    </div>
+  useEffect(() => onChangeValue({ 'descript': textArea }), [textArea])
+
+
+  return (
+    <Flex width="full" align="center" justifyContent="center" padding={"80px"}>
+      <Box p={8}>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Write a description
+          </Heading>
+          <Text marginY='25px'>The description of your advertisement must reveal particular characteristics of your accommodation</Text>
+        </Box>
+        <Box my={4} >
+          <Input
+            height='150px'
+            type='txt'
+            width="full"
+            value={textArea}
+            placeholder="Enjoy the comfort of this accommodation and have a great time..."
+            onChange={(e) => { setTextAreaCount(e.target.value) }}
+          ></Input>
+        </Box>
+      </Box>
+    </Flex>
   )
 }
