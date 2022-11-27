@@ -1,10 +1,10 @@
-describe("Fix Navbar", () => {
+describe("Navbar", () => {
     beforeEach(() => {
     // runs before each test in the block
         cy.visit("https://test-dev--housh.netlify.app/login/");
         cy.clearCookies()
     })
-    it("Can login through the UI", function () {
+    it("Check if Navbar exists everywhere", function () {
         cy.get("input[type='email']").type("cypress@cypressauto.com");
         cy.get("input[type='password']").type("CypressTesting$1");
         cy.get("form").submit();
@@ -69,7 +69,7 @@ describe("Fix Navbar", () => {
         cy.get("div[align='left']").should("exist")
     });
 
-    it("Click on image goes to principal page", function () {
+    it("Click on logo goes to principal page", function () {
         cy.visit("https://test-dev--housh.netlify.app/add/");
         cy.get("div[align='left']").should("exist").click()
         cy.wait(2000)
@@ -101,7 +101,7 @@ describe("Fix Navbar", () => {
         cy.url().should('eq', 'https://test-dev--housh.netlify.app/')
     });
 
-    it("Click on image goes to principal page", function () {
+    it("Click on dropdown items goes to their pages", function () {
         cy.get("input[type='email']").type("cypress@cypressauto.com");
         cy.get("input[type='password']").type("CypressTesting$1");
         cy.get("form").submit();

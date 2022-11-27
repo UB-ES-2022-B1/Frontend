@@ -33,9 +33,9 @@ describe("Register acc", () => {
   });
 });
 
-describe("Fail Register acc", () => {
+describe("Register Fail", () => {
 
-  it("Fail Register through the UI", function () {
+  it("Fail Register through the UI and check if all the requirements are displayed", function () {
 
     function makeid(length) {
         var result           = '';
