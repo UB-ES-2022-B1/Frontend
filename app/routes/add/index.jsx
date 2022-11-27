@@ -123,8 +123,6 @@ export default function multistep() {
   const [health_kit, sethealth_kit] = useState(false);
 
 
-  const [token, setToken] = useLocalStorage('access_token','')
-  useEffect(()=>getAccessToken().then(res=>setToken(res)),[])
   const totalSteps = 9
 
   const [step, setStep] = useState(1);
@@ -134,6 +132,7 @@ export default function multistep() {
     event.preventDefault();
     setErrorMessages('')
     setIsSubmitting(true)
+    let token = await getAccessToken()
     let jsonData =
     {
       "title": title,
