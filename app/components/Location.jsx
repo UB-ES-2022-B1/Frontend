@@ -69,7 +69,1087 @@ export default function Location(props) {
             onChange={(e) => setCodi_postal(e.target.value)}
           />
         </FormControl>
-        <Text marginTop='25px'>Estra:</Text>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
+        <FormControl id="extra">
+          <Input
+            placeholder="2n,1"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setExtra(e.target.value)}
+          />
+        </FormControl>
+      </Box>
+      <Box>
+        <Box >
+          <Heading marginY='25px' lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+            Where is your accommodation located?
+          </Heading>
+          <Text marginY='25px'>We will only share the address with guests after they have made the reservation.</Text>
+        </Box>
+
+        <Text marginTop='25px'>Province:</Text>
+        <FormControl id="provincia">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setProvincia(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Street:</Text>
+        <FormControl id="carrer">
+          <Input 
+            placeholder="C/ Gran Via de les Corts Catalanes, 585"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCarrer(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>City:</Text>
+        <FormControl id="ciutat">
+          <Input
+            placeholder="Barcelona"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCiutat(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>CP::</Text>
+        <FormControl id="codiPostal">
+          <Input
+            placeholder="12345"
+            _placeholder={{ color: 'gray.500' }}
+            type="text"
+            onChange={(e) => setCodi_postal(e.target.value)}
+          />
+        </FormControl>
+        <Text marginTop='25px'>Extra:</Text>
         <FormControl id="extra">
           <Input
             placeholder="2n,1"
