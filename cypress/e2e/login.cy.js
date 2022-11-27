@@ -8,7 +8,7 @@ describe("Login and Logout", () => {
     cy.get("input[type='email']").type("cypress@cypressauto.com");
     cy.get("input[type='password']").type("CypressTesting$1");
     cy.get("form").submit();
-    cy.wait(2000)
+    cy.wait(5000)
     cy.get("button[type='button']").contains("Sign out").should("exist").click();
   });
 });
@@ -48,7 +48,7 @@ describe("Login after 4 attempts", () => {
     cy.get("input[type='email']").clear().type("cypress@cypressauto.com");
     cy.get("input[type='password']").clear().type("CypressTesting$1");
     cy.get("form").submit();
-    cy.wait(2000)
+    cy.wait(5000)
     cy.get("button[type='button']").contains("Sign out").should("exist").click();
   });
 });
