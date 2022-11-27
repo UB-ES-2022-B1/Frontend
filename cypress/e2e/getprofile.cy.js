@@ -15,7 +15,11 @@ describe("get-profile", () => {
     cy.get("input[type='password']").type("CypressTesting$1");
     cy.get("form").submit();
 
-    cy.visit("https://test-dev--housh.netlify.app/profile/");
+    cy.visit("https://test-dev--housh.netlify.app");
+    cy.get("*[class='dropdown_activator']").click()
+    cy.get("*[class='item_list']").children().contains("See profile").click()
+    cy.url().should('eq', 'https://test-dev--housh.netlify.app/profile/')
+
     cy.get("[class='chakra-text css-0']").contains('Legal name').siblings().should((elem) => {
     expect(elem.text()).to.equal('CypressTestingUser CypressAutotesting');
     });
