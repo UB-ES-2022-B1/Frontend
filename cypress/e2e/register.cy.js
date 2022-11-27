@@ -12,7 +12,11 @@ describe("Register acc", () => {
         return result;
      }
 
-    cy.visit("https://test-dev--housh.netlify.app/register/");
+    cy.visit("https://test-dev--housh.netlify.app");
+    cy.get("*[class='dropdown_activator']").click()
+    cy.get("*[class='item_list']").children().contains("Register").click({force:true})
+    cy.url().should('eq', 'https://test-dev--housh.netlify.app/register/')
+
     cy.get("input[id='field-:Rdaqu6:']").type("CypressTestingUser");
     cy.get("input[id='field-:Rlaqu6:']").type("CypressTesting");
     cy.get("select[type='txt']").select("Andorra +376")
@@ -108,5 +112,73 @@ describe("Register Fail", () => {
     cy.get("input[type='email']").siblings().contains("Email is required")
     cy.get("input[type='checkbox']").parent().siblings().contains("Must accept terms and conditions")
     cy.get("input[type='password']").parent().siblings().contains("Minimum 8 characters");
+  });
+});
+
+describe("Register fail", () => {
+
+  it("Register of a children", function () {
+
+    function makeid(length) {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+           result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+     }
+
+    cy.visit("https://test-dev--housh.netlify.app");
+    cy.get("*[class='dropdown_activator']").click()
+    cy.get("*[class='item_list']").children().contains("Register").click({force:true})
+    cy.url().should('eq', 'https://test-dev--housh.netlify.app/register/')
+
+    cy.get("input[id='field-:Rdaqu6:']").type("CypressTestingUser");
+    cy.get("input[id='field-:Rlaqu6:']").type("CypressTesting");
+    cy.get("select[type='txt']").select("Andorra +376")
+    cy.get("input[id='field-:Rtaqu6:']").type("11111");
+    cy.get("input[id='field-:R15aqu6:']").type("2020-04-20")
+    cy.get("input[type='email']").type( makeid(6) + "@cypressauto.com");
+    cy.get("input[type='password']").type("CypressTesting$1");
+    cy.get("input[type='checkbox']").check({force: true});
+
+    cy.get("form").submit();
+    cy.get("input[id='field-:R15aqu6:']").siblings().contains("You must be of legal age")
+    cy.wait(5000)
+  });
+});
+
+describe("Register fail", () => {
+
+  it("Register of a existing account", function () {
+
+    function makeid(length) {
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+           result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+     }
+
+    cy.visit("https://test-dev--housh.netlify.app");
+    cy.get("*[class='dropdown_activator']").click()
+    cy.get("*[class='item_list']").children().contains("Register").click({force:true})
+    cy.url().should('eq', 'https://test-dev--housh.netlify.app/register/')
+
+    cy.get("input[id='field-:Rdaqu6:']").type("CypressTestingUser");
+    cy.get("input[id='field-:Rlaqu6:']").type("CypressTesting");
+    cy.get("select[type='txt']").select("Andorra +376")
+    cy.get("input[id='field-:Rtaqu6:']").type("11111");
+    cy.get("input[id='field-:R15aqu6:']").type("2000-04-20")
+    cy.get("input[type='email']").type( "cypress@cypressauto.com");
+    cy.get("input[type='password']").type("CypressTesting$1");
+    cy.get("input[type='checkbox']").check({force: true});
+
+    cy.get("form").submit();
+    cy.get("*[role='alert']").contains("User already exist!").should("exist")
+
   });
 });
