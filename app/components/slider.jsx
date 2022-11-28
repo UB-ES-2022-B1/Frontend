@@ -6,11 +6,14 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
 import Slider from 'react-slick';
 import Images from '../exports/images';
 import { Image } from '@chakra-ui/react';
+import dots from "~/styles/dots.css";
+import { useEffect } from 'react';
 
 
 
 function NextArrow(props){
   if(!props.infinite && props.currentSlide >= props.slideCount-1){
+    console.log("rerender")
     return
   }
   return <IconButton
@@ -38,22 +41,25 @@ left={{ base: '30%', md: '10px' }}
 top={{ base: '90%', md: '50%' }}
 transform={'translate(0%, -50%)'}
 zIndex={2}
-onClick={props.onClick}>
+onClick={props.onClick}
+>
 <BiLeftArrowAlt />
 </IconButton>
 }
 
 
 
-export default function slider({height='530px',width='800px',hover=false,infinite=true, images=Images}) {
+export default function slider({height='530px',width='800px',hover=false,infinite=true, autoplay=true, images=Images}) {
   const [slider, setSlider] = React.useState('');
+  const [arrows, showArrows] = React.useState(!hover)
 
+  useEffect(()=>console.log(arrows), [arrows])
   const settings = {
     dots: true,
     arrows: true,
     fade: true,
     infinite: infinite,
-    autoplay: false,
+    autoplay: autoplay,
     speed: 500,
     autoplaySpeed: 5000,
     slidesToShow: 1,
@@ -62,12 +68,14 @@ export default function slider({height='530px',width='800px',hover=false,infinit
     prevArrow:<PrevArrow infinite={infinite}></PrevArrow>
   };
 
-  const top = useBreakpointValue({ base: '90%', md: '50%' });
-  const side = useBreakpointValue({ base: '30%', md: '10px' });
+
 
   return (
     <Flex justifyContent="center" >
-      <Box height={height} width={width} overflow='hidden' alignItems='center' position='relative'>
+      <Box height={height} width={width} overflow='hidden' alignItems='center' position='relative'
+          onMouseEnter={()=>showArrows(true)}
+          onMouseLeave={()=>showArrows(!hover)}
+      >
         { }
         <link
           rel="stylesheet"
@@ -75,10 +83,16 @@ export default function slider({height='530px',width='800px',hover=false,infinit
           charSet="UTF-8"
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
         />
-        <link
+        {/* <link
           rel="stylesheet"
           type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+        /> */}
+        <link
+          rel="stylesheet"
+          type="text/css"
+          charSet="UTF-8"
+          href={dots}
         />
         { }
         {/* <IconButton
@@ -106,13 +120,25 @@ export default function slider({height='530px',width='800px',hover=false,infinit
         </IconButton>
         { } */}
 
-        <Slider {...settings} ref={(slider) => setSlider(slider)}>
+        <Slider {...settings} arrows={arrows} ref={(slider) => setSlider(slider)}>
           {images.map((url, index) => (
-            <Box
-              //key={index}
-              position="relative">
-              <Image src={url} borderRadius={30} position="relative" fit='scale-down' boxSize="100%"></Image>
-            </Box>
+            // <Box
+            //   key={index}
+            //   position="relative">
+            //   <Image src={url} borderRadius={30} position="relative" fit='scale-down' boxSize="100% 100%"></Image>
+            // </Box>
+
+              <Image src={url} 
+              borderRadius={30} 
+              position="relative" 
+              fit='cover' 
+              height={height} 
+              width={width}
+
+              ></Image>
+
+
+
             // <Box boxSize='sm'>
             //   <Image src={url} position="relative" fit='fill'></Image>
             // </Box>
@@ -120,5 +146,32 @@ export default function slider({height='530px',width='800px',hover=false,infinit
         </Slider>
       </Box>
     </Flex>
+    // <Flex justifyContent="center" >
+
+    // <div style={{
+    //   width: width,
+    //   height: height,
+    //   display:"block" 
+    // }}>
+    //   <Slider {...settings} ref={(slider) => setSlider(slider)}>
+    //   {images.map((url, index) => (
+    //     // <Box
+    //     //   key={index}
+    //     //   position="relative">
+    //     //   <Image src={url} borderRadius={30} position="relative" fit='scale-down' boxSize="100% 100%"></Image>
+    //     // </Box>
+
+    //       <Image src={url} borderRadius={30} position="relative" fit='cover' height={'300px'}></Image>
+
+
+
+    //     // <Box boxSize='sm'>
+    //     //   <Image src={url} position="relative" fit='fill'></Image>
+    //     // </Box>
+    //   ))}
+    //   </Slider>
+    // </div>
+    // </Flex>
+
   );
 }
