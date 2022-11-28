@@ -25,7 +25,7 @@ import {
 } from 'react';
 import Dropdown from "~/components/Dropdown";
 import { useFetcher } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+//import { useEffect, useState } from 'react';
 import { isAuthenticated } from '~/session';
 
 const defaultItems = [
@@ -63,6 +63,19 @@ const otherItems = [
 
 export default function (params) {
     //declarant variables
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    useEffect(()=>{isAuthenticated().then(res => setIsLoggedIn(res))},[])
+    
+    const [items, setItems] = useState([])
+    useEffect(()=>{
+        setItems(!isLoggedIn
+            ?
+            defaultItems
+            : otherItems
+            )
+
+    },[isLoggedIn])
+    
     const [dateStart, setDateStart] = useState("")
     const [dateEnd, setDateEnd] = useState("")
     const [people, setPeople] = useState(0)
