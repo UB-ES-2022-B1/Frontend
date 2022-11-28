@@ -36,6 +36,7 @@ import Amenties from '../../components/amenties';
 import { useLocalStorage } from '~/utils/localStorage'
 import ErrorMessage from '~/components/ErrorMessage'
 import { SERVER_DNS } from '~/utils/constants';
+import { getAccessToken } from '~/session';
 
 
 
@@ -97,7 +98,7 @@ export default function multistep() {
   const [title, setTitle] = useState('');
   const [descript, setDes] = useState('');
   const [price, setPrice] = useState(50);
-  const [email, setEmail] = useLocalStorage('email',)
+  const [email, setEmail] = useLocalStorage('email','')
   const [houseLocation, setLocation] = useState("")
   const [created, setCreated] = useState(false)
   const [errorMessages, setErrorMessages] = useState('');
@@ -122,7 +123,6 @@ export default function multistep() {
   const [health_kit, sethealth_kit] = useState(false);
 
 
-
   const totalSteps = 9
 
   const [step, setStep] = useState(1);
@@ -132,6 +132,7 @@ export default function multistep() {
     event.preventDefault();
     setErrorMessages('')
     setIsSubmitting(true)
+    let token = await getAccessToken()
     let jsonData =
     {
       "title": title,
@@ -170,6 +171,7 @@ export default function multistep() {
         mode: 'cors',
         body: JSON.stringify(jsonData),
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         }
       })
@@ -272,7 +274,7 @@ export default function multistep() {
           </Box>
           <Box backgroundColor='white' marginY='20' height='150px' position='fixed' top='80%' width='100vw'>
             <Divider></Divider>
-            <ButtonGroup position='fixed' top='80%' width='100vw' mt="5%" w="100%" align="center" >
+            <ButtonGroup  width='100vw' mt="2%" w="100%" align="center" >
               <Flex w="100%" align="center" justifyContent="center">
                 <Flex w="100%" align="center" display='top' justifyContent="left">
 

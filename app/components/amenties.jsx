@@ -55,7 +55,7 @@ export default function Amenties(props) {
                     </Heading>
                 </Box>
                 <Box>
-                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: swiming_pool ? "#d6d6d6" : "white" }} onClick={() => { setswiming_pool(!swiming_pool) }} >Swiming Pool</Button>
+                    <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: swiming_pool ? "#d6d6d6" : "white" }} onClick={() => { setswiming_pool(!swiming_pool) }} >Swimming Pool</Button>
                     <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: garden ? "#d6d6d6" : "white" }} onClick={() => { setgarden(!garden) }} >Garden</Button>
                     <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: billar_table ? "#d6d6d6" : "white" }} onClick={() => { setbillar_table(!billar_table) }} >Billar table</Button>
                     <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: gym ? "#d6d6d6" : "white" }} onClick={() => { setgym(!gym) }} >GYM</Button>
@@ -69,9 +69,12 @@ export default function Amenties(props) {
                             Do you have any of these security items?
                         </Heading>
                     </Box>
-                    <Box >
+                    <Box marginBottom='10'>
                         <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: smoke_detector ? "#d6d6d6" : "white" }} onClick={() => { setsmoke_detector(!smoke_detector) }} >Smoke detector</Button>
-                        <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: health_kit ? "#d6d6d6" : "white" }} onClick={() => { sethealth_kit(!health_kit) }} >Healh kit</Button>
+                        <Button margin='5px' variant='outline' borderRadius={10} style={{ width: "147px", height: "147px", backgroundColor: health_kit ? "#d6d6d6" : "white" }} onClick={() => { sethealth_kit(!health_kit) }} >Health kit</Button>
+                    </Box>
+                    <Box>
+                        <Text colorScheme='white'>aaa</Text>
                     </Box>
                 </Box>
             </Box>
