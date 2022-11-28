@@ -130,7 +130,7 @@ export default function Index() {
   const [telefonError, setTelefonError] = useState(false);
   const [telefonErrorMessage, setTelefonErrorMessage] = useState('');
 
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState('Ascension Island +247');
   const [pais, setPais] = useState('');
   const [prefix, setPrefix] = useState('');
   const [telefonCountryError, setTelefonCountryError] = useState(false);
