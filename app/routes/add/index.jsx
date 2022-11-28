@@ -372,8 +372,7 @@ export default function multistep() {
                   variant="outline">
                   Next
                 </Button>
-              </Flex>
-              {step === totalSteps ? (
+                {step === totalSteps ? (
                 <Button
                   w="7rem"
                   colorScheme="red"
@@ -384,6 +383,8 @@ export default function multistep() {
                   Submit
                 </Button>
               ) : null}
+              </Flex>
+              
             </Flex>
           </ButtonGroup>
           </Box>
