@@ -22,8 +22,10 @@ import {
   Button, 
   InputGroup, 
   InputLeftElement, 
-  InputRightElement 
+  InputRightElement,
+  IconButton
 } from '@chakra-ui/react'
+import { ViewIcon } from '@chakra-ui/icons'
 import { SERVER_DNS } from "~/utils/constants";
 const pattern =  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 const phonePattern = {
@@ -426,12 +428,14 @@ export default function Index() {
                     <Input
                       type={show ? 'text' : 'password'}
                       value={password}
+                      placeholder="*************"
+                      size="lg"
                       onChange={(e) => { setPassword(e.target.value) }
                       } />
-                    <InputRightElement width='4.5rem'>
-                      <Button h='1.75rem' size='sm' onClick={handleClick}>
+                    <InputRightElement >
+                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
                         {show ? 'Hide' : 'Show'}
-                      </Button>
+                      </IconButton>
                     </InputRightElement>
                   </InputGroup>
                   {!passwordError ? null : (

@@ -10,11 +10,13 @@ import {
   FormErrorMessage,
   FormHelperText,
 } from '@chakra-ui/react'
+import { ViewIcon } from '@chakra-ui/icons'
 
 import {
   Flex,
   Box,
   Heading,
+  IconButton
 } from '@chakra-ui/react';
 
 import ErrorMessage from '~/components/ErrorMessage'
@@ -183,15 +185,17 @@ export default function Index() {
                 <FormControl isInvalid={passwordError}>
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
-                    <Input
+                    <Input 
                       type={show ? 'text' : 'password'}
                       value={password}
+                      placeholder="*************"
+                      size="lg"
                       onChange={(e) => { setPassword(e.target.value) }
                       } />
-                    <InputRightElement width='4.5rem'>
-                      <Button h='1.75rem' size='sm' onClick={handleClick}>
+                    <InputRightElement>
+                      <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
                         {show ? 'Hide' : 'Show'}
-                      </Button>
+                      </IconButton>
                     </InputRightElement>
                   </InputGroup>
                   {!passwordError ? null : (

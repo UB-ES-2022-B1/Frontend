@@ -36,14 +36,6 @@ const defaultItems = [
     {
       slug: "/login/",
       anchor: "Log in"
-    },
-    {
-      slug: "/add/",
-      anchor: "Host your place"
-    },
-    {
-      slug: "/profile/",
-      anchor: "See profile"
     }
   ]; 
 const otherItems = [
