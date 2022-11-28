@@ -112,7 +112,7 @@ export default function Index() {
             })
         response = await response;
         if (response.success) {
-            componentsSet(response.msg);
+            componentsSet(response.msg[0]);
         }
         else {
             setInexistent(true)

@@ -1,21 +1,20 @@
+import { Heading, Text, Box } from "@chakra-ui/react";
 import { useLoaderData } from "@remix-run/react";
-import SimpleImageSlider from "react-simple-image-slider";
 import example2 from '~/assets/example2.webp'
+import Slider from "~/components/slider"
+import Images from '../exports/images';
+
 
 export const houseLoader = (id) => 
 {
     return (
         {
-            images: [
-                { url: "https://www.w3schools.com/howto/img_nature_wide.jpg" },
-                { url: example2 },
-            ],
+            images: Images,
             location: 'Castelldefels, España',
             sublocation: 'Playa de Castelldefels',
             dates:'12-17 oct',
             price:'285€'
         }
-
     )
     // return json(
     //   await fakeDb.project.findMany(
@@ -41,21 +40,37 @@ export default function(params)
     return (
     <div className="housecard">
         <div>
-            <SimpleImageSlider
-                width={200}
-                height={200}
+            <Slider
+                width={'250px'}
+                height={'250px'}
+                autoplay={false}
+                hover={true}
+                infinite={false}
                 images={house.images}
-                showNavs={true}
-                navSize ={25}
-                navMargin={5}
             />
         </div>
-        <div>
-            <div><b>{house.location}</b></div>
-            <div>{house.sublocation}</div>
-            <div>{house.dates}</div>
-            <div><b>{house.price}</b> noche</div>
-        </div>
+        <Box p='2px'>
+            <Box
+                mt='1'
+                fontWeight='semibold'
+                as='h4'
+                lineHeight='tight'
+                noOfLines={1}
+                >
+                {house.location}
+            </Box>
+            <Box as='span'color='gray' fontSize='sm'>
+                <Box>{house.sublocation} &bull; {house.dates}</Box>
+            </Box>
+            <Box >
+                <Box as='b'>{house.price}</Box>
+                <Box as='span' fontSize='sm'> night</Box>
+            </Box>
+            {/* <Heading fontSize={'1xl'} as='b'>{house.location}</Heading>
+            <Text>{house.sublocation}</Text>
+            <Text>{house.dates}</Text>
+            <div><Text as='b'>{house.price}</Text><Text>night</Text></div> */}
+        </Box>
     </div>
     )
 }
