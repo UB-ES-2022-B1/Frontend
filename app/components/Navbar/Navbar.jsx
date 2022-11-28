@@ -36,6 +36,8 @@ export default function (params) {
     var locationError = { locationError: false, locationErrorMess: "" };
     var dateEndError = { dateEndError: false, dateEndErrorMess: "" };
     var dateStartError = { dateStartError: false, dateStartErrorMess: "" };
+    const current = new Date();
+    const currentDate = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
 
     //declarem funcions
     const decrease = () => {
@@ -60,7 +62,7 @@ export default function (params) {
     const validateEndDate = useCallback(() => {
         let end = new Date(dateEnd)
         let start = new Date(dateStart)
-        if (end>start) {
+        if (end<=start) {
             locationError['dateEndErrorMess'] = 'End date must be later than start date';
             locationError['dateEndError'] = true;
         } else {
@@ -70,9 +72,11 @@ export default function (params) {
     }, [dateEnd,dateStart])
 
     const validateStartDate = useCallback(() => {
+        
         let today = new Date(currentDate)
         let start = new Date(dateStart)
-        if (today >= start) {
+        
+        if (today > start) {
             locationError['dateStartErrorMess'] = 'Start date must be later or equal to today';
             locationError['dateStartError'] = true;
         } else {
