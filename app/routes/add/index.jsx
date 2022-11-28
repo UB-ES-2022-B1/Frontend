@@ -4,25 +4,10 @@ import {
   Box,
   ButtonGroup,
   Button,
-  Heading,
   Flex,
-  FormControl,
-  GridItem,
-  FormLabel,
-  Input,
-  Select,
-  SimpleGrid,
-  InputLeftAddon,
-  InputGroup,
-  Textarea,
-  FormHelperText,
-  InputRightElement,
   Text,
-  Spacer,
-  Divider
 } from '@chakra-ui/react';
-
-import { useToast } from '@chakra-ui/react';
+import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun'
 import ImageUploader from "~/components/ImageUploader";
 import { useEffect, useCallback } from 'react';
 import TypeGroup from '~/components/Type-group';
@@ -68,7 +53,6 @@ const Form6 = ({ onChangeValue }) => {
   return (
     <ImageUploader onChangeValue={onChangeValue}></ImageUploader>
   );
-
 };
 const Form7 = ({ onChangeValue }) => {
   return (
@@ -121,12 +105,11 @@ export default function multistep() {
   const [smoke_detector, setsmoke_detector] = useState(false);
   const [health_kit, sethealth_kit] = useState(false);
 
-
-
   const totalSteps = 9
-
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(100 / totalSteps);
+
+  const [isDisable, setIsDisable] = useState(true);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -197,74 +180,63 @@ export default function multistep() {
     // }
   };
 
-  useEffect(() => {
-    console.log(ty)
-    console.log(privacy)
-    console.log(guests)
-    console.log(beds)
-    console.log(bedrooms)
-    console.log(bathrooms)
-    console.log(images)
-    console.log(title)
-    console.log(descript)
-    console.log(price)
-    console.log('location', houseLocation)
-  }, [step])
+  const [desctiptionError, setDesctiptionError] = useState({descError:false, descErrorMess:""});
+  const [titleError, setTitleError] = useState({titError:false, titErrorMess:""});
+  const [privacyError,setPrivacyError] = useState({privError:false, privErrorMess:""});
+  const [typeError, setTypeError] = useState({tyError:false, tyErrorMess:""});
+  const [imageError, setImageError] = useState({imgError:false, imgErrorMess:""});
 
-  var desctiptionError = {descError:false, descErrorMess:""};
-  var titleError = {titError:false, titErrorMess:""};
-  var privacyError = {privError:false, privErrorMess:""};
-  var typeError = {tyError:false, tyErrorMess:""};
-  var imageError = {imgError:false, imgErrorMess:""};
-
-  const validateTitle = useCallback(() => {
-    if (title === '') {
-      titleError['titErrorMess'] = 'Title is required';
-      titleError['titError'] = true;
+  const validateTitle = useCallback((value) => {
+    if (value === '') {
+        setTitleError((prev)=>{return{titError: true, titErrorMess: "Title is required"}});
+        return true;
     } else if (title.match(/^[A-Za-z]+$/) === null) {
-      titleError['titErrorMess'] = 'Name can\'t contain numbers';
-      titleError['titError'] = true;
+      setTitleError((prev)=>{return{titError: true, titErrorMess: "Name can\'t contain numbers"}});
+      return true;
     } else {
-      titleError['titError'] = false;
+      setTitleError((prev)=>{return{...prev, titError: false}});
+      return false;
     }
-    console.log(titleError['titErrorMess'])
   }, [title])
 
-  const validateDescription = useCallback(() => {
-    if (descript === '') {
-      desctiptionError['descErrorMess'] = 'Description is required';
-      desctiptionError['descError'] = true;
+  const validateDescription = useCallback((value) => {
+    if (value === '') {
+      setDesctiptionError((prev)=>{return{descError: true, descErrorMess: "Description is required"}});
+      return true;
     } else {
-      desctiptionError['descError'] = false;
+      setDesctiptionError((prev)=>{return{...prev, descError: false}});
+      return false;
     }
-
-    desctiptionError['descErrorMess']
   }, [descript])
 
-  const validatePrivacy = useCallback(() => {
-    if (privacy === '') {
-      privacyError['privErrorMess'] = 'Privacy is required';
-      privacyError['privError'] = true;
+  const validatePrivacy = useCallback((value) => {
+    if (value === '') {
+      setPrivacyError((prev)=>{return{privError: true, privErrorMess: "Privacy is required"}});
+      return true;
     } else {
-      privacyError['privError'] = false;
+      setDesctiptionError((prev)=>{return{...prev, privError: false}});
+      return false;
     }
   }, [privacy])
 
-  const validateType = useCallback(() => {
-    if (ty === '') {
-      typeError['tyErrorMess'] = 'Type is required';
-      typeError['tyError'] = true;
+  const validateType = useCallback((value) => {
+    if (value === '') {
+      setTypeError((prev)=>{return{tyError: true, tyErrorMess: "Type is required"}});
+      return true;
     } else {
-      typeError['tyError'] = false;
+      setTypeError((prev)=>{return{...prev, tyErrorMess: false}});
+      return false;
     }
+    
   }, [ty])
 
-  const validateImage = useCallback(() => {
-    if (images === []) {
-      imageError['imgErrorMess'] = 'Image is required';
-      imageError['imgError'] = true;
+  const validateImage = useCallback((value) => {
+    if (value === []) {
+      setImageError((prev)=>{return{imgError: true, imgErrorMess: "Image is required"}});
+      return true;
     } else {
-      imageError['imgError'] = false;
+      setImageError((prev)=>{return{...prev, imgError: false}});
+      return false;
     }
   }, [images])
 
@@ -275,6 +247,8 @@ export default function multistep() {
     validateDescription()
     validateTitle()
   }, [validateImage, validateType, validatePrivacy, validateDescription, validateTitle])
+
+  
 
   return (
     <>
@@ -320,14 +294,14 @@ export default function multistep() {
             mx="5%"
             isAnimated></Progress>
 
-          {step === 1 ? <Form1 onChangeValue={(e) => setTy(e.ty)} />
-            : step === 2 ? <Form2 onChangeValue={(e) => setPrivacy(e.privacy)} />
-              : step === 3 ? <Form3 onChangeValue={(e) => setLocation(e.location)} />
+          {step === 1 ? <Form1 onChangeValue={(e) => {setTy(e.ty); setIsDisable(validateType(e.ty))}} />
+            : step === 2 ? <Form2 onChangeValue={(e) => {setPrivacy(e.privacy); setIsDisable(validatePrivacy(e.privacy))}} />
+              : step === 3 ? <Form3 onChangeValue={(e) => {setLocation(e.location)}} />
                 : step === 4 ? <Form4 onChangeValue={(e) => { setGuests(e.guests), setBeds(e.beds), setBedrooms(e.bedrooms), setBathrooms(e.bathrooms) }} />
                   : step === 5 ? <Form5 onChangeValue={(e) => { setkitchen(e.kitchen), setswiming_pool(e.swiming_pool), setgarden(e.garden), setbillar_table(e.billar_table), setgym(e.gym), setspacious(e.spacious), setTV(e.TV), setfree_parking(e.free_parking), setair_conditioning(e.air_conditioning), setwashing_machine(e.washing_machine), setdishwasher(e.dishwasher), setWIFII(e.WIFII), setcentral(e.central), setquite(e.quite), setalarm(e.alarm), setsmoke_detector(e.smoke_detector), sethealth_kit(e.health_kit)}}/>
-                    : step === 6 ? <Form6 onChangeValue={(e) => setImages(e.images)} />
-                      : step === 7 ? <Form7 onChangeValue={(e) => setTitle(e.title)} />
-                        : step === 8 ? <Form8 onChangeValue={(e) => setDes(e.descript)} />
+                    : step === 6 ? <Form6 onChangeValue={(e) => {setImages(e.images);  setIsDisable(validateImage(e.images))}}/>
+                      : step === 7 ? <Form7 onChangeValue={(e) => {setTitle(e.title); setIsDisable(validateTitle(e.title))}} />
+                        : step === 8 ? <Form8 onChangeValue={(e) => {setDes(e.descript); setIsDisable(validateDescription(e.descript))}} />
                           : <Form9 onChangeValue={(e) => setPrice(e.price)} />
           }
           <ButtonGroup mt="5%" w="100%" align="center" >
@@ -348,7 +322,6 @@ export default function multistep() {
               
                 <Button
                   w="7rem"
-                  isDisabled={step === totalSteps}
                   hidden={step === totalSteps}
                   onClick={() => {
                     setStep(step + 1);
@@ -358,6 +331,7 @@ export default function multistep() {
                       setProgress(progress + 100 / totalSteps);
                     }
                   }}
+                  isDisabled={step === totalSteps || isDisable}
                   colorScheme="teal"
                   variant="outline">
                   Next
