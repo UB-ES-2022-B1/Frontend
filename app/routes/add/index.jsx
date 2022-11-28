@@ -6,6 +6,7 @@ import {
   Button,
   Flex,
   Text,
+  Divider,
 } from '@chakra-ui/react';
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun'
 import ImageUploader from "~/components/ImageUploader";
@@ -21,6 +22,7 @@ import Amenties from '../../components/amenties';
 import { useLocalStorage } from '~/utils/localStorage'
 import ErrorMessage from '~/components/ErrorMessage'
 import { SERVER_DNS } from '~/utils/constants';
+import { getAccessToken } from '~/session';
 
 
 
@@ -81,7 +83,7 @@ export default function multistep() {
   const [title, setTitle] = useState('');
   const [descript, setDes] = useState('');
   const [price, setPrice] = useState(50);
-  const [email, setEmail] = useLocalStorage('email',)
+  const [email, setEmail] = useLocalStorage('email','')
   const [provincia, setProvincia] = useState("")
   const [carrer, setCarrer] = useState("")
   const [country, setCountry] = useState("")
@@ -108,6 +110,8 @@ export default function multistep() {
   const [smoke_detector, setsmoke_detector] = useState(false);
   const [health_kit, sethealth_kit] = useState(false);
 
+
+
   const totalSteps = 9
   const [step, setStep] = useState(1);
   const [progress, setProgress] = useState(100 / totalSteps);
@@ -118,6 +122,7 @@ export default function multistep() {
     event.preventDefault();
     setErrorMessages('')
     setIsSubmitting(true)
+    let token = await getAccessToken()
     let jsonData =
     {
       "title": title,
@@ -159,6 +164,7 @@ export default function multistep() {
         mode: 'cors',
         body: JSON.stringify(jsonData),
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         }
       })
@@ -311,19 +317,20 @@ export default function multistep() {
           </Flex>
         </>
         :
-        <Box
-          maxWidth={800}
-          p={6}
-          m="10px auto"
-          as="form">
-          <Progress
-            hasStripe
-            value={progress}
-            mb="5%"
-            mx="5%"
-            isAnimated></Progress>
+        <Box>
+          <Box
+            maxWidth={800}
+            p={3}
+            m="10px auto"
+            as="form">
+            <Progress
+              hasStripe
+              value={progress}
+              mb="5%"
+              mx="5%"
+              isAnimated></Progress>
 
-          {step === 1 ? <Form1 onChangeValue={(e) => { setTy(e.ty); setIsDisable(validateType(e.ty)) }} />
+{step === 1 ? <Form1 onChangeValue={(e) => { setTy(e.ty); setIsDisable(validateType(e.ty)) }} />
             : step === 2 ? <Form2 onChangeValue={(e) => { setPrivacy(e.privacy); setIsDisable(validatePrivacy(e.privacy)) }} />
               : step === 3 ? <Form3 onChangeValue={(e) => { setProvincia(e.provincia); setCarrer(e.carrer); setCiutat(e.ciutat); setCountry(e.country); setIsDisable(validateLocation(e)) }} />
                 : step === 4 ? <Form4 onChangeValue={(e) => { setGuests(e.guests), setBeds(e.beds), setBedrooms(e.bedrooms), setBathrooms(e.bathrooms) }} />
@@ -333,10 +340,13 @@ export default function multistep() {
                         : step === 8 ? <Form8 onChangeValue={(e) => { setDes(e.descript); setIsDisable(validateDescription(e.descript)) }} />
                           : <Form9 onChangeValue={(e) => setPrice(e.price)} />
           }
-          <ButtonGroup mt="5%" w="100%" align="center" >
-            <Flex w="100%" align="center" justifyContent="left">
-              <Flex w="100%" align="center" display='top' justifyContent="left" >
-                <Button
+          </Box>
+          <Box backgroundColor='white' marginY='20' height='150px' position='fixed' top='80%' width='100vw'>
+            <Divider></Divider>
+            <ButtonGroup  width='100vw' mt="2%" w="100%" align="center" >
+              <Flex w="100%" align="center" justifyContent="center">
+                <Flex w="100%" align="center" display='top' justifyContent="left">
+                <Button 
                   onClick={() => {
                     setStep(step - 1);
                     setProgress(progress - 100 / totalSteps);
@@ -348,9 +358,10 @@ export default function multistep() {
                   mr="5%">
                   Back
                 </Button>
-
+              
                 <Button
                   w="7rem"
+                  isDisabled={step === totalSteps || isDisable}
                   hidden={step === totalSteps}
                   onClick={() => {
                     setStep(step + 1);
@@ -360,7 +371,6 @@ export default function multistep() {
                       setProgress(progress + 100 / totalSteps);
                     }
                   }}
-                  isDisabled={step === totalSteps || isDisable}
                   colorScheme="teal"
                   variant="outline">
                   Next
@@ -373,14 +383,13 @@ export default function multistep() {
                   variant="solid"
                   isLoading={isSubmitting}
                   type='submit'
-                  onClick={[handleSubmit]}
-                  >
+                  onClick={handleSubmit}>
                   Submit
                 </Button>
               ) : null}
             </Flex>
           </ButtonGroup>
-
+          </Box>
         </Box>}
       {errorMessages ? <Box
         borderWidth="1px"
