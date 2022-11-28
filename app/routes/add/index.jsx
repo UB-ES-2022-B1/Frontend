@@ -82,7 +82,10 @@ export default function multistep() {
   const [descript, setDes] = useState('');
   const [price, setPrice] = useState(50);
   const [email, setEmail] = useLocalStorage('email',)
-  const [houseLocation, setLocation] = useState("")
+  const [provincia, setProvincia] = useState("")
+  const [carrer, setCarrer] = useState("")
+  const [country, setCountry] = useState("")
+  const [ciutat, setCiutat] = useState("")
   const [created, setCreated] = useState(false)
   const [errorMessages, setErrorMessages] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -120,7 +123,10 @@ export default function multistep() {
       "title": title,
       "owner": email,
       "description": descript,
-      "location": houseLocation,
+      "Town": ciutat,
+      "Province": provincia,
+      "Country": country,
+      "Street": carrer,
       "base_price": price,
       "extra_costs": "10",
       "taxes": "4",
@@ -180,75 +186,98 @@ export default function multistep() {
     // }
   };
 
-  const [desctiptionError, setDesctiptionError] = useState({descError:false, descErrorMess:""});
-  const [titleError, setTitleError] = useState({titError:false, titErrorMess:""});
-  const [privacyError,setPrivacyError] = useState({privError:false, privErrorMess:""});
-  const [typeError, setTypeError] = useState({tyError:false, tyErrorMess:""});
-  const [imageError, setImageError] = useState({imgError:false, imgErrorMess:""});
+  const [desctiptionError, setDesctiptionError] = useState({ descError: false, descErrorMess: "" });
+  const [titleError, setTitleError] = useState({ titError: false, titErrorMess: "" });
+  const [privacyError, setPrivacyError] = useState({ privError: false, privErrorMess: "" });
+  const [typeError, setTypeError] = useState({ tyError: false, tyErrorMess: "" });
+  const [imageError, setImageError] = useState({ imgError: false, imgErrorMess: "" });
+  const [locationError, setLocationError] = useState({ locationError: false, locationErrorMess: "" });
 
   const validateTitle = useCallback((value) => {
     if (value === '') {
-        setTitleError((prev)=>{return{titError: true, titErrorMess: "Title is required"}});
-        return true;
-    } else if (title.match(/^[A-Za-z]+$/) === null) {
-      setTitleError((prev)=>{return{titError: true, titErrorMess: "Name can\'t contain numbers"}});
+      setTitleError((prev) => { return { titError: true, titErrorMess: "Title is required" } });
+      return true;
+    } else if (value.match(/^[A-Za-z]+$/) === null) {
+      setTitleError((prev) => { return { titError: true, titErrorMess: "Name can\'t contain numbers" } });
       return true;
     } else {
-      setTitleError((prev)=>{return{...prev, titError: false}});
+      setTitleError((prev) => { return { ...prev, titError: false } });
       return false;
     }
   }, [title])
 
   const validateDescription = useCallback((value) => {
     if (value === '') {
-      setDesctiptionError((prev)=>{return{descError: true, descErrorMess: "Description is required"}});
+      setDesctiptionError((prev) => { return { descError: true, descErrorMess: "Description is required" } });
       return true;
     } else {
-      setDesctiptionError((prev)=>{return{...prev, descError: false}});
+      setDesctiptionError((prev) => { return { ...prev, descError: false } });
       return false;
     }
   }, [descript])
 
   const validatePrivacy = useCallback((value) => {
     if (value === '') {
-      setPrivacyError((prev)=>{return{privError: true, privErrorMess: "Privacy is required"}});
+      setPrivacyError((prev) => { return { privError: true, privErrorMess: "Privacy is required" } });
       return true;
     } else {
-      setDesctiptionError((prev)=>{return{...prev, privError: false}});
+      setDesctiptionError((prev) => { return { ...prev, privError: false } });
       return false;
     }
   }, [privacy])
 
   const validateType = useCallback((value) => {
     if (value === '') {
-      setTypeError((prev)=>{return{tyError: true, tyErrorMess: "Type is required"}});
+      setTypeError((prev) => { return { tyError: true, tyErrorMess: "Type is required" } });
       return true;
     } else {
-      setTypeError((prev)=>{return{...prev, tyErrorMess: false}});
+      setTypeError((prev) => { return { ...prev, tyErrorMess: false } });
       return false;
     }
-    
+
+  }, [ty])
+  const validateLocation = useCallback((params) => {
+    const ciutat = params.ciutat;
+    const carrer = params.carrer;
+    const country = params.country;
+    const provincia = params.provincia;
+
+    if (ciutat === '') {
+      setLocationError((prev) => { return { locationError: true, locationErrorMess: "Fill in the blanks" } });
+      return true;
+    } else {
+      setLocationError((prev) => { return { ...prev, locationErrorMess: false } });
+    }
+    if (carrer === '') {
+      setLocationError((prev) => { return { locationError: true, locationErrorMess: "Fill in the blanks" } });
+      return true;
+    } else {
+      setLocationError((prev) => { return { ...prev, locationErrorMess: false } });
+    }
+    if (provincia === '') {
+      setLocationError((prev) => { return { locationError: true, locationErrorMess: "Fill in the blanks" } });
+      return true;
+    } else {
+      setLocationError((prev) => { return { ...prev, locationErrorMess: false } });
+    }
+    if (country === '') {
+      setLocationError((prev) => { return { locationError: true, locationErrorMess: "Fill in the blanks" } });
+      return true;
+    } else {
+      setLocationError((prev) => { return { ...prev, locationErrorMess: false } });
+    }
+    return false;
   }, [ty])
 
   const validateImage = useCallback((value) => {
     if (value === []) {
-      setImageError((prev)=>{return{imgError: true, imgErrorMess: "Image is required"}});
+      setImageError((prev) => { return { imgError: true, imgErrorMess: "Image is required" } });
       return true;
     } else {
-      setImageError((prev)=>{return{...prev, imgError: false}});
+      setImageError((prev) => { return { ...prev, imgError: false } });
       return false;
     }
   }, [images])
-
-  const validateParameters = useCallback(() => {
-    validateImage()
-    validateType()
-    validatePrivacy()
-    validateDescription()
-    validateTitle()
-  }, [validateImage, validateType, validatePrivacy, validateDescription, validateTitle])
-
-  
 
   return (
     <>
@@ -294,20 +323,20 @@ export default function multistep() {
             mx="5%"
             isAnimated></Progress>
 
-          {step === 1 ? <Form1 onChangeValue={(e) => {setTy(e.ty); setIsDisable(validateType(e.ty))}} />
-            : step === 2 ? <Form2 onChangeValue={(e) => {setPrivacy(e.privacy); setIsDisable(validatePrivacy(e.privacy))}} />
-              : step === 3 ? <Form3 onChangeValue={(e) => {setLocation(e.location)}} />
+          {step === 1 ? <Form1 onChangeValue={(e) => { setTy(e.ty); setIsDisable(validateType(e.ty)) }} />
+            : step === 2 ? <Form2 onChangeValue={(e) => { setPrivacy(e.privacy); setIsDisable(validatePrivacy(e.privacy)) }} />
+              : step === 3 ? <Form3 onChangeValue={(e) => { setProvincia(e.provincia); setCarrer(e.carrer); setCiutat(e.ciutat); setCountry(e.country); setIsDisable(validateLocation(e)) }} />
                 : step === 4 ? <Form4 onChangeValue={(e) => { setGuests(e.guests), setBeds(e.beds), setBedrooms(e.bedrooms), setBathrooms(e.bathrooms) }} />
-                  : step === 5 ? <Form5 onChangeValue={(e) => { setkitchen(e.kitchen), setswiming_pool(e.swiming_pool), setgarden(e.garden), setbillar_table(e.billar_table), setgym(e.gym), setspacious(e.spacious), setTV(e.TV), setfree_parking(e.free_parking), setair_conditioning(e.air_conditioning), setwashing_machine(e.washing_machine), setdishwasher(e.dishwasher), setWIFII(e.WIFII), setcentral(e.central), setquite(e.quite), setalarm(e.alarm), setsmoke_detector(e.smoke_detector), sethealth_kit(e.health_kit)}}/>
-                    : step === 6 ? <Form6 onChangeValue={(e) => {setImages(e.images);  setIsDisable(validateImage(e.images))}}/>
-                      : step === 7 ? <Form7 onChangeValue={(e) => {setTitle(e.title); setIsDisable(validateTitle(e.title))}} />
-                        : step === 8 ? <Form8 onChangeValue={(e) => {setDes(e.descript); setIsDisable(validateDescription(e.descript))}} />
+                  : step === 5 ? <Form5 onChangeValue={(e) => { setkitchen(e.kitchen), setswiming_pool(e.swiming_pool), setgarden(e.garden), setbillar_table(e.billar_table); setgym(e.gym); setspacious(e.spacious); setTV(e.TV), setfree_parking(e.free_parking), setair_conditioning(e.air_conditioning), setwashing_machine(e.washing_machine), setdishwasher(e.dishwasher), setWIFII(e.WIFII), setcentral(e.central), setquite(e.quite), setalarm(e.alarm), setsmoke_detector(e.smoke_detector), sethealth_kit(e.health_kit) }} />
+                    : step === 6 ? <Form6 onChangeValue={(e) => { setImages(e.images); setIsDisable(validateImage(e.images)) }} />
+                      : step === 7 ? <Form7 onChangeValue={(e) => { setTitle(e.title); setIsDisable(validateTitle(e.title)) }} />
+                        : step === 8 ? <Form8 onChangeValue={(e) => { setDes(e.descript); setIsDisable(validateDescription(e.descript)) }} />
                           : <Form9 onChangeValue={(e) => setPrice(e.price)} />
           }
           <ButtonGroup mt="5%" w="100%" align="center" >
             <Flex w="100%" align="center" justifyContent="left">
               <Flex w="100%" align="center" display='top' justifyContent="left" >
-                <Button 
+                <Button
                   onClick={() => {
                     setStep(step - 1);
                     setProgress(progress - 100 / totalSteps);
@@ -319,7 +348,7 @@ export default function multistep() {
                   mr="5%">
                   Back
                 </Button>
-              
+
                 <Button
                   w="7rem"
                   hidden={step === totalSteps}
@@ -344,14 +373,14 @@ export default function multistep() {
                   variant="solid"
                   isLoading={isSubmitting}
                   type='submit'
-                  onClick={[validateParameters, handleSubmit]}
-                  isDisabled={typeError['tyError'] || imageError['imgError'] || privacyError['privError'] || desctiptionError['descError'] || titleError['titError']}>
+                  onClick={[handleSubmit]}
+                  >
                   Submit
                 </Button>
               ) : null}
             </Flex>
           </ButtonGroup>
-      
+
         </Box>}
       {errorMessages ? <Box
         borderWidth="1px"
