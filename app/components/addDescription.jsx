@@ -8,12 +8,12 @@ import { getCountries, getCountryCallingCode } from 'react-phone-number-input/in
 import en from 'react-phone-number-input/locale/en.json'
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 import React from 'react';
-import { Text } from '@chakra-ui/react'
 import {
   Heading,
   Flex,
   Box,
-  Input,
+  Text,
+  Textarea ,
 } from '@chakra-ui/react'
 
 export default function addDescription(params) {
@@ -34,14 +34,13 @@ export default function addDescription(params) {
           <Text marginY='25px'>The description of your advertisement must reveal particular characteristics of your accommodation</Text>
         </Box>
         <Box my={4} >
-          <Input
+          <Textarea 
             height='150px'
-            type='txt'
             width="full"
             value={textArea}
             placeholder="Enjoy the comfort of this accommodation and have a great time..."
             onChange={(e) => { setTextAreaCount(e.target.value) }}
-          ></Input>
+          ></Textarea >
         </Box>
       </Box>
     </Flex>
