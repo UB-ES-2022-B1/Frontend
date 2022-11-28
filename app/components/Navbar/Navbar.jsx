@@ -87,7 +87,7 @@ export default function (params) {
         validateLocation()
         validateStartDate()
         validateEndDate()
-    }, [validateLocation,validateEndDate])
+    }, [validateLocation,validateEndDate,validateStartDate])
 
     //Crides a back end
     async function handleSubmit(event) { }
