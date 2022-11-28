@@ -193,7 +193,7 @@ export default function Index() {
                       onChange={(e) => { setPassword(e.target.value) }
                       } />
                     <InputRightElement>
-                      <IconButton h='1.75rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
+                      <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
                         {show ? 'Hide' : 'Show'}
                       </IconButton>
                     </InputRightElement>
