@@ -24,7 +24,7 @@ import {
 
 import { useToast } from '@chakra-ui/react';
 import ImageUploader from "~/components/ImageUploader";
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import TypeGroup from '~/components/Type-group';
 import FloorPlant from '~/components/FloorPlant';
 import PrivacyType from '~/components/Privacy-type';
@@ -211,15 +211,77 @@ export default function multistep() {
     console.log('location', houseLocation)
   }, [step])
 
+  var desctiptionError = {descError:false, descErrorMess:""};
+  var titleError = {titError:false, titErrorMess:""};
+  var privacyError = {privError:false, privErrorMess:""};
+  var typeError = {tyError:false, tyErrorMess:""};
+  var imageError = {imgError:false, imgErrorMess:""};
+
+  const validateTitle = useCallback(() => {
+    if (title === '') {
+      titleError['titErrorMess'] = 'Title is required';
+      titleError['titError'] = true;
+    } else if (title.match(/^[A-Za-z]+$/) === null) {
+      titleError['titErrorMess'] = 'Name can\'t contain numbers';
+      titleError['titError'] = true;
+    } else {
+      titleError['titError'] = false;
+    }
+    console.log(titleError['titErrorMess'])
+  }, [title])
+
+  const validateDescription = useCallback(() => {
+    if (descript === '') {
+      desctiptionError['descErrorMess'] = 'Description is required';
+      desctiptionError['descError'] = true;
+    } else {
+      desctiptionError['descError'] = false;
+    }
+
+    desctiptionError['descErrorMess']
+  }, [descript])
+
+  const validatePrivacy = useCallback(() => {
+    if (privacy === '') {
+      privacyError['privErrorMess'] = 'Privacy is required';
+      privacyError['privError'] = true;
+    } else {
+      privacyError['privError'] = false;
+    }
+  }, [privacy])
+
+  const validateType = useCallback(() => {
+    if (ty === '') {
+      typeError['tyErrorMess'] = 'Type is required';
+      typeError['tyError'] = true;
+    } else {
+      typeError['tyError'] = false;
+    }
+  }, [ty])
+
+  const validateImage = useCallback(() => {
+    if (images === []) {
+      imageError['imgErrorMess'] = 'Image is required';
+      imageError['imgError'] = true;
+    } else {
+      imageError['imgError'] = false;
+    }
+  }, [images])
+
+  const validateParameters = useCallback(() => {
+    validateImage()
+    validateType()
+    validatePrivacy()
+    validateDescription()
+    validateTitle()
+  }, [validateImage, validateType, validatePrivacy, validateDescription, validateTitle])
+
   return (
     <>
       {created ?
         <>
-
           <Flex width="full" align="center" justifyContent="center" padding={"20px"}>
-
             <Box p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg">
-
               <Box textAlign="center">
                 <Text>House created!</Text>
                 <Button
@@ -308,7 +370,8 @@ export default function multistep() {
                   variant="solid"
                   isLoading={isSubmitting}
                   type='submit'
-                  onClick={handleSubmit}>
+                  onClick={[validateParameters, handleSubmit]}
+                  isDisabled={typeError['tyError'] || imageError['imgError'] || privacyError['privError'] || desctiptionError['descError'] || titleError['titError']}>
                   Submit
                 </Button>
               ) : null}
