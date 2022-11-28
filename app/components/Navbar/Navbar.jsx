@@ -22,10 +22,55 @@ import { Search2Icon } from '@chakra-ui/icons'
 
 import Contador from './Contador';
 import Dropdown from "~/components/Dropdown";
+import { useEffect, useState } from 'react';
+import { isAuthenticated } from '~/session';
 
+const defaultItems = [
+    {
+      slug: "/register/",
+      anchor: "Register"
+    },
+    {
+      slug: "/login/",
+      anchor: "Log in"
+    },
+    {
+      slug: "/add/",
+      anchor: "Host your place"
+    },
+    {
+      slug: "/profile/",
+      anchor: "See profile"
+    }
+  ]; 
+const otherItems = [
+    {
+      slug: "/add/",
+      anchor: "Host your place"
+    },
+    {
+      slug: "/profile/",
+      anchor: "See profile"
+    },
+    {
+        slug: "/logout/",
+        anchor: "Log out"
+    }
+  ];
 
 export default function (params) {
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    useEffect(()=>{isAuthenticated().then(res => setIsLoggedIn(res))},[])
+    
+    const [items, setItems] = useState([])
+    useEffect(()=>{
+        setItems(!isLoggedIn
+            ?
+            defaultItems
+            : otherItems
+            )
 
+    },[isLoggedIn])
     return (
         <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
             <div align="left">
@@ -110,7 +155,10 @@ export default function (params) {
                 </Center>
             </Box>
             <Spacer />
-            <Dropdown />
+            <Dropdown 
+            avatar={"https://e7.pngegg.com/pngimages/323/705/png-clipart-user-profile-get-em-cardiovascular-disease-zingah-avatar-miscellaneous-white.png"} 
+            items={items}
+            />
         </Flex >
     );
 }
