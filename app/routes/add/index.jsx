@@ -274,7 +274,7 @@ export default function multistep() {
           </Box>
           <Box backgroundColor='white' marginY='20' height='150px' position='fixed' top='80%' width='100vw'>
             <Divider></Divider>
-            <ButtonGroup position='fixed' top='80%' width='100vw' mt="5%" w="100%" align="center" >
+            <ButtonGroup  width='100vw' mt="2%" w="100%" align="center" >
               <Flex w="100%" align="center" justifyContent="center">
                 <Flex w="100%" align="center" display='top' justifyContent="left">
 
