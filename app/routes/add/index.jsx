@@ -203,9 +203,6 @@ export default function multistep() {
     if (value === '') {
       setTitleError((prev) => { return { titError: true, titErrorMess: "Title is required" } });
       return true;
-    } else if (value.match(/^[A-Za-z]+$/) === null) {
-      setTitleError((prev) => { return { titError: true, titErrorMess: "Name can\'t contain numbers" } });
-      return true;
     } else {
       setTitleError((prev) => { return { ...prev, titError: false } });
       return false;
