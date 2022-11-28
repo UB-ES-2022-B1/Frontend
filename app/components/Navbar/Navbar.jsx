@@ -25,7 +25,41 @@ import {
 } from 'react';
 import Dropdown from "~/components/Dropdown";
 import { useFetcher } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { isAuthenticated } from '~/session';
 
+const defaultItems = [
+    {
+      slug: "/register/",
+      anchor: "Register"
+    },
+    {
+      slug: "/login/",
+      anchor: "Log in"
+    },
+    {
+      slug: "/add/",
+      anchor: "Host your place"
+    },
+    {
+      slug: "/profile/",
+      anchor: "See profile"
+    }
+  ]; 
+const otherItems = [
+    {
+      slug: "/add/",
+      anchor: "Host your place"
+    },
+    {
+      slug: "/profile/",
+      anchor: "See profile"
+    },
+    {
+        slug: "/logout/",
+        anchor: "Log out"
+    }
+  ];
 
 export default function (params) {
     //declarant variables
@@ -191,7 +225,10 @@ export default function (params) {
                 </Center>
             </Box>
             <Spacer />
-            <Dropdown />
+            <Dropdown 
+            avatar={"https://e7.pngegg.com/pngimages/323/705/png-clipart-user-profile-get-em-cardiovascular-disease-zingah-avatar-miscellaneous-white.png"} 
+            items={items}
+            />
         </Flex >
     );
 }
