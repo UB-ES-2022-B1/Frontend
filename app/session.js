@@ -7,7 +7,7 @@ export async function getAccessToken()
   console.log('getaccestoken called')
   const refresh = getCookie('refresh_token')
   if(!refresh.valid){
-    throw new Error("Not logged in")
+    return Promise.reject("Not logged in")
   }
   const access = getCookie('access_token')
   if(access.valid){
@@ -25,7 +25,7 @@ export async function getAccessToken()
       }
     })
     .then(response => response.json())
-    .catch(e=>{throw new Error("Unknown error")})
+    .catch(e=>{return Promise.reject(("Unknown error"))})
 
     const {access} = await response
     const expires = new Date(new Date().getTime() + ACCESS_TOKEN_EXPIRE_TIME)
