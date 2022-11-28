@@ -33,9 +33,10 @@ export default function (params) {
     const [dateEnd, setDateEnd] = useState("")
     const [people, setPeople] = useState(0)
     const [location, setLocation] = useState("")
-    var locationError = { locationError: false, locationErrorMess: "" };
-    var dateEndError = { dateEndError: false, dateEndErrorMess: "" };
-    var dateStartError = { dateStartError: false, dateStartErrorMess: "" };
+    const [locationError, setLocationError] = useState({ locationError: false, locationErrorMess: "" });
+    const [dateEndError, setDateEndError ]= useState({ dateEndError: false, dateEndErrorMess: "" });
+    const [dateStartError, setDateStartError] = useState({dateStartError: false, dateStartErrorMess: "" });
+
     const current = new Date();
     const currentDate = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
 
@@ -49,40 +50,38 @@ export default function (params) {
     }
 
     //validar parametres de input de cerca
-    const validateLocation = useCallback(() => {
-        if (location.match(/^[A-Za-z]+$/) === null) {
-            locationError['locationErrorMess'] = 'Location can\'t contain numbers';
-            locationError['locationError'] = true;
+    const validateLocation = useCallback((value) => {
+        if (value.match(/^[A-Za-z]+$/) === null) {
+            setLocationError((prev)=>{return {locationError:true, locationErrorMess:'Location can\'t contain numbers'}})
         } else {
-            locationError['locationError'] = false;
+            setLocationError((prev)=>{return {...prev, locationError:false}})
         }
-        console.log(locationError["locationErrorMess"])
+        console.log(locationError.locationError)
     }, [location])
 
-    const validateEndDate = useCallback(() => {
-        let end = new Date(dateEnd)
+    const validateEndDate = useCallback((value) => {
+        let end = new Date(value)
         let start = new Date(dateStart)
         if (end<=start) {
-            locationError['dateEndErrorMess'] = 'End date must be later than start date';
-            locationError['dateEndError'] = true;
+            setDateEndError((prev)=>{return {dateEndError:true, dateEndErrorMess:'End date must be later than start date'}})
         } else {
-            locationError['dateEndError'] = false;
+            setDateEndError((prev)=>{return {...prev, dateEndError:false}})
         }
-        console.log(locationError["dateEndErrorMess"])
+        console.log(dateEndError.dateEndError)
     }, [dateEnd,dateStart])
 
-    const validateStartDate = useCallback(() => {
+    const validateStartDate = useCallback((value) => {
         
         let today = new Date(currentDate)
-        let start = new Date(dateStart)
+        let start = new Date(value)
         
         if (today > start) {
-            locationError['dateStartErrorMess'] = 'Start date must be later or equal to today';
-            locationError['dateStartError'] = true;
-        } else {
-            locationError['dateStartError'] = false;
+            setDateStartError((prev)=>{return {dateStartError:true, dateStartErrorMess:'Start date must be later or equal to today'}})
+        } 
+        else {
+            setDateStartError((prev)=>{return {...prev, dateStartError:false}})
         }
-        console.log(locationError["dateStartErrorMess"])
+        console.log(dateStartError.dateStartError)
     }, [dateStart])
     
     
@@ -125,7 +124,7 @@ export default function (params) {
                                             <PopoverHeader>Where?</PopoverHeader>
                                             <PopoverCloseButton />
                                             <PopoverBody>
-                                                <Input placeholder='Destiny' value = {location} onChange={(e) => setLocation(e.target.value)} />
+                                                <Input placeholder='Destiny' value = {location} onChange={(e) =>{setLocation(e.target.value);validateLocation(e.target.value)}} />
                                             </PopoverBody>
                                         </PopoverContent>
                                     </Portal>
@@ -133,7 +132,7 @@ export default function (params) {
                             
                             <Popover>
                                 <PopoverTrigger>
-                                    <Button variant='ghost' style = {{color:dateStartError["dateStartError"]? "red":"black"}} borderRadius={30}>Arrival</Button>
+                                    <Button variant='ghost' style = {{color:dateStartError.dateStartError? "red":"black"}} borderRadius={30}>Arrival</Button>
                                 </PopoverTrigger>
                                 <Portal>
                                     <PopoverContent>
@@ -141,7 +140,7 @@ export default function (params) {
                                         <PopoverHeader>When?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
-                                            <Input type='date' onChange={(e) => setDateStart(e.target.value)} />
+                                            <Input type='date' onChange={(e) => {setDateStart(e.target.value);validateStartDate(e.target.value)}} />
                                         </PopoverBody>
                                     </PopoverContent>
                                 </Portal>
@@ -157,7 +156,7 @@ export default function (params) {
                                         <PopoverHeader>When?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
-                                            <Input type='date' onChange={(e) => setDateEnd(e.target.value)} />
+                                            <Input type='date' onChange={(e) => {setDateEnd(e.target.value);validateEndDate(e.target.value)}} />
                                         </PopoverBody>
                                     </PopoverContent>
                                 </Portal>
@@ -174,8 +173,8 @@ export default function (params) {
                                         <PopoverCloseButton />
                                         <PopoverBody>
                                             <Flex>
-                                                <Button variant='outline' borderRadius={40} disabled={people <= 1} onClick={decrease}>-</Button>{' '}
-                                                <Button variant='ghost' disabled={true}>{people}</Button>
+                                                <Button variant='outline' borderRadius={40} disabled={people < 1} onClick={decrease}>-</Button>{' '}
+                                                <Button variant='ghost' placeholder="1" disabled={true}>{people+1}</Button>
                                                 <Button variant='outline' borderRadius={40} disabled={people > 16} onClick={increase}>+</Button>{' '}
                                             </Flex>
 
@@ -185,7 +184,7 @@ export default function (params) {
                             </Popover>
                             <IconButton colorScheme='purple' borderRadius={30} aria-label='Search' icon={<Search2Icon />}
                                 onClick={validateParam}//handleSubmit
-                                isDisabled={locationError['locationError']}
+                                isDisabled={locationError.locationError || dateEndError.dateEndError || dateStartError.dateStartError}
                             />
                         </FormControl>
                     </Box>
