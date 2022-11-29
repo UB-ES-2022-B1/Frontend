@@ -13,16 +13,19 @@ import {
     Flex,
     Box,
     Spacer,
-    Text,
     IconButton,
-    Divider,
     Center,
+    background,
 } from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
-
-import Contador from './Contador';
+import {
+    useState,
+    useCallback,
+    useEffect
+} from 'react';
 import Dropdown from "~/components/Dropdown";
-import { useEffect, useState } from 'react';
+import { useFetcher } from 'react-router-dom';
+//import { useEffect, useState } from 'react';
 import { isAuthenticated } from '~/session';
 
 const defaultItems = [
@@ -51,6 +54,7 @@ const otherItems = [
   ];
 
 export default function (params) {
+    //declarant variables
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     useEffect(()=>{isAuthenticated().then(res => setIsLoggedIn(res))},[])
     
@@ -63,6 +67,78 @@ export default function (params) {
             )
 
     },[isLoggedIn])
+    
+    const [dateStart, setDateStart] = useState("")
+    const [dateEnd, setDateEnd] = useState("")
+    const [people, setPeople] = useState(0)
+    const [location, setLocation] = useState("")
+    const [locationError, setLocationError] = useState({ locationError: false, locationErrorMess: "" });
+    const [dateEndError, setDateEndError ]= useState({ dateEndError: false, dateEndErrorMess: "" });
+    const [dateStartError, setDateStartError] = useState({dateStartError: false, dateStartErrorMess: "" });
+
+    const current = new Date();
+    const currentDate = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
+
+    //declarem funcions
+    const decrease = () => {
+        setPeople(people - 1);
+    }
+
+    const increase = () => {
+        setPeople(people + 1);
+    }
+
+    //validar parametres de input de cerca
+    const validateLocation = useCallback((value) => {
+        if (value.match(/^[A-Za-z]+$/) === null) {
+            setLocationError((prev)=>{return {locationError:true, locationErrorMess:'Location can\'t contain numbers'}})
+        } else {
+            setLocationError((prev)=>{return {...prev, locationError:false}})
+        }
+        console.log(locationError.locationError)
+    }, [location])
+
+    const validateEndDate = useCallback((value) => {
+        let end = new Date(value)
+        let start = new Date(dateStart)
+        if (end<=start) {
+            setDateEndError((prev)=>{return {dateEndError:true, dateEndErrorMess:'End date must be later than start date'}})
+        } else {
+            setDateEndError((prev)=>{return {...prev, dateEndError:false}})
+        }
+        console.log(dateEndError.dateEndError)
+    }, [dateEnd,dateStart])
+
+    const validateStartDate = useCallback((value) => {
+        
+        let today = new Date(currentDate)
+        let start = new Date(value)
+        
+        if (today > start) {
+            setDateStartError((prev)=>{return {dateStartError:true, dateStartErrorMess:'Start date must be later or equal to today'}})
+        } 
+        else {
+            setDateStartError((prev)=>{return {...prev, dateStartError:false}})
+        }
+        console.log(dateStartError.dateStartError)
+    }, [dateStart])
+    
+    
+
+    const validateParam = useCallback(() => {
+        validateLocation()
+        validateStartDate()
+        validateEndDate()
+    }, [validateLocation,validateEndDate,validateStartDate])
+
+    //Crides a back end
+    async function handleSubmit(event) { }
+
+    
+    console.log(dateEnd);
+    console.log(dateStart);
+    console.log(people);
+    console.log(location);
     return (
         <Flex width="full" align="center" justifyContent="center" padding={"20px"} backgroundColor="#CDFCF6">
             <div align="left">
@@ -74,44 +150,28 @@ export default function (params) {
 
                     <Box textAlign="center" backgroundColor="#FAF7F0">
 
-                        <FormControl as='fieldset'>
+                        <FormControl as='fieldset' isInvalid={locationError["locationError"]}>
+                            
+                                <Popover>
+                                    <PopoverTrigger>
+                                        <Button variant='ghost' style = {{color:locationError["locationError"]? "red":"black"}} borderRadius={30}>Destiny</Button>
+                                        
+                                    </PopoverTrigger>
+                                    <Portal>
+                                        <PopoverContent>
+                                            <PopoverArrow />
+                                            <PopoverHeader>Where?</PopoverHeader>
+                                            <PopoverCloseButton />
+                                            <PopoverBody>
+                                                <Input placeholder='Destiny' value = {location} onChange={(e) =>{setLocation(e.target.value);validateLocation(e.target.value)}} />
+                                            </PopoverBody>
+                                        </PopoverContent>
+                                    </Portal>
+                                </Popover>
+                            
                             <Popover>
                                 <PopoverTrigger>
-                                    <Button variant='ghost' borderRadius={30}>Destiny</Button>
-                                </PopoverTrigger>
-                                <Portal>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverHeader backgroundColor="#FAF7F0">Where?</PopoverHeader>
-                                        <PopoverCloseButton />
-                                        <PopoverBody>
-
-                                            <Input placeholder='Destiny' />
-
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Portal>
-                            </Popover>
-
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Button variant='ghost' borderRadius={30}>Arrival</Button>
-                                </PopoverTrigger>
-                                <Portal>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
-                                        <PopoverCloseButton />
-                                        <PopoverBody>
-                                            <Input type='date' />
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Portal>
-                            </Popover>
-
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Button variant='ghost' borderRadius={30}>Departure</Button>
+                                    <Button variant='ghost' style = {{color:dateStartError.dateStartError? "red":"black"}} borderRadius={30}>Arrival</Button>
                                 </PopoverTrigger>
                                 <Portal>
                                     <PopoverContent>
@@ -119,7 +179,23 @@ export default function (params) {
                                         <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
-                                            <Input type='date' />
+                                            <Input type='date' onChange={(e) => {setDateStart(e.target.value);validateStartDate(e.target.value)}} />
+                                        </PopoverBody>
+                                    </PopoverContent>
+                                </Portal>
+                            </Popover>
+
+                            <Popover>
+                                <PopoverTrigger>
+                                    <Button variant='ghost' style = {{color:dateEndError["dateEndError"]? "red":"black"}} borderRadius={30}>Departure</Button>
+                                </PopoverTrigger>
+                                <Portal>
+                                    <PopoverContent>
+                                        <PopoverArrow />
+                                        <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
+                                        <PopoverCloseButton />
+                                        <PopoverBody>
+                                            <Input type='date' onChange={(e) => {setDateEnd(e.target.value);validateEndDate(e.target.value)}} />
                                         </PopoverBody>
                                     </PopoverContent>
                                 </Portal>
@@ -135,13 +211,20 @@ export default function (params) {
                                         <PopoverHeader backgroundColor="#FAF7F0">How many?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
-                                            <Contador />
+                                            <Flex>
+                                                <Button variant='outline' borderRadius={40} disabled={people < 1} onClick={decrease}>-</Button>{' '}
+                                                <Button variant='ghost' placeholder="1" disabled={true}>{people+1}</Button>
+                                                <Button variant='outline' borderRadius={40} disabled={people > 16} onClick={increase}>+</Button>{' '}
+                                            </Flex>
 
                                         </PopoverBody>
                                     </PopoverContent>
                                 </Portal>
                             </Popover>
-                            <IconButton backgroundColor="#98A8F8" borderRadius={30} aria-label='Search' icon={<Search2Icon />} />
+                            <IconButton colorScheme='purple' borderRadius={30} aria-label='Search' icon={<Search2Icon />}
+                                onClick={validateParam}//handleSubmit
+                                isDisabled={locationError.locationError || dateEndError.dateEndError || dateStartError.dateStartError}
+                            />
                         </FormControl>
                     </Box>
                 </Center>

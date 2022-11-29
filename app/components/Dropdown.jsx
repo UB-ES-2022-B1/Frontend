@@ -1,10 +1,14 @@
+import styles from "../styles/dropdown.css";
 import Menubutton from "./Menubutton";
-import styles from  "../styles/dropdown.css" ;
+import { Avatar, AvatarBadge, AvatarGroup, Wrap, WrapItem } from '@chakra-ui/react'
 export function links() {
-    return [{ rel: "stylesheet", href: styles }];
-  }
+  return [{ rel: "stylesheet", href: styles }];
+}
+const drop = () => {
+  console.log("clic al avatar")
+}
 
-export default function Dropdown({avatar, items}) {
+export default function Dropdown({ avatar, items }) {
   // const items = [
   //   {
   //     slug: "/register/",
@@ -24,8 +28,26 @@ export default function Dropdown({avatar, items}) {
   //   }
   // ];
   return (
-    <div className="Dropdown" backgroundColor ="#BCCEF8">
-      <Menubutton  dropdownTitle="Usuario" image={avatar} items={items} />
+    /*<div className="Dropdown">
+      <Menubutton backgroundColor ="#BCCEF8" dropdownTitle="Usuario" image={avatar} items={items} />
     </div>
+
+    <WrapItem className="Dropdown">
+      <Avatar name='Dan Abrahmov' src='https://bit.ly/dan-abramov' onClick={drop}>
+        <Menubutton dropdownTitle="Usuario" items={items} />
+      </Avatar>
+
+    </WrapItem>
+    
+    <div className="Dropdown">
+      <Menubutton  dropdownTitle="Usuario"  items={items} >
+      <Avatar name='Dan Abrahmov' src='https://bit.ly/dan-abramov' onClick={drop}/>
+      </Menubutton>
+    </div>*/
+    <div className="Dropdown">
+    <Menubutton  dropdownTitle="Usuario" image={avatar} items={items} />
+  </div>
+    
+
   );
 }

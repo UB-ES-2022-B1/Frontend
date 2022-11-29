@@ -36,9 +36,6 @@ export default function (params) {
     return (
         <Flex width="full">
             <Box>
-                <Text as='b' fontSize='2xl'>
-                    {privacy}: {ty}
-                </Text>
                 <Text fontSize='s'>
                     {guests} guests · {bedrooms} bedrooms · {beds} beds · {bathrooms} bathrooms
                 </Text>

@@ -9,6 +9,7 @@ import en from 'react-phone-number-input/locale/en.json'
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 import React from 'react';
 import {Text} from '@chakra-ui/react'
+import { Routes, Route, useNavigate, redirect } from 'react-router-dom'
 import {
   FormControl,
   FormLabel,
@@ -132,7 +133,7 @@ export default function Index() {
   const [telefonError, setTelefonError] = useState(false);
   const [telefonErrorMessage, setTelefonErrorMessage] = useState('');
 
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState('Ascension Island +247');
   const [pais, setPais] = useState('');
   const [prefix, setPrefix] = useState('');
   const [telefonCountryError, setTelefonCountryError] = useState(false);
@@ -349,6 +350,17 @@ export default function Index() {
     setPais(country.replace(/(\+)([0-9]+)/,''))
   },[country])
 
+  const navigateToLogIn = () => {
+    window.location.href="/login"
+  };
+  /**
+   * *******************************************************************************************
+   * *******************************************************************************************
+   * ***************************************HTML************************************************
+   * *******************************************************************************************
+   * *******************************************************************************************
+   * *******************************************************************************************
+   */
   return (
     <div className="register-form">
       <Flex width="full" align="center" justifyContent="center" padding={"20px"}>
@@ -455,6 +467,15 @@ export default function Index() {
                   Register
                 </Button>
               </Box>
+              <Box marginTop="10px">
+                  <Text>
+                    Do you have an account?
+                    <Button marginLeft="5px" colorScheme='teal' variant='link' onClick={navigateToLogIn}>
+                      LogIn
+                    </Button>
+                  </Text>
+
+                </Box>
             </form>
 
           </Box>

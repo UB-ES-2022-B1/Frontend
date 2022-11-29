@@ -13,7 +13,7 @@ import {
     FormLabel,
     Flex,
     Box,
-    Input,
+    Textarea,
     Heading,
 } from '@chakra-ui/react'
 
@@ -38,7 +38,7 @@ export default function addTitle(params) {
                     <Text>The title of your accommodation should reveal the highlights of your accommodation</Text>
                 </Box>
                 <Box my={4} >
-                    <Input width="full" type='txt' value={textAreaCount} rows="3" cols="30" autocomplete="off" placeholder="Beautiful house in Menorca..." onChange={(e) => { setTextAreaCount(e.target.value) }} ></Input>
+                    <Textarea width="full" type='txt' value={textAreaCount} rows="3" cols="30" autocomplete="off" placeholder="Beautiful house in Menorca..." onChange={(e) => { setTextAreaCount(e.target.value) }} ></Textarea>
                 </Box>
             </Box>
         </Flex>

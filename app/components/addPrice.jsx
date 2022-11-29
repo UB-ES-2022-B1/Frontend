@@ -18,6 +18,7 @@ import {
     Text,
     Box,
     Heading,
+    FormControl,
 } from '@chakra-ui/react'
 
 export default function addPrice(params) {
@@ -28,7 +29,8 @@ export default function addPrice(params) {
     const [value, setValue] = useState('100')
     const { onChangeValue } = params
     useEffect(() => onChangeValue({ 'price': value }), [value])
-
+    
+    
 
     return (
         <Flex width="full" align="center" justifyContent="center" padding={"80px"}>
@@ -41,7 +43,11 @@ export default function addPrice(params) {
                 </Box>
                 <Box my={4} textAlign="center">
                     <Flex textAlign="center">
-                        <NumberInput width="full" size='lg' step={5} min={0} onChange={(valueString) => setValue(parse(valueString))} value={format(value)} mr='2rem'>
+                        <NumberInput  width="full" size='lg' step={5} min={0} onChange={(valueString) => setValue(parse(valueString))} value={format(value)} mr='2rem'
+                        onKeyDown={(event) => {
+                            event.preventDefault();
+                          }}
+                        >
                             <NumberInputField textAlign="center" />
                             <NumberInputStepper>
                                 <NumberIncrementStepper
