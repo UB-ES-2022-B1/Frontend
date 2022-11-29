@@ -43,7 +43,11 @@ export default function addPrice(params) {
                 </Box>
                 <Box my={4} textAlign="center">
                     <Flex textAlign="center">
-                        <NumberInput width="full" size='lg' step={5} min={0} onChange={(valueString) => setValue(parse(valueString))} value={format(value)} mr='2rem'>
+                        <NumberInput  width="full" size='lg' step={5} min={0} onChange={(valueString) => setValue(parse(valueString))} value={format(value)} mr='2rem'
+                        onKeyDown={(event) => {
+                            event.preventDefault();
+                          }}
+                        >
                             <NumberInputField textAlign="center" />
                             <NumberInputStepper>
                                 <NumberIncrementStepper
