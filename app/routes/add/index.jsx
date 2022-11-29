@@ -175,16 +175,44 @@ export default function multistep() {
       })
 
     const { success, msg, id_house } = await response
-    setIsSubmitting(false)
     if (success) {
-      console.log('created')
-      setCreated(true)
       setHouseId(id_house)
+      console.log('created house with id', id_house)
+      let formData = new FormData()
+      images.forEach((i)=>formData.append('files',i.file, `${i.id}_${i.file.name}`))
+      formData.append('id_house', id_house)
+      console.log(formData)
+      let upload_images = fetch(`${SERVER_DNS}/houses/upload-image`,
+      {
+        method: 'POST',
+        mode: 'cors',
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        }
+      })
+      .then(upload_images => upload_images.json())
+      .catch((error) => {
+        setIsSubmitting(false)
+        setErrorMessages('Something went wrong')
+      })
+
+      const { success, msg } = await upload_images
+      if (success)
+      {
+        setIsSubmitting(false)
+        setCreated(true)
+      }
+      else 
+      {
+        setErrorMessages(msg)
+      }
     }
-    else {
+    else 
+    {
       setErrorMessages(msg)
     }
-
+    setIsSubmitting(false)
     // else
     // {
     //   setErrorMessages("Please enter valid parameters")
@@ -273,7 +301,7 @@ export default function multistep() {
   }, [ty])
 
   const validateImage = useCallback((value) => {
-    if (value === []) {
+    if (value.length == 0) {
       setImageError((prev) => { return { imgError: true, imgErrorMess: "Image is required" } });
       return true;
     } else {
