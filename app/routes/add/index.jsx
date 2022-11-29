@@ -83,7 +83,7 @@ export default function multistep() {
   const [title, setTitle] = useState('');
   const [descript, setDes] = useState('');
   const [price, setPrice] = useState(50);
-  const [email, setEmail] = useLocalStorage('email','')
+  const [email, setEmail] = useLocalStorage('email', '')
   const [provincia, setProvincia] = useState("")
   const [carrer, setCarrer] = useState("")
   const [country, setCountry] = useState("")
@@ -310,6 +310,7 @@ export default function multistep() {
     }
   }, [images])
 
+
   return (
     <>
       {created ?
@@ -355,66 +356,66 @@ export default function multistep() {
               mx="5%"
               isAnimated></Progress>
 
-{step === 1 ? <Form1 onChangeValue={(e) => { setTy(e.ty); setIsDisable(validateType(e.ty)) }} />
-            : step === 2 ? <Form2 onChangeValue={(e) => { setPrivacy(e.privacy); setIsDisable(validatePrivacy(e.privacy)) }} />
-              : step === 3 ? <Form3 onChangeValue={(e) => { setProvincia(e.provincia); setCarrer(e.carrer); setCiutat(e.ciutat); setCountry(e.country); setIsDisable(validateLocation(e)) }} />
-                : step === 4 ? <Form4 onChangeValue={(e) => { setGuests(e.guests), setBeds(e.beds), setBedrooms(e.bedrooms), setBathrooms(e.bathrooms) }} />
-                  : step === 5 ? <Form5 onChangeValue={(e) => { setkitchen(e.kitchen), setswiming_pool(e.swiming_pool), setgarden(e.garden), setbillar_table(e.billar_table); setgym(e.gym); setspacious(e.spacious); setTV(e.TV), setfree_parking(e.free_parking), setair_conditioning(e.air_conditioning), setwashing_machine(e.washing_machine), setdishwasher(e.dishwasher), setWIFII(e.WIFII), setcentral(e.central), setquite(e.quite), setalarm(e.alarm), setsmoke_detector(e.smoke_detector), sethealth_kit(e.health_kit) }} />
-                    : step === 6 ? <Form6 onChangeValue={(e) => { setImages(e.images); setIsDisable(validateImage(e.images)) }} />
-                      : step === 7 ? <Form7 onChangeValue={(e) => { setTitle(e.title); setIsDisable(validateTitle(e.title)) }} />
-                        : step === 8 ? <Form8 onChangeValue={(e) => { setDes(e.descript); setIsDisable(validateDescription(e.descript)) }} />
-                          : <Form9 onChangeValue={(e) => setPrice(e.price)} />
-          }
+            {step === 1 ? <Form1 onChangeValue={(e) => { setTy(e.ty); setIsDisable(validateType(e.ty)) }} />
+              : step === 2 ? <Form2 onChangeValue={(e) => { setPrivacy(e.privacy); setIsDisable(validatePrivacy(e.privacy)) }} />
+                : step === 3 ? <Form3 onChangeValue={(e) => { setProvincia(e.provincia); setCarrer(e.carrer); setCiutat(e.ciutat); setCountry(e.country); setIsDisable(validateLocation(e)) }} />
+                  : step === 4 ? <Form4 onChangeValue={(e) => { setGuests(e.guests), setBeds(e.beds), setBedrooms(e.bedrooms), setBathrooms(e.bathrooms) }} />
+                    : step === 5 ? <Form5 onChangeValue={(e) => { setkitchen(e.kitchen), setswiming_pool(e.swiming_pool), setgarden(e.garden), setbillar_table(e.billar_table); setgym(e.gym); setspacious(e.spacious); setTV(e.TV), setfree_parking(e.free_parking), setair_conditioning(e.air_conditioning), setwashing_machine(e.washing_machine), setdishwasher(e.dishwasher), setWIFII(e.WIFII), setcentral(e.central), setquite(e.quite), setalarm(e.alarm), setsmoke_detector(e.smoke_detector), sethealth_kit(e.health_kit) }} />
+                      : step === 6 ? <Form6 onChangeValue={(e) => { setImages(e.images); setIsDisable(validateImage(e.images)) }} />
+                        : step === 7 ? <Form7 onChangeValue={(e) => { setTitle(e.title); setIsDisable(validateTitle(e.title)) }} />
+                          : step === 8 ? <Form8 onChangeValue={(e) => { setDes(e.descript); setIsDisable(validateDescription(e.descript)) }} />
+                            : <Form9 onChangeValue={(e) => { setPrice(e.price); () => { event.preventDefault() } }} />
+            }
           </Box>
           <Box backgroundColor='white' marginY='20' height='150px' position='fixed' top='80%' width='100vw'>
             <Divider></Divider>
-            <ButtonGroup  width='100vw' mt="2%" w="100%" align="center" >
+            <ButtonGroup width='100vw' mt="2%" w="100%" align="center" >
               <Flex w="100%" align="center" justifyContent="center">
                 <Flex w="100%" align="center" display='top' justifyContent="left">
-                <Button 
-                  onClick={() => {
-                    setStep(step - 1);
-                    setProgress(progress - 100 / totalSteps);
-                  }}
-                  isDisabled={step === 1}
-                  colorScheme="teal"
-                  variant="solid"
-                  w="7rem"
-                  mr="5%">
-                  Back
-                </Button>
-              
-                <Button
-                  w="7rem"
-                  isDisabled={step === totalSteps || isDisable}
-                  hidden={step === totalSteps}
-                  onClick={() => {
-                    setStep(step + 1);
-                    if (step === 9) {
-                      setProgress(100);
-                    } else {
-                      setProgress(progress + 100 / totalSteps);
-                    }
-                  }}
-                  colorScheme="teal"
-                  variant="outline">
-                  Next
-                </Button>
-                {step === totalSteps ? (
-                <Button
-                  w="7rem"
-                  colorScheme="red"
-                  variant="solid"
-                  isLoading={isSubmitting}
-                  type='submit'
-                  onClick={handleSubmit}>
-                  Submit
-                </Button>
-              ) : null}
+                  <Button
+                    onClick={() => {
+                      setStep(step - 1);
+                      setProgress(progress - 100 / totalSteps);
+                    }}
+                    isDisabled={step === 1}
+                    colorScheme="teal"
+                    variant="solid"
+                    w="7rem"
+                    mr="5%">
+                    Back
+                  </Button>
+
+                  <Button
+                    w="7rem"
+                    isDisabled={step === totalSteps || isDisable}
+                    hidden={step === totalSteps}
+                    onClick={() => {
+                      setStep(step + 1);
+                      if (step === 9) {
+                        setProgress(100);
+                      } else {
+                        setProgress(progress + 100 / totalSteps);
+                      }
+                    }}
+                    colorScheme="teal"
+                    variant="outline">
+                    Next
+                  </Button>
+                  {step === totalSteps ? (
+                    <Button
+                      w="7rem"
+                      colorScheme="red"
+                      variant="solid"
+                      isLoading={isSubmitting}
+                      type='submit'
+                      onClick={handleSubmit}>
+                      Submit
+                    </Button>
+                  ) : null}
+                </Flex>
+
               </Flex>
-              
-            </Flex>
-          </ButtonGroup>
+            </ButtonGroup>
           </Box>
         </Box>}
       {errorMessages ? <Box
