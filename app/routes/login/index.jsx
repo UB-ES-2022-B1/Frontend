@@ -138,13 +138,21 @@ export default function Index() {
             setErrorMessages(msg)
           }
   }
-
+/**
+ * **************************************************************************
+ * **************************************************************************
+ * **************************************************************************
+ * **************************************************************************
+ * **************************************************************************
+ * **************************************************************************
+ * **************************************************************************
+ */
   return (
     <div className="login-form">
       <Flex width="full" align="center" justifyContent="center" padding={"20px"}>
-        <Box p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg">
-          <Box textAlign="center">
-            <Heading>{isLoggedIn?'Logged in':'Login'}</Heading>
+        <Box p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg" >
+          <Box textAlign="center" >
+            <Heading >{isLoggedIn?'Logged in':'Login'}</Heading>
           </Box>
           <Box my={4} textAlign="left">
 
@@ -162,7 +170,7 @@ export default function Index() {
                   Home
                 </Button>
                 <Button
-                  colorScheme="orange"
+                  backgroundColor="#98A8F8"
                   variant="outline"
                   width="full"
                   mt={4}
@@ -204,7 +212,7 @@ export default function Index() {
                 </FormControl>
                 {errorMessages && <ErrorMessage message={errorMessages} />}
                 <Box textAlign="center">
-                  <Button mt={4} colorScheme='teal' isLoading={isSubmitting} onClick={validateParameters} type='submit' isDisabled={emailError || passwordError} >
+                  <Button mt={4} backgroundColor="#98A8F8" isLoading={isSubmitting} onClick={validateParameters} type='submit' isDisabled={emailError || passwordError} >
                     Submit
                   </Button>
                 </Box>

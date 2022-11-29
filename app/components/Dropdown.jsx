@@ -24,7 +24,7 @@ export default function Dropdown({avatar, items}) {
   //   }
   // ];
   return (
-    <div className="Dropdown">
+    <div className="Dropdown" backgroundColor ="#BCCEF8">
       <Menubutton  dropdownTitle="Usuario" image={avatar} items={items} />
     </div>
   );

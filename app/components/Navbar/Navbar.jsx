@@ -64,15 +64,15 @@ export default function (params) {
 
     },[isLoggedIn])
     return (
-        <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
+        <Flex width="full" align="center" justifyContent="center" padding={"20px"} backgroundColor="#CDFCF6">
             <div align="left">
                 <a href="/"><img width='50' height='40' src='https://www.freepnglogos.com/uploads/logo-home-png/chimney-home-icon-transparent-1.png' /></a>
             </div>
             <Spacer />
-            <Box p={1} maxWidth="1000px" borderWidth={1} borderRadius={30} boxShadow="lg">
+            <Box p={1} maxWidth="1000px" borderWidth={1} borderRadius={30} boxShadow="lg" backgroundColor="#FAF7F0">
                 <Center height='50px'>
 
-                    <Box textAlign="center">
+                    <Box textAlign="center" backgroundColor="#FAF7F0">
 
                         <FormControl as='fieldset'>
                             <Popover>
@@ -82,7 +82,7 @@ export default function (params) {
                                 <Portal>
                                     <PopoverContent>
                                         <PopoverArrow />
-                                        <PopoverHeader>Where?</PopoverHeader>
+                                        <PopoverHeader backgroundColor="#FAF7F0">Where?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
 
@@ -100,7 +100,7 @@ export default function (params) {
                                 <Portal>
                                     <PopoverContent>
                                         <PopoverArrow />
-                                        <PopoverHeader>When?</PopoverHeader>
+                                        <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
                                             <Input type='date' />
@@ -116,7 +116,7 @@ export default function (params) {
                                 <Portal>
                                     <PopoverContent>
                                         <PopoverArrow />
-                                        <PopoverHeader>When?</PopoverHeader>
+                                        <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
                                             <Input type='date' />
@@ -132,7 +132,7 @@ export default function (params) {
                                 <Portal>
                                     <PopoverContent>
                                         <PopoverArrow />
-                                        <PopoverHeader>How many?</PopoverHeader>
+                                        <PopoverHeader backgroundColor="#FAF7F0">How many?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
                                             <Contador />
@@ -141,7 +141,7 @@ export default function (params) {
                                     </PopoverContent>
                                 </Portal>
                             </Popover>
-                            <IconButton colorScheme='purple' borderRadius={30} aria-label='Search' icon={<Search2Icon />} />
+                            <IconButton backgroundColor="#98A8F8" borderRadius={30} aria-label='Search' icon={<Search2Icon />} />
                         </FormControl>
                     </Box>
                 </Center>
