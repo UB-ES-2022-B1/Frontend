@@ -351,9 +351,7 @@ export default function Index() {
   },[country])
 
   const navigateToLogIn = () => {
-    // 👇️ navigate to /contacts
-    //navigate('/routes/login/index');
-    redirect('/routes/login');
+    window.location.href="/login"
   };
   /**
    * *******************************************************************************************

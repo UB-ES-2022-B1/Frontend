@@ -95,9 +95,7 @@ export default function Index() {
     }
   };
   const navigateToRegister = () => {
-    // 👇️ navigate to /contacts
-    //navigate('/routes/register/index');
-    redirect('/routes/register/index.jsx');
+    window.location.href="/register"
   };
   //Validations
   const validateEmail = useCallback(() => {
