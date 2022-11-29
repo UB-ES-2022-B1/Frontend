@@ -3,6 +3,9 @@ import HouseCard from "./HouseCard"
 import useInfiniteScroll from "~/utils/useInfiniteScroll";
 import { Center,Spinner, Wrap, Box } from "@chakra-ui/react"
 
+async function fetchHouses(page){
+    
+}
 
 export default function(params)
 {
@@ -12,6 +15,7 @@ export default function(params)
     function fetchMoreListItems(callback) {
         setTimeout(() => {
         console.log('Fetching')
+        //setListItems(prevState => ([...prevState, ...Array.from(Array(24).keys(), n => n + prevState.length + 1)]));
         setListItems(prevState => ([...prevState, ...Array.from(Array(24).keys(), n => n + prevState.length + 1)]));
         setIsFetching(false);
         callback()

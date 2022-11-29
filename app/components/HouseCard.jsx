@@ -37,7 +37,9 @@ export default function(params)
         adaptiveHeight: true
     }
     let house = houseLoader(params.id)
+
     return (
+    <a href={`/apartment/${params.id}`}>
     <div className="housecard">
         <div>
             <Slider
@@ -72,5 +74,6 @@ export default function(params)
             <div><Text as='b'>{house.price}</Text><Text>night</Text></div> */}
         </Box>
     </div>
+    </a>
     )
 }
