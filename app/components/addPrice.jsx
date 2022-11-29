@@ -18,6 +18,7 @@ import {
     Text,
     Box,
     Heading,
+    FormControl,
 } from '@chakra-ui/react'
 
 export default function addPrice(params) {
@@ -28,7 +29,8 @@ export default function addPrice(params) {
     const [value, setValue] = useState('100')
     const { onChangeValue } = params
     useEffect(() => onChangeValue({ 'price': value }), [value])
-
+    
+    
 
     return (
         <Flex width="full" align="center" justifyContent="center" padding={"80px"}>
