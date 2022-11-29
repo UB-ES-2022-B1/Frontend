@@ -43,7 +43,7 @@ import {
 
 
 export default function (params) {
-    const {title, location} = params;
+    const {title, town, province, country} = params;
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [name, setName] = useState('');
 
@@ -60,7 +60,7 @@ export default function (params) {
                     <Popover>
                         <PopoverTrigger>
                             <Button variant='link'>
-                                <Text as='u' fontSize='s' color='black'>{location}</Text>
+                                <Text as='u' fontSize='s' color='black'>{town}, {province}, {country}</Text>
                             </Button>
                         </PopoverTrigger>
                         <Portal>
