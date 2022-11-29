@@ -14,7 +14,7 @@ import {
 import { useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { SERVER_DNS } from "~/utils/constants";
+import { SERVER_DNS, IMAGES_DNS } from "~/utils/constants";
 
 export const loader = async ({
     params,
@@ -59,6 +59,7 @@ export default function Index() {
     const [province, setProvince] = useState('');
     const [street, setStreet] = useState('');
     const [country, setCountry] = useState('');
+    const [images, setImages] = useState([]);
 
     const [inexistent, setInexistent] = useState(false)
 
@@ -93,8 +94,7 @@ export default function Index() {
             setAlarm(res.alarm),
             setBotiquin(res.health_kit),
             setSmoke(res.smoke_detector),
-            setPrivacy(res.privacy),
-            setType(res.type)
+            setImages(res.images.map((i)=>`${IMAGES_DNS}/${i}`))
     }
 
     useEffect(async () => {
@@ -120,8 +120,8 @@ export default function Index() {
         else {
             setInexistent(true)
         }
-    }, []
-    )
+    }, [])
+
 
     return (
         <>
@@ -134,7 +134,7 @@ export default function Index() {
                         country={ country}
                     ></HouseTitle>
 
-                    <Slider></Slider>
+                    <Slider images={images}></Slider>
 
                     <Box marginTop={8}>
                         <Flex width="full" justifyContent="center">
@@ -181,9 +181,6 @@ export default function Index() {
                                     extra={extra_costs}
                                 ></ReservationCard>
                             </Box>
-
-
-
 
                         </Flex>
                     </Box>
