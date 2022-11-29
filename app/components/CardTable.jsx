@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import HouseCard from "./HouseCard"
 import useInfiniteScroll from "~/utils/useInfiniteScroll";
-import { Center,Spinner } from "@chakra-ui/react"
+import { Center,Spinner, Wrap, Box } from "@chakra-ui/react"
 
 
 export default function(params)
@@ -20,11 +20,13 @@ export default function(params)
 
     return(
         <>
-        <div className="grid-container">
+        <Box m={'20px'}>
+            <Wrap minChildWidth='200px' spacing='40px' justify='center'>
             {listItems.map((id) => {
-                return <div className="grid-item" key={id}><HouseCard id={id} /></div>;
+                return <Box className="house-card" key={id}><HouseCard id={id} /></Box>;
             })}
-        </div>
+            </Wrap>
+        </Box>
         <Center>
         {isFetching?<Spinner
                 margin='0 auto'
