@@ -95,7 +95,6 @@ export default function (params) {
         } else {
             setLocationError((prev)=>{return {...prev, locationError:false}})
         }
-        console.log(locationError.locationError)
     }, [location])
 
     const validateEndDate = useCallback((value) => {
@@ -106,7 +105,6 @@ export default function (params) {
         } else {
             setDateEndError((prev)=>{return {...prev, dateEndError:false}})
         }
-        console.log(dateEndError.dateEndError)
     }, [dateEnd,dateStart])
 
     const validateStartDate = useCallback((value) => {
@@ -120,7 +118,6 @@ export default function (params) {
         else {
             setDateStartError((prev)=>{return {...prev, dateStartError:false}})
         }
-        console.log(dateStartError.dateStartError)
     }, [dateStart])
     
     
@@ -135,10 +132,6 @@ export default function (params) {
     async function handleSubmit(event) { }
 
     
-    console.log(dateEnd);
-    console.log(dateStart);
-    console.log(people);
-    console.log(location);
     return (
         <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
             <div align="left">
