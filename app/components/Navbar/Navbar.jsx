@@ -148,7 +148,7 @@ export default function (params) {
             <Box p={1} maxWidth="1000px" borderWidth={1} borderRadius={30} boxShadow="lg" backgroundColor="#FAF7F0">
                 <Center height='50px'>
 
-                    <Box textAlign="center" backgroundColor="#FAF7F0">
+                    <Box textAlign="center" borderRadius={30}>
 
                         <FormControl as='fieldset' isInvalid={locationError["locationError"]}>
                             
@@ -160,7 +160,7 @@ export default function (params) {
                                     <Portal>
                                         <PopoverContent>
                                             <PopoverArrow />
-                                            <PopoverHeader>Where?</PopoverHeader>
+                                            <PopoverHeader backgroundColor="#FAF7F0">Where?</PopoverHeader>
                                             <PopoverCloseButton />
                                             <PopoverBody>
                                                 <Input placeholder='Destiny' value = {location} onChange={(e) =>{setLocation(e.target.value);validateLocation(e.target.value)}} />
@@ -221,7 +221,7 @@ export default function (params) {
                                     </PopoverContent>
                                 </Portal>
                             </Popover>
-                            <IconButton colorScheme='purple' borderRadius={30} aria-label='Search' icon={<Search2Icon />}
+                            <IconButton backgroundColor="#98A8F8" borderRadius={30} aria-label='Search' icon={<Search2Icon />}
                                 onClick={validateParam}//handleSubmit
                                 isDisabled={locationError.locationError || dateEndError.dateEndError || dateStartError.dateStartError}
                             />

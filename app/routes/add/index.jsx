@@ -378,7 +378,7 @@ export default function multistep() {
                       setProgress(progress - 100 / totalSteps);
                     }}
                     isDisabled={step === 1}
-                    colorScheme="teal"
+                    backgroundColor='#98A8F8'
                     variant="solid"
                     w="7rem"
                     mr="5%">
@@ -397,7 +397,7 @@ export default function multistep() {
                         setProgress(progress + 100 / totalSteps);
                       }
                     }}
-                    colorScheme="teal"
+                    backgroundColor='#98A8F8'
                     variant="outline">
                     Next
                   </Button>

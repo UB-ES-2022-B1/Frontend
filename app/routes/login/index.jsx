@@ -223,7 +223,7 @@ export default function Index() {
                 <Box marginTop="10px">
                   <Text>
                     Are you registered?
-                    <Button marginLeft="5px" colorScheme='teal' variant='link' onClick={navigateToRegister}>
+                    <Button marginLeft="5px" colorScheme='#98A8F8' variant='link' onClick={navigateToRegister}>
                       Register
                     </Button>
                   </Text>
