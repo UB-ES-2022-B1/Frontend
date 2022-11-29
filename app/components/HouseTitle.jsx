@@ -43,13 +43,13 @@ import {
 
 
 export default function (params) {
-    const {title, location} = params;
+    const {title, town, province, country} = params;
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [name, setName] = useState('');
 
 
     return (
-        <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
+        <Flex width="full" align="center" justifyContent="center" >
             <Box p='3' >
                 <Box>
                     <Text fontSize='3xl' as='b' >
@@ -60,7 +60,7 @@ export default function (params) {
                     <Popover>
                         <PopoverTrigger>
                             <Button variant='link'>
-                                <Text as='u' fontSize='s' color='black'>{location}</Text>
+                                <Text as='u' fontSize='s' color='black'>{town}, {province}, {country}</Text>
                             </Button>
                         </PopoverTrigger>
                         <Portal>
@@ -75,7 +75,7 @@ export default function (params) {
                         </Portal>
                     </Popover>
 
-                    <ButtonGroup variant='outline' spacing='1' marginLeft={500}>
+                    <ButtonGroup variant='outline' spacing='1' marginLeft={390}>
                         <Popover>
                             <PopoverTrigger>
                                 <Button variant='ghost' aria-label='Compartir' leftIcon={<ExternalLinkIcon />}>
