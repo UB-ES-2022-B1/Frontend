@@ -158,7 +158,7 @@ export default function (params) {
                                                     <Text fontSize='xs'>Maximum 50 characters</Text>
                                                 </ModalBody>
                                                 <ModalFooter>
-                                                    <Button colorScheme='purple' variant='solid' width='xl' disabled={!name} onClick={onClose}>
+                                                    <Button backgroundColor='#98A8F8' variant='solid' width='xl' disabled={!name} onClick={onClose}>
                                                         Crear
                                                     </Button>
                                                 </ModalFooter>

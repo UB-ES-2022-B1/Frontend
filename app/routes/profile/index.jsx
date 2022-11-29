@@ -73,7 +73,7 @@ const EditName = (props) => {
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled colorScheme='teal'>
+                <Button isDisabled backgroundColor='#98A8F8'>
                   Save
                 </Button>
               </ButtonGroup>
@@ -118,7 +118,7 @@ const EditMail = (props) => {
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled colorScheme='teal'>
+                <Button isDisabled backgroundColor='#98A8F8'>
                   Save
                 </Button>
               </ButtonGroup>
@@ -162,7 +162,7 @@ const EditPhoneNumber = (props) => {
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled colorScheme='teal'>
+                <Button isDisabled backgroundColor='#98A8F8'>
                   Save
                 </Button>
               </ButtonGroup>
@@ -207,7 +207,7 @@ const EditBirthDate = (props) => {
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled colorScheme='teal'>
+                <Button isDisabled backgroundColor='#98A8F8'>
                   Save
                 </Button>
               </ButtonGroup>
@@ -251,7 +251,7 @@ const EditCountry = (props) => {
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled colorScheme='teal'>
+                <Button isDisabled backgroundColor='#98A8F8'>
                   Save
                 </Button>
               </ButtonGroup>

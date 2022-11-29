@@ -29,7 +29,7 @@ export default function Dropdown({ avatar, items }) {
   // ];
   return (
     /*<div className="Dropdown">
-      <Menubutton  dropdownTitle="Usuario" image={avatar} items={items} />
+      <Menubutton backgroundColor ="#BCCEF8" dropdownTitle="Usuario" image={avatar} items={items} />
     </div>
 
     <WrapItem className="Dropdown">
