@@ -3,7 +3,7 @@ import { useState, useMemo, useEffect, useCallback } from "react";
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun'
 import { useLocalStorage } from '~/utils/localStorage'
 
-import { Text, Input, Button, InputGroup, InputLeftElement,InputRightElement } from '@chakra-ui/react'
+import { Text, Input, Button, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/react'
 import {
   FormControl,
   FormLabel,
@@ -23,6 +23,8 @@ import ErrorMessage from '~/components/ErrorMessage'
 import { SERVER_DNS, ACCESS_TOKEN_EXPIRE_TIME } from "~/utils/constants";
 import Cookies from 'js-cookie'
 import { getAccessToken, getRefreshToken, isAuthenticated } from "~/session"
+import { Routes, Route, useNavigate, redirect } from 'react-router-dom'
+//import { redirect } from "@remix-run/node";
 
 const validate = (value) => {
   return value != ''
@@ -35,108 +37,110 @@ const validate = (value) => {
 // }
 
 export default function Index() {
-  const [show, setShow] = useState(false)
-  const handleClick = () => setShow(!show)
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
   const [email, setEmail] = useLocalStorage('email', '');
-  const [emailError, setEmailError] = useState(false)
+  const [emailError, setEmailError] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState(false)
   const [errorMessages, setErrorMessages] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  useEffect(()=>{isAuthenticated().then(res => setIsLoggedIn(res))},[])
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //const navigate = useNavigate();
+  
+  useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, []);
 
-  async function handleSubmit(event){
+  async function handleSubmit(event) {
     event.preventDefault();
     setErrorMessages('')
-    if(!emailError && !passwordError)
-    {
-    setIsSubmitting(true)
-    console.log('Submitted')
-    let jsonData={"email":email,"password":password}
-    let response = fetch(`${SERVER_DNS}/accounts/login`,
-          {
-            method:'POST',
-            mode:'cors',
-            // credentials: "include",
-            body: JSON.stringify(jsonData),
-            headers: {
-              'Content-Type': 'application/json',
-            }
-          })
-          .then(response => {
-            return response.json()
-          })
-          .catch((error)=>{
-            setIsSubmitting(false)
-            setErrorMessages('Something went wrong')
-          })
-
-          const {success, msg, refresh, access} = await response
-          // const {success, msg, token} = await response
+    if (!emailError && !passwordError) {
+      setIsSubmitting(true)
+      console.log('Submitted')
+      let jsonData = { "email": email, "password": password }
+      let response = fetch(`${SERVER_DNS}/accounts/login`,
+        {
+          method: 'POST',
+          mode: 'cors',
+          // credentials: "include",
+          body: JSON.stringify(jsonData),
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        })
+        .then(response => {
+          return response.json()
+        })
+        .catch((error) => {
           setIsSubmitting(false)
-          if(success){
-            //localStorage.setItem('csrftoken',token)
-            setIsLoggedIn(true)
-            const expires = new Date(new Date().getTime() + ACCESS_TOKEN_EXPIRE_TIME)
-            Cookies.set('access_token', access, { expires: expires, sameSite: 'Lax'})
-            Cookies.set('refresh_token', refresh, {sameSite: 'Lax'})
-          }
-          else{
-            setErrorMessages(msg)
-          }
+          setErrorMessages('Something went wrong')
+        })
+
+      const { success, msg, refresh, access } = await response
+      // const {success, msg, token} = await response
+      setIsSubmitting(false)
+      if (success) {
+        //localStorage.setItem('csrftoken',token)
+        setIsLoggedIn(true)
+        const expires = new Date(new Date().getTime() + ACCESS_TOKEN_EXPIRE_TIME)
+        Cookies.set('access_token', access, { expires: expires, sameSite: 'Lax' })
+        Cookies.set('refresh_token', refresh, { sameSite: 'Lax' })
+      }
+      else {
+        setErrorMessages(msg)
+      }
     }
-    else
-    {
+    else {
       setErrorMessages("Please enter valid parameters")
       setIsSubmitting(false)
     }
   };
-
+  const navigateToRegister = () => {
+    window.location.href="/register"
+  };
   //Validations
-  const validateEmail = useCallback(()=>{
+  const validateEmail = useCallback(() => {
     console.log('validate email')
     setEmailError(email === '')
-  },[email])
-  const validatePassword = useCallback(()=>{
+  }, [email])
+  const validatePassword = useCallback(() => {
     setPasswordError(password === '')
-  },[password])
-  const validateParameters = useCallback(()=>{
+  }, [password])
+  const validateParameters = useCallback(() => {
     validateEmail()
     validatePassword()
-  },[validateEmail,validatePassword])
+  }, [validateEmail, validatePassword])
 
-  const updateEmailError = useEffectWithoutFirstRun(validateEmail,[email])
-  const updatePasswordError = useEffectWithoutFirstRun(validatePassword,[password])
+  const updateEmailError = useEffectWithoutFirstRun(validateEmail, [email])
+  const updatePasswordError = useEffectWithoutFirstRun(validatePassword, [password])
 
-  async function logOut(){
+  async function logOut() {
     let access = await getAccessToken()
     let response = fetch(`${SERVER_DNS}/accounts/logout`,
-          {
-            method:'POST',
-            mode:'cors',
-            body:{'access':access,'refresh':getRefreshToken()},
-            headers: {
-              'Authorization': `Bearer ${access}`,
-              'Content-Type': 'application/json',
-            }
-          })
-          .then(response => response.json())
-          .catch((error)=>{
-            setIsSubmitting(false)
-            setErrorMessages('Something went wrong')
-          })
+      {
+        method: 'POST',
+        mode: 'cors',
+        body: { 'access': access, 'refresh': getRefreshToken() },
+        headers: {
+          'Authorization': `Bearer ${access}`,
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => response.json())
+      .catch((error) => {
+        setIsSubmitting(false)
+        setErrorMessages('Something went wrong')
+      })
 
-          const {success, msg} = await response
-          setIsSubmitting(false)
-          if(success){
-            Cookies.remove('access_token')
-            Cookies.remove('refresh_token')
-            setIsLoggedIn(false)
-          }
-          else{
-            setErrorMessages(msg)
-          }
+    const { success, msg } = await response
+    setIsSubmitting(false)
+    if (success) {
+      Cookies.remove('access_token')
+      Cookies.remove('refresh_token')
+      setIsLoggedIn(false)
+    }
+    else {
+      setErrorMessages(msg)
+    }
   }
 
   return (
@@ -144,34 +148,34 @@ export default function Index() {
       <Flex width="full" align="center" justifyContent="center" padding={"20px"}>
         <Box p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg">
           <Box textAlign="center">
-            <Heading>{isLoggedIn?'Logged in':'Login'}</Heading>
+            <Heading>{isLoggedIn ? 'Logged in' : 'Login'}</Heading>
           </Box>
           <Box my={4} textAlign="left">
 
             {isLoggedIn ?
               <>
-              <Box textAlign="center">
-                <Text>{email} logged in!</Text>
-                <Button
-                  colorScheme="orange"
-                  variant="outline"
-                  width="full"
-                  mt={4}
-                  onClick={() => location.href = '/'}
-                >
-                  Home
-                </Button>
-                <Button
-                  colorScheme="orange"
-                  variant="outline"
-                  width="full"
-                  mt={4}
-                  onClick={() => logOut()}
-                >
-                  Sign out
-                </Button>
-                {errorMessages && <ErrorMessage message={errorMessages} />}
-              </Box>
+                <Box textAlign="center">
+                  <Text>{email} logged in!</Text>
+                  <Button
+                    colorScheme="orange"
+                    variant="outline"
+                    width="full"
+                    mt={4}
+                    onClick={() => location.href = '/'}
+                  >
+                    Home
+                  </Button>
+                  <Button
+                    colorScheme="orange"
+                    variant="outline"
+                    width="full"
+                    mt={4}
+                    onClick={() => logOut()}
+                  >
+                    Sign out
+                  </Button>
+                  {errorMessages && <ErrorMessage message={errorMessages} />}
+                </Box>
               </>
               :
               <form onSubmit={handleSubmit}>
@@ -185,7 +189,7 @@ export default function Index() {
                 <FormControl isInvalid={passwordError}>
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
-                    <Input 
+                    <Input
                       type={show ? 'text' : 'password'}
                       value={password}
                       placeholder="*************"
@@ -193,7 +197,7 @@ export default function Index() {
                       onChange={(e) => { setPassword(e.target.value) }
                       } />
                     <InputRightElement>
-                      <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
+                      <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon />}>
                         {show ? 'Hide' : 'Show'}
                       </IconButton>
                     </InputRightElement>
@@ -207,6 +211,15 @@ export default function Index() {
                   <Button mt={4} colorScheme='teal' isLoading={isSubmitting} onClick={validateParameters} type='submit' isDisabled={emailError || passwordError} >
                     Submit
                   </Button>
+                </Box>
+                <Box marginTop="10px">
+                  <Text>
+                    Are you registered?
+                    <Button marginLeft="5px" colorScheme='teal' variant='link' onClick={navigateToRegister}>
+                      Register
+                    </Button>
+                  </Text>
+
                 </Box>
               </form>
             }
