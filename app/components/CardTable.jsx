@@ -37,7 +37,7 @@ export default function(params)
     if(hasInitial){empty = initial.length == 0}
 
     const [listItems, setListItems] = useState([]);
-    let page = 0
+    const [page,setPage] = useState(1)
     // useEffect(fetchHouses(++page),[])
     //const [listItems, setListItems] = useState(Array.from(Array(24).keys(), n => n + 1));
     useEffect(()=>{
@@ -45,18 +45,20 @@ export default function(params)
         if(hasInitial){
             setListItems(initial)}
         else{
-        fetchHouses(++page).then((ids)=>setListItems(ids))
+        fetchHouses(page).then((ids)=>setListItems(ids))
+        setPage((page)=>page+1)
         }
     },[initial])
 
     const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreListItems);
 
     function fetchMoreListItems(callback) {
+        setPage((page)=>page+1)
         if(!hasInitial){
         setTimeout(() => {
         console.log('Fetching')
         //setListItems(prevState => ([...prevState, ...Array.from(Array(24).keys(), n => n + prevState.length + 1)]));
-        fetchHouses(++page).then((newids)=>setListItems(prevState => ([...prevState, ...newids])))
+        fetchHouses(page).then((newids)=>setListItems(prevState => ([...prevState, ...newids])))
         setIsFetching(false);
         callback()
         }, 2000);
