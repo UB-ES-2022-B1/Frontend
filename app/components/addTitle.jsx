@@ -8,57 +8,39 @@ import { getCountries, getCountryCallingCode } from 'react-phone-number-input/in
 import en from 'react-phone-number-input/locale/en.json'
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 import React from 'react';
-import {Text} from '@chakra-ui/react'
+import { Text } from '@chakra-ui/react'
 import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Select,
-  Flex,
-  Box,
-  Heading,
-  Input, 
-  Button, 
-  InputGroup, 
-  InputLeftElement, 
-  InputRightElement 
+    FormLabel,
+    Flex,
+    Box,
+    Textarea,
+    Heading,
 } from '@chakra-ui/react'
 
 
-export default function addTitle(params)
-{
-    
+export default function addTitle(params) {
+
     const [textAreaCount, setTextAreaCount] = React.useState('');
-    const {onChangeValue} = params
+    const { onChangeValue } = params
 
-    useEffect(()=>onChangeValue({'title':textAreaCount}),[textAreaCount])
-                
+    useEffect(() => onChangeValue({ 'title': textAreaCount }), [textAreaCount])
 
-    return(
 
-        <div className="register-form">
+    return (
         <Flex width="full" align="center" justifyContent="center" padding={"80px"}>
-            <Box p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg">
-            <Box textAlign="center">
-                <Heading>{'WRITE YOUR TITTLE'}</Heading>
-            </Box>
-                <Box my={4} textAlign="left">
-                
-                
-                    <FormLabel>The title of your ad should reveal the highlights of your property</FormLabel>
-                    
-                    <Input type='txt' value={textAreaCount} rows="3" cols="30" autocomplete="off" placeholder="Beautiful house in Menorca..." onChange={(e) => { setTextAreaCount(e.target.value) }} ></Input>
-                    
-                    
-                
+            <Box p={8} >
+                <Box>
+                    <Heading lineHeight={1.1} fontSize={{ base: '2xl', md: '3xl' }}>
+                        Title your ad
+                    </Heading>
                 </Box>
-                
+                <Box my={4} textAlign="left">
+                    <Text>The title of your accommodation should reveal the highlights of your accommodation</Text>
+                </Box>
+                <Box my={4} >
+                    <Textarea width="full" type='txt' value={textAreaCount} rows="3" cols="30" autocomplete="off" placeholder="Beautiful house in Menorca..." onChange={(e) => { setTextAreaCount(e.target.value) }} ></Textarea>
+                </Box>
             </Box>
         </Flex>
-    </div>
-
-
-
     )
 }

@@ -46,7 +46,7 @@ padding: 20px;
     display: flex;
     align-items: center;
     font-size: inherit;
-    padding: 1rem 0.6rem;
+    
     cursor: pointer;
     width: 100%;
   }
@@ -127,4 +127,14 @@ padding: 20px;
     height: 100%;
     width: 100%;
     pointer-events: none;
+  }
+
+  .color1 {
+    color: #CDFCF6;
+  }
+  :root {
+    --paleta1: #FAF7F0;
+    --paleta2: #CDFCF6;
+    --paleta3: #BCCEF8;
+    --paleta4: #98A8F8;
   }

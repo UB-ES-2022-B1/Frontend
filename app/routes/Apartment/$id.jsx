@@ -4,18 +4,17 @@ import ReservationCard from "~/components/ReservationCard"
 import HouseDescription from "~/components/HouseDescription"
 import HouseCharacteristics from "~/components/HouseCharacteristics";
 import CapacidadApartamento from "~/components/capacidadApartamento";
+import { beautifyText, firstToUpperCase } from "~/utils/textUtils";
 
 import {
     Flex,
     Box,
-    Heading,
-    Spacer,
     Divider,
 } from '@chakra-ui/react';
 import { useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { SERVER_DNS } from "~/utils/constants";
+import { SERVER_DNS, IMAGES_DNS } from "~/utils/constants";
 
 export const loader = async ({
     params,
@@ -47,7 +46,6 @@ export default function Index() {
 
     const [description, setDescription] = useState('');
     const [title, setTitle] = useState('');
-    const [location, setLocation] = useState('');
     const [company_individual, setCompany_individual] = useState('');
     const [num_people, setNum_people] = useState('');
     const [num_beds, setNum_beds] = useState('');
@@ -57,18 +55,25 @@ export default function Index() {
     const [taxes, setTaxes] = useState('');
     const [extra_costs, setExtra_costs] = useState('');
 
+    const [town, setTown] = useState('');
+    const [province, setProvince] = useState('');
+    const [street, setStreet] = useState('');
+    const [country, setCountry] = useState('');
+    const [images, setImages] = useState([]);
 
     const [inexistent, setInexistent] = useState(false)
 
     function componentsSet(res) {
-        setTitle(res.title),
-            setLocation(res.location),
-            setCompany_individual(res.company_individual),
+        setTitle(firstToUpperCase(res.title)),
+            setCountry(res.country),
+            setStreet(res.street),
+            setProvince(res.province),
+            setTown(res.town),
             setNum_people(res.num_people),
             setNum_beds(res.num_beds),
             setNum_bathrooms(res.num_bathrooms),
             setNum_hab(res.num_hab),
-            setDescription(res.description),
+            setDescription(beautifyText(res.description)),
             setBase_price(res.base_price),
             setTaxes(res.taxes),
             setExtra_costs(res.extra_costs),
@@ -88,7 +93,8 @@ export default function Index() {
             setCalmed(res.quite),
             setAlarm(res.alarm),
             setBotiquin(res.health_kit),
-            setSmoke(res.smoke_detector)
+            setSmoke(res.smoke_detector),
+            setImages(res.images.map((i)=>`${IMAGES_DNS}/${i}`))
     }
 
     useEffect(async () => {
@@ -109,13 +115,13 @@ export default function Index() {
             })
         response = await response;
         if (response.success) {
-            componentsSet(response.msg);
+            componentsSet(response.msg[0]);
         }
         else {
             setInexistent(true)
         }
-    }, []
-    )
+    }, [])
+
 
     return (
         <>
@@ -123,52 +129,61 @@ export default function Index() {
                 <Box>
                     <HouseTitle
                         title={title}
-                        location={location}
+                        town={ town}
+                        province={province }
+                        country={ country}
                     ></HouseTitle>
 
-                    <Slider></Slider>
+                    <Slider images={images}></Slider>
 
-                    <HouseDescription
-                        description={description}
-                    ></HouseDescription>
-                    <CapacidadApartamento
-                        privacy={company_individual}
-                        ty=''
-                        guests={num_people}
-                        bedrooms={num_hab}
-                        beds={num_beds}
-                        bathrooms={num_bathrooms}
-                    ></CapacidadApartamento>
-                    <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
+                    <Box marginTop={8}>
+                        <Flex width="full" justifyContent="center">
+                            <Box marginRight={20}>
+                                <CapacidadApartamento
+                                    guests={num_people}
+                                    bedrooms={num_hab}
+                                    beds={num_beds}
+                                    bathrooms={num_bathrooms}
+                                ></CapacidadApartamento>
 
+                                <Divider marginTop={5} marginBottom={5}></Divider>
 
+                                <HouseDescription
+                                    description={description}
+                                ></HouseDescription>
 
-                        <HouseCharacteristics
-                            Kitchen={kitchen}
-                            swimming={swimming_pool}
-                            garden={garden}
-                            pooltable={billar_table}
-                            gym={gym}
-                            tv={TV}
-                            wifi={WIFI}
-                            washingMachine={washing_machine}
-                            dishwasher={dishwasher}
-                            aireAcond={air_conditioning}
-                            parking={free_parking}
-                            spacious={spacious}
-                            central={central}
-                            calmed={quite}
-                            Alarm={alarm}
-                            botiquin={health_kit}
-                            smokeDetector={smoke_detector}
-                        ></HouseCharacteristics>
+                                <Divider marginTop={5} marginBottom={5}></Divider>
 
-                        <ReservationCard
-                            moneyDay={base_price}
-                            taxes={taxes}
-                            extra={extra_costs}
-                        ></ReservationCard>
-                    </Flex>
+                                <HouseCharacteristics
+                                    Kitchen={kitchen}
+                                    swimming={swimming_pool}
+                                    garden={garden}
+                                    pooltable={billar_table}
+                                    gym={gym}
+                                    tv={TV}
+                                    wifi={WIFI}
+                                    washingMachine={washing_machine}
+                                    dishwasher={dishwasher}
+                                    aireAcond={air_conditioning}
+                                    parking={free_parking}
+                                    spacious={spacious}
+                                    central={central}
+                                    calmed={quite}
+                                    Alarm={alarm}
+                                    botiquin={health_kit}
+                                    smokeDetector={smoke_detector}
+                                ></HouseCharacteristics>
+                            </Box>
+                            <Box>
+                                <ReservationCard
+                                    moneyDay={base_price}
+                                    taxes={taxes}
+                                    extra={extra_costs}
+                                ></ReservationCard>
+                            </Box>
+
+                        </Flex>
+                    </Box>
                 </Box>}
         </>
     );

@@ -1,3 +1,4 @@
+import { Avatar } from "@chakra-ui/react";
 import React, { useState, useEffect, useRef } from "react";
 
 function Menubutton({ items = [], image,dropdownTitle }) {
@@ -47,8 +48,8 @@ function Menubutton({ items = [], image,dropdownTitle }) {
         onClick={clickHandler}
         ref={activatorRef}
       >
-        <img src={image}width='25px'height='25px'></img>{" "}
-        {isOpen ? (
+        <Avatar src = {image} size='md'/>
+        {/* {isOpen ? (
           <svg
             height="24"
             fill="rgb(70,70,70)"
@@ -70,7 +71,7 @@ function Menubutton({ items = [], image,dropdownTitle }) {
             <path d="m0 0h24v24h-24z" fill="none" />
             <path d="m7.41 8.59 4.59 4.58 4.59-4.58 1.41 1.41-6 6-6-6z" />
           </svg>
-        )}
+        )} */}
       </button>
       <ul
         ref={dropdownListRef}
