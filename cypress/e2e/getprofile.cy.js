@@ -3,22 +3,15 @@ describe("get-profile", () => {
     // runs before each test in the block
     cy.clearCookies();
     cy.visit("https://test-dev--housh.netlify.app");
-    cy.get("*[class='dropdown_activator']").click()
-    cy.get("*[class='item_list']").children().contains("See profile").click({force:true})
   })
-  it("doesn't get info", function () {
-    cy.get("[class='chakra-text css-0']").contains('Legal name').siblings().should((elem) => {
-    expect(elem.text()).to.equal('undefined undefined');
-    });
-  });
 
   it("get info", function () {
     cy.visit("https://test-dev--housh.netlify.app/login/");
     cy.get("input[type='email']").type("cypress@cypressauto.com");
     cy.get("input[type='password']").type("CypressTesting$1");
     cy.get("form").submit();
-
-    cy.visit("https://test-dev--housh.netlify.app");
+    cy.wait(5000)
+    cy.get("button[type='button']").contains("Home").click();
     cy.get("*[class='dropdown_activator']").click()
     cy.get("*[class='item_list']").children().contains("See profile").click({force:true})
 
