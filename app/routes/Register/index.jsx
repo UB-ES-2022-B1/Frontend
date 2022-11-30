@@ -9,6 +9,7 @@ import en from 'react-phone-number-input/locale/en.json'
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 import React from 'react';
 import {Text} from '@chakra-ui/react'
+import { Routes, Route, useNavigate, redirect } from 'react-router-dom'
 import {
   FormControl,
   FormLabel,
@@ -22,8 +23,10 @@ import {
   Button, 
   InputGroup, 
   InputLeftElement, 
-  InputRightElement 
+  InputRightElement,
+  IconButton
 } from '@chakra-ui/react'
+import { ViewIcon } from '@chakra-ui/icons'
 import { SERVER_DNS } from "~/utils/constants";
 const pattern =  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
 const phonePattern = {
@@ -130,7 +133,7 @@ export default function Index() {
   const [telefonError, setTelefonError] = useState(false);
   const [telefonErrorMessage, setTelefonErrorMessage] = useState('');
 
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState('Ascension Island +247');
   const [pais, setPais] = useState('');
   const [prefix, setPrefix] = useState('');
   const [telefonCountryError, setTelefonCountryError] = useState(false);
@@ -347,6 +350,17 @@ export default function Index() {
     setPais(country.replace(/(\+)([0-9]+)/,''))
   },[country])
 
+  const navigateToLogIn = () => {
+    window.location.href="/login"
+  };
+  /**
+   * *******************************************************************************************
+   * *******************************************************************************************
+   * ***************************************HTML************************************************
+   * *******************************************************************************************
+   * *******************************************************************************************
+   * *******************************************************************************************
+   */
   return (
     <div className="register-form">
       <Flex width="full" align="center" justifyContent="center" padding={"20px"}>
@@ -426,12 +440,14 @@ export default function Index() {
                     <Input
                       type={show ? 'text' : 'password'}
                       value={password}
+                      placeholder="*************"
+                      size="lg"
                       onChange={(e) => { setPassword(e.target.value) }
                       } />
-                    <InputRightElement width='4.5rem'>
-                      <Button h='1.75rem' size='sm' onClick={handleClick}>
+                    <InputRightElement >
+                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
                         {show ? 'Hide' : 'Show'}
-                      </Button>
+                      </IconButton>
                     </InputRightElement>
                   </InputGroup>
                   {!passwordError ? null : (
@@ -447,10 +463,19 @@ export default function Index() {
               </FormControl>
               {errorMessages && <ErrorMessage message={errorMessages} />}
               <Box textAlign="center">
-                <Button mt={4} colorScheme='teal' isLoading={isSubmitting} onClick={validateParameters} type='submit' isDisabled={emailError || passwordError || nomError || cognomsError || telefonError || dataError || telefonCountryError || errorTerms } >
+                <Button mt={4} backgroundColor="#98A8F8" mt={4} textColor="black" isLoading={isSubmitting} onClick={validateParameters} type='submit' isDisabled={emailError || passwordError || nomError || cognomsError || telefonError || dataError || telefonCountryError || errorTerms } >
                   Register
                 </Button>
               </Box>
+              <Box marginTop="10px">
+                  <Text>
+                    Do you have an account?
+                    <Button marginLeft="5px" colorScheme='#98A8F8' variant='link' onClick={navigateToLogIn}>
+                      LogIn
+                    </Button>
+                  </Text>
+
+                </Box>
             </form>
 
           </Box>

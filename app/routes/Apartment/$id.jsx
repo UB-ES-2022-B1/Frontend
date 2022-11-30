@@ -14,7 +14,7 @@ import {
 import { useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { SERVER_DNS } from "~/utils/constants";
+import { SERVER_DNS, IMAGES_DNS } from "~/utils/constants";
 
 export const loader = async ({
     params,
@@ -46,7 +46,6 @@ export default function Index() {
 
     const [description, setDescription] = useState('');
     const [title, setTitle] = useState('');
-    const [location, setLocation] = useState('');
     const [company_individual, setCompany_individual] = useState('');
     const [num_people, setNum_people] = useState('');
     const [num_beds, setNum_beds] = useState('');
@@ -56,42 +55,46 @@ export default function Index() {
     const [taxes, setTaxes] = useState('');
     const [extra_costs, setExtra_costs] = useState('');
 
-    const [privacy, setPrivacy] = useState('');
-    const [type, setType] = useState('');
+    const [town, setTown] = useState('');
+    const [province, setProvince] = useState('');
+    const [street, setStreet] = useState('');
+    const [country, setCountry] = useState('');
+    const [images, setImages] = useState([]);
 
     const [inexistent, setInexistent] = useState(false)
 
     function componentsSet(res) {
         setTitle(firstToUpperCase(res.title)),
-        setLocation(res.location),
-        setCompany_individual(res.company_individual),
-        setNum_people(res.num_people),
-        setNum_beds(res.num_beds),
-        setNum_bathrooms(res.num_bathrooms),
-        setNum_hab(res.num_hab),
-        setDescription(beautifyText(res.description)),
-        setBase_price(res.base_price),
-        setTaxes(res.taxes),
-        setExtra_costs(res.extra_costs),
-        setKitchen(res.kitchen),
-        setSwimming(res.swimming_pool),
-        setGarden(res.garden),
-        setPooltable(res.billar_table),
-        setGym(res.gym),
-        setTv(res.TV),
-        setWifi(res.WIFII),
-        setWashingM(res.washing_machine),
-        setDish(res.dishwasher),
-        setAir(res.air_conditioning),
-        setParking(res.free_parking),
-        setSpacious(res.spacious),
-        setCentral(res.central),
-        setCalmed(res.quite),
-        setAlarm(res.alarm),
-        setBotiquin(res.health_kit),
-        setSmoke(res.smoke_detector),
-        setPrivacy(res.privacy),
-        setType(res.type)
+            setCountry(res.country),
+            setStreet(res.street),
+            setProvince(res.province),
+            setTown(res.town),
+            setNum_people(res.num_people),
+            setNum_beds(res.num_beds),
+            setNum_bathrooms(res.num_bathrooms),
+            setNum_hab(res.num_hab),
+            setDescription(beautifyText(res.description)),
+            setBase_price(res.base_price),
+            setTaxes(res.taxes),
+            setExtra_costs(res.extra_costs),
+            setKitchen(res.kitchen),
+            setSwimming(res.swimming_pool),
+            setGarden(res.garden),
+            setPooltable(res.billar_table),
+            setGym(res.gym),
+            setTv(res.TV),
+            setWifi(res.WIFII),
+            setWashingM(res.washing_machine),
+            setDish(res.dishwasher),
+            setAir(res.air_conditioning),
+            setParking(res.free_parking),
+            setSpacious(res.spacious),
+            setCentral(res.central),
+            setCalmed(res.quite),
+            setAlarm(res.alarm),
+            setBotiquin(res.health_kit),
+            setSmoke(res.smoke_detector),
+            setImages(res.images.map((i)=>`${IMAGES_DNS}/${i}`))
     }
 
     useEffect(async () => {
@@ -112,13 +115,13 @@ export default function Index() {
             })
         response = await response;
         if (response.success) {
-            componentsSet(response.msg);
+            componentsSet(response.msg[0]);
         }
         else {
             setInexistent(true)
         }
-    }, []
-    )
+    }, [])
+
 
     return (
         <>
@@ -126,17 +129,17 @@ export default function Index() {
                 <Box>
                     <HouseTitle
                         title={title}
-                        location={location}
+                        town={ town}
+                        province={province }
+                        country={ country}
                     ></HouseTitle>
 
-                    <Slider></Slider>
+                    <Slider images={images}></Slider>
 
                     <Box marginTop={8}>
                         <Flex width="full" justifyContent="center">
                             <Box marginRight={20}>
                                 <CapacidadApartamento
-                                    privacy={privacy}
-                                    ty={type}
                                     guests={num_people}
                                     bedrooms={num_hab}
                                     beds={num_beds}
@@ -178,9 +181,6 @@ export default function Index() {
                                     extra={extra_costs}
                                 ></ReservationCard>
                             </Box>
-
-
-
 
                         </Flex>
                     </Box>

@@ -28,6 +28,7 @@ import { useLocalStorage } from '~/utils/localStorage'
 import { useLoaderData } from "@remix-run/react";
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun';
 import { SERVER_DNS } from "~/utils/constants";
+import { getAccessToken } from '~/session';
 
 
 const TextInput = forwardRef((props, ref) => {
@@ -72,7 +73,7 @@ const EditName = (props) => {
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled colorScheme='teal'>
+                <Button isDisabled backgroundColor='#98A8F8'>
                   Save
                 </Button>
               </ButtonGroup>
@@ -117,7 +118,7 @@ const EditMail = (props) => {
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled colorScheme='teal'>
+                <Button isDisabled backgroundColor='#98A8F8'>
                   Save
                 </Button>
               </ButtonGroup>
@@ -161,7 +162,7 @@ const EditPhoneNumber = (props) => {
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled colorScheme='teal'>
+                <Button isDisabled backgroundColor='#98A8F8'>
                   Save
                 </Button>
               </ButtonGroup>
@@ -206,7 +207,7 @@ const EditBirthDate = (props) => {
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled colorScheme='teal'>
+                <Button isDisabled backgroundColor='#98A8F8'>
                   Save
                 </Button>
               </ButtonGroup>
@@ -250,7 +251,7 @@ const EditCountry = (props) => {
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled colorScheme='teal'>
+                <Button isDisabled backgroundColor='#98A8F8'>
                   Save
                 </Button>
               </ButtonGroup>
@@ -281,13 +282,14 @@ export default function Index() {
       setData(res.birthdate)
   }
   useEffect(async () => {
-
+    let token = await getAccessToken()
     let jsonData = { "email": email }
     let response = fetch(`${SERVER_DNS}/accounts/get-profile`, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify(jsonData),
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       }
     })
