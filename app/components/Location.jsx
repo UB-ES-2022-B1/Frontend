@@ -33,7 +33,7 @@ export default function Location(props) {
         </Box>
 
         <Text marginTop='25px'>Country:</Text>
-        <FormControl id="provincia">
+        <FormControl id="country">
           <Input
             placeholder="Spain"
             _placeholder={{ color: 'gray.500' }}
