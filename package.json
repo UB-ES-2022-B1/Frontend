@@ -20,6 +20,7 @@
     "@remix-run/node": "^1.7.2",
     "@remix-run/react": "^1.7.2",
     "cross-env": "^7.0.3",
+    "cypress": "^10.11.0",
     "date-fns": "^2.29.3",
     "framer-motion": "^7.6.2",
     "js-cookie": "^3.0.1",
