@@ -165,7 +165,7 @@ export default function Index() {
                 <Box textAlign="center">
                   <Text>{email} logged in!</Text>
                   <Button
-                    colorScheme="orange"
+                    borderColor="#98A8F8"
                     variant="outline"
                     width="full"
                     mt={4}
@@ -174,7 +174,7 @@ export default function Index() {
                     Home
                   </Button>
                   <Button
-                    colorScheme="orange"
+                    borderColor="#98A8F8"
                     variant="outline"
                     width="full"
                     mt={4}
