@@ -62,7 +62,7 @@ describe("Register house", () => {
 
     cy.get("button").contains("Next").click();
     //images
-    cy.get("input[type='file']").selectFile('C:/Users/couce/PycharmProjects/Frontend/cypress/fixtures/fotocasa.jpg')
+    cy.get("input[type='file']").selectFile('./../fixtures/fotocasa.jpg')
     cy.get("button").contains("Next").click();
     cy.get("textarea").type("Cypress Test House");
     cy.get("button").contains("Next").click();
