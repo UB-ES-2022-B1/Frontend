@@ -32,7 +32,7 @@ describe("Login after 4 attempts", () => {
         cy.get("*[class='item_list']").children().contains("Log in").click({force:true})
         cy.url().should('eq', 'https://test-dev--housh.netlify.app/login/')
   })
-  it("4 bad attempts", function () {
+  it.skip("4 bad attempts", function () {
 
     cy.get("input[type='email']").clear().type("cypress@cypressauto.com");
     cy.get("input[type='password']").type("falso");
@@ -66,7 +66,7 @@ describe("Login after 4 attempts", () => {
   });
 });
 
-describe("Login with Bad Name", () => {
+describe.skip("Login with Bad Name", () => {
     beforeEach(() => {
     // runs before each test in the block
         cy.visit("https://test-dev--housh.netlify.app");
@@ -83,7 +83,7 @@ describe("Login with Bad Name", () => {
   });
 });
 
-describe("Login with Blocked User", () => {
+describe.skip("Login with Blocked User", () => {
     beforeEach(() => {
       // runs before each test in the block
       cy.visit("https://test-dev--housh.netlify.app");

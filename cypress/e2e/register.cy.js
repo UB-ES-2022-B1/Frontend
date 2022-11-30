@@ -33,7 +33,7 @@ describe("Register acc", () => {
   });
 });
 
-describe("Register Fail", () => {
+describe.skip("Register Fail", () => {
 
   it("Fail Register through the UI and check if all the requirements are displayed", function () {
 
@@ -99,7 +99,7 @@ describe("Register Fail", () => {
   });
 });
 
-describe("Register Fail", () => {
+describe.skip("Register Fail", () => {
 
   it("Register with no camps", function () {
 
@@ -115,7 +115,7 @@ describe("Register Fail", () => {
   });
 });
 
-describe("Register fail", () => {
+describe.skip("Register fail", () => {
 
   it("Register of a children", function () {
 
@@ -149,7 +149,7 @@ describe("Register fail", () => {
   });
 });
 
-describe("Register fail", () => {
+describe.skip("Register fail", () => {
 
   it("Register of a existing account", function () {
 

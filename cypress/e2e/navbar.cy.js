@@ -98,7 +98,7 @@ describe("Navbar", () => {
         cy.url().should('eq', 'https://test-dev--housh.netlify.app/')
     });
 
-    it("Click on dropdown items goes to their pages", function () {
+    it.skip("Click on dropdown items goes to their pages", function () {
 
         cy.visit("https://test-dev--housh.netlify.app");
         cy.get("*[class='dropdown_activator']").click()
