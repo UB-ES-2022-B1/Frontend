@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import HouseCard from "./HouseCard"
 import useInfiniteScroll from "~/utils/useInfiniteScroll";
-import { Center,Spinner, Wrap, Box } from "@chakra-ui/react"
+import { Center,Spinner, Wrap, Box, Text } from "@chakra-ui/react"
 import {SERVER_DNS} from "~/utils/constants"
 
 async function fetchHouses(page)
@@ -31,41 +31,74 @@ async function fetchHouses(page)
 
 export default function(params)
 {
+    const initial = params.initial
+    let empty = false
+    const hasInitial = (typeof(initial) != 'undefined')
+    if(hasInitial){empty = initial.length == 0}
+
+    const [listItems, setListItems] = useState([]);
     let page = 0
     // useEffect(fetchHouses(++page),[])
     //const [listItems, setListItems] = useState(Array.from(Array(24).keys(), n => n + 1));
-    const [listItems, setListItems] = useState([]);
-    useEffect(()=>fetchHouses(++page).then((ids)=>setListItems(ids)),[])
+    useEffect(()=>{
+        console.log(hasInitial)
+        if(hasInitial){
+            setListItems(initial)}
+        else{
+        fetchHouses(++page).then((ids)=>setListItems(ids))
+        }
+    },[initial])
+
     const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreListItems);
 
     function fetchMoreListItems(callback) {
+        if(!hasInitial){
         setTimeout(() => {
         console.log('Fetching')
         //setListItems(prevState => ([...prevState, ...Array.from(Array(24).keys(), n => n + prevState.length + 1)]));
         fetchHouses(++page).then((newids)=>setListItems(prevState => ([...prevState, ...newids])))
         setIsFetching(false);
         callback()
-        }, 200);
+        }, 2000);
+        }
     }
-
     return(
         <>
-        <Box m={'20px'}>
-            <Wrap minChildWidth='200px' spacing='40px' justify='center'>
-            {listItems.map((id,index) => {
-                return <Box className="house-card" key={index}><HouseCard id={id} /></Box>;
-            })}
-            </Wrap>
-        </Box>
-        <Center>
-        {isFetching?<Spinner
-                margin='0 auto'
-                thickness='4px'
-                speed='0.65s'
-                emptyColor='gray.200'
-                color='teal.500'
-                size='xl' />:null}
-        </Center>
+
+{!hasInitial?
+        <>       
+            <Box m={'20px'}>
+                <Wrap minChildWidth='200px' spacing='40px' justify='center'>
+                {listItems.map((id,index) => {
+                    return <Box className="house-card" key={index}><HouseCard id={id} /></Box>;
+                })}
+                </Wrap>
+            </Box>
+            <Center>
+            {isFetching?<Spinner
+                    margin='0 auto'
+                    thickness='4px'
+                    speed='0.65s'
+                    emptyColor='gray.200'
+                    color='teal.500'
+                    size='xl' />:null}
+            </Center>
+        </>
+        :
+        <>
+            {empty ? 
+                <Text>No houses found</Text>
+                    :
+                <Box m={'20px'}>
+                    <Wrap minChildWidth='200px' spacing='40px' justify='center'>
+                    {listItems.map((id,index) => {
+                        return <Box className="house-card" key={index}><HouseCard id={id} /></Box>;
+                    })}
+                    </Wrap>
+                </Box>
+            }
+        </>
+        }
         </>
     )
 }

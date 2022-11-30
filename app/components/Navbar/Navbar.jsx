@@ -140,25 +140,7 @@ export default function (params) {
     //Crides a back end
     async function handleSubmit() {
         if (validateParam()) {
-            let jsonData = { "town": location, "num_people":people}
-            let response = fetch(`${SERVER_DNS}/houses/search-houses`, {
-                method: 'POST',
-                mode: 'cors',
-                body: JSON.stringify(jsonData),
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            })
-                .then(response => {
-                    return response.json();
-                })
-                .catch((text) => {
-                    console.log(txt.msg);
-                })
-            response = await response;
-            if (response.success) {
-                console.log("1:" + response)
-            }
+            window.location.href = `/search?location=${location}&people=${people}`
         }
     }
 
