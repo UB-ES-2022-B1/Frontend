@@ -142,7 +142,15 @@ export default function Index() {
       setErrorMessages(msg)
     }
   }
-
+/**
+ * **************************************************************************
+ * **************************************************************************
+ * **************************************************************************
+ * **************************************************************************
+ * **************************************************************************
+ * **************************************************************************
+ * **************************************************************************
+ */
   return (
     <div className="login-form">
       <Flex width="full" align="center" justifyContent="center" padding={"20px"}>
@@ -208,14 +216,14 @@ export default function Index() {
                 </FormControl>
                 {errorMessages && <ErrorMessage message={errorMessages} />}
                 <Box textAlign="center">
-                  <Button mt={4} colorScheme='teal' isLoading={isSubmitting} onClick={validateParameters} type='submit' isDisabled={emailError || passwordError} >
+                  <Button mt={4} backgroundColor="#98A8F8" isLoading={isSubmitting} onClick={validateParameters} type='submit' isDisabled={emailError || passwordError} >
                     Submit
                   </Button>
                 </Box>
                 <Box marginTop="10px">
                   <Text>
                     Are you registered?
-                    <Button marginLeft="5px" colorScheme='teal' variant='link' onClick={navigateToRegister}>
+                    <Button marginLeft="5px" colorScheme='#98A8F8' variant='link' onClick={navigateToRegister}>
                       Register
                     </Button>
                   </Text>

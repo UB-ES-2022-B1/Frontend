@@ -50,6 +50,7 @@ onClick={props.onClick}
 
 
 export default function slider({height='530px',width='800px',hover=false,infinite=true, autoplay=true, images=Images}) {
+  if(images.length == 0){images = Images}
   const [slider, setSlider] = React.useState('');
   const [arrows, showArrows] = React.useState(!hover)
 

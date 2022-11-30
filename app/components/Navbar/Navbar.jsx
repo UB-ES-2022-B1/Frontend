@@ -29,6 +29,8 @@ import { useFetcher } from 'react-router-dom';
 import { isAuthenticated } from '~/session';
 import {IMAGES_DNS, SERVER_DNS} from '~/utils/constants'
 
+import logo from "~/assets/logo2.png"
+
 const defaultItems = [
     {
         slug: "/register/",
@@ -146,15 +148,15 @@ export default function (params) {
 
 
     return (
-        <Flex width="full" align="center" justifyContent="center" padding={"20px"} >
+        <Flex width="full" align="center" justifyContent="center" padding={"10px"} backgroundColor="#CDFCF6">
             <div align="left">
-                <a href="/"><img width='50' height='40' src='https://www.freepnglogos.com/uploads/logo-home-png/chimney-home-icon-transparent-1.png' /></a>
+                <a href="/"><img width='100' height='100' src={logo} /></a>
             </div>
             <Spacer />
-            <Box p={1} maxWidth="1000px" borderWidth={1} borderRadius={30} boxShadow="lg">
+            <Box p={1} maxWidth="1000px" borderWidth={1} borderRadius={30} boxShadow="lg" backgroundColor="#FAF7F0">
                 <Center height='50px'>
 
-                    <Box textAlign="center">
+                    <Box textAlign="center" borderRadius={30}>
 
                         <FormControl as='fieldset' isInvalid={locationError["locationError"]}>
 
@@ -166,7 +168,7 @@ export default function (params) {
                                 <Portal>
                                     <PopoverContent>
                                         <PopoverArrow />
-                                        <PopoverHeader>Where?</PopoverHeader>
+                                        <PopoverHeader backgroundColor="#FAF7F0">Where?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
                                             <Input placeholder='Destiny' value={location} onChange={(e) => { setLocation(e.target.value); validateLocation(e.target.value) }} />
@@ -182,7 +184,7 @@ export default function (params) {
                                 <Portal>
                                     <PopoverContent>
                                         <PopoverArrow />
-                                        <PopoverHeader>When?</PopoverHeader>
+                                        <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
                                             <Input type='date' onChange={(e) => { setDateStart(e.target.value); validateStartDate(e.target.value) }} />
@@ -198,7 +200,7 @@ export default function (params) {
                                 <Portal>
                                     <PopoverContent>
                                         <PopoverArrow />
-                                        <PopoverHeader>When?</PopoverHeader>
+                                        <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
                                             <Input type='date' onChange={(e) => { setDateEnd(e.target.value); validateEndDate(e.target.value) }} />
@@ -214,7 +216,7 @@ export default function (params) {
                                 <Portal>
                                     <PopoverContent>
                                         <PopoverArrow />
-                                        <PopoverHeader>How many?</PopoverHeader>
+                                        <PopoverHeader backgroundColor="#FAF7F0">How many?</PopoverHeader>
                                         <PopoverCloseButton />
                                         <PopoverBody>
                                             <Flex>
@@ -227,7 +229,7 @@ export default function (params) {
                                     </PopoverContent>
                                 </Portal>
                             </Popover>
-                            <IconButton colorScheme='purple' borderRadius={30} aria-label='Search' icon={<Search2Icon />}
+                            <IconButton backgroundColor="#98A8F8" borderRadius={30} aria-label='Search' icon={<Search2Icon />}
                                 onClick={handleSubmit}//handleSubmit
                                 isDisabled={locationError.locationError || dateEndError.dateEndError || dateStartError.dateStartError}
                             />

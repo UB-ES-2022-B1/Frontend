@@ -100,7 +100,7 @@ export default function (params) {
 
             </Box>
             <Box p='3'></Box>
-            <Button colorScheme='purple' width='350px'>Reserve</Button>
+            <Button colorScheme='#98A8F8' width='350px'>Reserve</Button>
             <Box p='3'></Box>
             <Text textAlign="center" fontSize='md'>You will not be charged anything yet</Text >
             <Box p='3'></Box>
