@@ -10,7 +10,6 @@ import { firstToUpperCase } from "~/utils/textUtils";
 async function houseLoader(id) 
 {
 
-    console.log('call')
     let jsonData = { "id_house": id }
     let response = fetch(`${SERVER_DNS}/houses/get-house`, {
         method: 'POST',
@@ -65,7 +64,6 @@ export default function(params)
 
     useEffect(()=>
     {
-        console.log('aaasdfasdfa')
         houseLoader(params.id).then((h)=>{
         setHouse(h)
         setIsLoading(false)

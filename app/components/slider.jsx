@@ -54,7 +54,7 @@ export default function slider({height='530px',width='800px',hover=false,infinit
   const [slider, setSlider] = React.useState('');
   const [arrows, showArrows] = React.useState(!hover)
 
-  useEffect(()=>console.log(images), [])
+  
   const settings = {
     dots: true,
     arrows: true,
