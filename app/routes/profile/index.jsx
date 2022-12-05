@@ -29,7 +29,7 @@ import { useLoaderData } from "@remix-run/react";
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun';
 import { SERVER_DNS } from "~/utils/constants";
 import { getAccessToken } from '~/session';
-
+import { useMemo, useCallback } from "react";
 
 const TextInput = forwardRef((props, ref) => {
   return (
@@ -264,6 +264,7 @@ const EditCountry = (props) => {
 }
 
 
+
 export default function Index() {
   const [products, setProducts] = useState('');
   const [email, setEmail] = useLocalStorage('email', '');
@@ -273,13 +274,18 @@ export default function Index() {
   const [country, setCountry] = useState('');
   const [data, setData] = useState('');
 
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState(false)
+  const [passwordErrorMessages, setpasswordErrorMessages] = useState('')
+
   function componentDidMount(res) {
     setNom(res.name),
       setCognoms(res.surname),
       setTelefon(res.phone),
       setCountry(res.country),
       setEmail(res.email),
-      setData(res.birthdate)
+      setData(res.birthdate),
+      setPassword(res.password)
   }
   useEffect(async () => {
     let token = await getAccessToken()
@@ -304,7 +310,84 @@ export default function Index() {
     setProducts(response.msg);
   }, []
   )
+
+  const validatePassword = useCallback(() => {
+    if (password.length < 8) {
+      setpasswordErrorMessages('Minimum 8 characters');
+      setPasswordError(true);
+    }
+    else if (password.match(/(?=.*?[A-Z])/) == null) {
+      setpasswordErrorMessages("At least one uppercase letter");
+      setPasswordError(true);
+    }
+    else if (password.match(/(?=.*?[a-z])/) == null) {
+      setpasswordErrorMessages("At least one lowercase letter");
+      setPasswordError(true);
+    }
+    else if (password.match(/(?=.*?[0-9])/) == null) {
+      setpasswordErrorMessages("At least one digit");
+      setPasswordError(true);
+    }
+    else if (password.match(/(?=.*?[#?.,!@$%^&*-])/) == null) {
+      setpasswordErrorMessages("At least one special character");
+      setPasswordError(true);
+    }
+    else {
+      setPasswordError(password === '')
+
+    }
+  }, [password])
+
   useEffectWithoutFirstRun(() => componentDidMount(products), [products])
+
+  const EditPassword = (props) => {
+    const { onOpen, onClose, isOpen } = useDisclosure()
+    const firstFieldRef = useRef(null)
+
+    return (
+      <>
+        <Popover
+          isOpen={isOpen}
+          initialFocusRef={firstFieldRef}
+          onOpen={onOpen}
+          onClose={onClose}
+          placement='right'
+          closeOnBlur={false}
+        >
+          <PopoverTrigger>
+            <IconButton variant='ghost' size='sm' icon={<EditIcon />} />
+          </PopoverTrigger>
+          <FormControl isInvalid={passwordError}>
+            <PopoverContent p={5}>
+              <FocusLock returnFocus persistentFocus={false}>
+                <PopoverArrow />
+                <PopoverCloseButton />
+                <Stack spacing={4}>
+                  <TextInput
+                    label='Password'
+                    id='password'
+                    onChange={(e) => { setPassword(e.target.value) }}
+                    ref={firstFieldRef}
+                    defaultValue={props.password}
+                  />
+                  <ButtonGroup display='flex' justifyContent='flex-end'>
+                    <Button variant='outline' onClick={onClose}>
+                      Cancel
+                    </Button>
+                    <Button isDisabled={passwordError}  backgroundColor='#98A8F8' onClick={validatePassword}>
+                      Save
+                    </Button>
+                  </ButtonGroup>
+                </Stack>
+              </FocusLock>
+            </PopoverContent>
+            {!passwordError ? null : (
+              <FormErrorMessage>{passwordErrorMessages}</FormErrorMessage>)}
+          </FormControl>
+        </Popover>
+      </>
+    )
+  }
 
   return (
     <Flex width="full" align="center" justifyContent="center" padding={"120px"}>
@@ -366,7 +449,16 @@ export default function Index() {
             <Spacer />
             <Box my={4} textAlign="left"><EditCountry country={country} ></EditCountry></Box>
           </Flex>
+          <Divider></Divider>
 
+          <Flex as='fieldset'>
+            <Box my={4} textAlign="left">
+              <Text>Password</Text>
+              <Text color='gray'>********</Text>
+            </Box>
+            <Spacer />
+            <Box my={4} textAlign="left"><EditPassword password={password} ></EditPassword></Box>
+          </Flex>
         </Box>
       </Box>
     </Flex>
