@@ -51,9 +51,14 @@ const otherItems = [
         anchor: "See profile"
     },
     {
+        slug: "/listHouses/",
+        anchor: "My households"
+    },
+    {
         slug: "/logout/",
         anchor: "Log out"
     }
+    
 ];
 
 export default function (params) {

@@ -21,6 +21,7 @@ import {
   Input,
 } from '@chakra-ui/react';
 import FocusLock from "react-focus-lock"
+import { useNavigate } from "react-router-dom";
 import { EditIcon } from '@chakra-ui/icons'
 import { useEffect, forwardRef } from 'react';
 import { useState, useRef } from "react";
@@ -305,7 +306,7 @@ export default function Index() {
   }, []
   )
   useEffectWithoutFirstRun(() => componentDidMount(products), [products])
-
+  
   return (
     <Flex width="full" align="center" justifyContent="center" padding={"120px"}>
       <Box p={8}>
@@ -365,6 +366,18 @@ export default function Index() {
             </Box>
             <Spacer />
             <Box my={4} textAlign="left"><EditCountry country={country} ></EditCountry></Box>
+          </Flex>
+
+          <Flex as='fieldset'>
+            <Box my={4} textAlign="left">
+              <Text>My households</Text>
+            </Box>
+            <Spacer />
+            <Box my={4} textAlign="left"> 
+            <Button>
+              <Text> See</Text> 
+            </Button>
+            </Box>
           </Flex>
 
         </Box>
