@@ -79,7 +79,7 @@ export default function (params) {
                                 position='absolute'
                                 variant='link'
                                 onClick={() => { setisClicked(!isClicked) }}
-                                icon={<FiHeart  className='heart' fill={isClicked ? "red" : "white"} color={isClicked ? "red" : "black"} />}>
+                                icon={<FiHeart  className='heart' fill={isClicked ? "red" : "transparent"} color={isClicked ? "red" : "black"} />}>
                             </IconButton >
                         </Box>
                         <Slider
