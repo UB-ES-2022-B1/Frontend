@@ -25,6 +25,7 @@ import {
     IconButton,
     FormErrorMessage,
     FormControl,
+    Icon,
 } from '@chakra-ui/react'
 import { FiHeart } from "react-icons/fi";
 import { ExternalLinkIcon, StarIcon, AddIcon } from '@chakra-ui/icons'
@@ -80,12 +81,11 @@ export default function (params) {
                         </Portal>
                     </Popover>
 
-                    <ButtonGroup variant='outline' spacing='1' marginLeft={390}>
+                    <ButtonGroup variant='outline' spacing='1' marginLeft={500}>
                         <Popover>
                             <PopoverTrigger>
-                                <Button variant='ghost' aria-label='Compartir' leftIcon={<ExternalLinkIcon />}>
-                                    <Text as='u' frontSize='s' color='black'>Share</Text>
-                                </Button >
+                                <IconButton variant='ghost' aria-label='Compartir' leftIcon={<ExternalLinkIcon />}>
+                                </IconButton >
                             </PopoverTrigger>
                             <Portal>
                                 <PopoverContent>
