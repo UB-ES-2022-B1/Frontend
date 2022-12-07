@@ -68,61 +68,75 @@ export default function (params) {
             setIsLoading(false)
         })
     }, [])
+    console.log(isClicked)
 
     return (
-        <a href={`/apartment/${params.id}`}>
-            <div className="housecard">
-                <div>
-                    <Box>
-                        <Box zIndex={1} position='absolute' marginLeft='205' marginTop='3'>
-                            <IconButton
-                                position='absolute'
-                                variant='link'
-                                onClick={() => { setisClicked(!isClicked) }}
-                                icon={<FiHeart  className='heart' fill={isClicked ? "red" : "transparent"} />}>
-                            </IconButton >
-                        </Box>
-                        <Slider
-                            width={'250px'}
-                            height={'250px'}
-                            autoplay={false}
-                            hover={true}
-                            infinite={false}
-                            images={house.images}
-                        >
-                        </Slider>
-                    </Box>
-                </div>
-                <Box p='2px'>
-                    <Skeleton isLoaded={!isLoading}>
-                        <Box
-                            mt='1'
-                            fontWeight='semibold'
-                            as='h4'
-                            lineHeight='tight'
-                            noOfLines={1}
-                        >
-                            {`${house.town}, ${house.country}`}
-                        </Box>
+        <>
+            <Box>
+                <IconButton
+                    marginLeft='199'
+                    marginTop='3'
+                    position='absolute'
+                    variant='link'
+                    zIndex={1}
+                    onClick={() => { setisClicked(!isClicked) }}
+                    icon={<FiHeart 
+                                className='heart' 
+                                fill={isClicked ? "red" : "#1a1b1b"} 
+                                opacity={isClicked ? 1 : 0.5} 
+                                color={isClicked ? "red" : "white"}/>}>
+                </IconButton >
 
-                    </Skeleton>
-                    <SkeletonText noOfLines={3} isLoaded={!isLoading}>
-                        <Box as='span' color='gray' fontSize='sm'>
-                            <Box>{firstToUpperCase(`${house.title}`)}</Box>
-                            <Box>{firstToUpperCase(`${house.company_individual}`)} &bull; {house.num_people} people</Box>
-                        </Box>
-                        <Box >
-                            <Box as='b'>{`${house.base_price}€`}</Box>
-                            <Box as='span' fontSize='sm'> night</Box>
-                        </Box>
-                    </SkeletonText>
-                    {/* <Heading fontSize={'1xl'} as='b'>{house.location}</Heading>
+                <a href={`/apartment/${params.id}`}>
+                    <div className="housecard">
+                        <div>
+                            <Box>
+                                <Box zIndex={1} position='absolute' marginLeft='205' marginTop='3'>
+
+                                </Box>
+                                <Slider
+                                    width={'250px'}
+                                    height={'250px'}
+                                    autoplay={false}
+                                    hover={true}
+                                    infinite={false}
+                                    images={house.images}
+                                >
+                                </Slider>
+                            </Box>
+                        </div>
+                        <Box p='2px'>
+                            <Skeleton isLoaded={!isLoading}>
+                                <Box
+                                    mt='1'
+                                    fontWeight='semibold'
+                                    as='h4'
+                                    lineHeight='tight'
+                                    noOfLines={1}
+                                >
+                                    {`${house.town}, ${house.country}`}
+                                </Box>
+
+                            </Skeleton>
+                            <SkeletonText noOfLines={3} isLoaded={!isLoading}>
+                                <Box as='span' color='gray' fontSize='sm'>
+                                    <Box>{firstToUpperCase(`${house.title}`)}</Box>
+                                    <Box>{firstToUpperCase(`${house.company_individual}`)} &bull; {house.num_people} people</Box>
+                                </Box>
+                                <Box >
+                                    <Box as='b'>{`${house.base_price}€`}</Box>
+                                    <Box as='span' fontSize='sm'> night</Box>
+                                </Box>
+                            </SkeletonText>
+                            {/* <Heading fontSize={'1xl'} as='b'>{house.location}</Heading>
             <Text>{house.sublocation}</Text>
             <Text>{house.dates}</Text>
             <div><Text as='b'>{house.price}</Text><Text>night</Text></div> */}
 
-                </Box>
-            </div>
-        </a>
+                        </Box>
+                    </div>
+                </a>
+            </Box>
+        </>
     )
 }

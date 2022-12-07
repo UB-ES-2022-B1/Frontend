@@ -139,12 +139,9 @@ padding: 20px;
     --paleta4: #98A8F8;
   }
   .heart{
-    color: white;
     cursor: pointer;
     height: 25px;
     width: 25px;
-    opacity: 0.5;
-    fill: #1a1b1b;
   }
   .heart:hover {
     animation: heartbeat 1s infinite;
