@@ -15,20 +15,55 @@ import {
 } from '@chakra-ui/react'
 import { ChevronLeftIcon } from '@chakra-ui/icons'
 import { FiMapPin, FiUser, FiDollarSign } from "react-icons/fi";
+import { useLoaderData } from "@remix-run/react";
+
+
+export const loader = async ({
+    request
+}) => {
+    const url= new URL(request.url);
+    const moneyTotal = url.searchParams.get("moneyTotal");
+    const startDay = url.searchParams.get("startDay");
+    const endDay = url.searchParams.get("endDay");
+    const guests = url.searchParams.get("guests");
+    const title = url.searchParams.get("title");
+    const town = url.searchParams.get("town");
+    const extra = url.searchParams.get("extra");
+    const taxes = url.searchParams.get("taxes");
+    const province = url.searchParams.get("province");
+    const country = url.searchParams.get("country");
+    const street = url.searchParams.get("street");
+    const images = url.searchParams.get("images");
+    const preuDia = url.searchParams.get("preuDia");
+    const id = url.searchParams.get("id");
+    const totalDay = url.searchParams.get("totalDay");
+    return {preuDia:preuDia, extra:extra, taxes:taxes, 
+        moneyTotal:moneyTotal, startDay:startDay, 
+        endDay:endDay, guests:guests, title:title, 
+        town:town, province:province, country:country, 
+        street:street, images:images,
+        id:id, totalDay:totalDay}
+};
 
 export default function Index() {
+    const params = useLoaderData();
     const [numTarjeta, setNumTarjeta] = useState('');
     const [dateTarjeta, setDateTarjeta] = useState('');
     const [cvc, setCvc] = useState('');
-    const datos = { id: '1', dataEntrada: "2022-12-08", dataSalida: "2022-12-16", huespedes: '3', municipi: 'Vilassar', carrer: 'Avinguda del Sefre', pais: 'España', provincia: 'Barcelona', imagen: 'https://www.rocketmortgage.com/resources-cmsassets/RocketMortgage.com/Article_Images/Large_Images/TypesOfHomes/types-of-homes-hero.jpg', titulo: 'Lujosa y moderna villa ecológica con piscina', precioTotal: '1215', precioPorNoche: '150', extra: '10', taxes: '5', diasTotales: '8' };
+    
+    const datos = { id: params.id, dataEntrada: params.startDay, dataSalida: params.endDay, 
+                    huespedes: params.guests, municipi: params.town, carrer: params.street, 
+                    pais: params.country, provincia: params.province, 
+                    imagen: 'https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/download-23.jpg', 
+                    titulo: params.title, precioTotal: params.moneyTotal, preuDia: params.preuDia, 
+                    extra: params.extra, taxes: params.taxes, diasTotales: params.totalDay };
     const backPage = "/apartment/" + datos.id;
     const [dateError, setDateError] = useState({ dateError: true, dateErrorMess: "" });
     const [cvcError, setCvcError] = useState({ cvcError: true, cvcErrorMess: "" });
     const [numError, setNumError] = useState({ numError: true, numErrorMess: "" });
     const [isReserved, setIsReserved] = useState(false)
-    const navigateToBackPage = () => {
-        //window.location.href = { backPage }
-    };
+    
+    
 
     //Validations
     const validateTarjeta = useCallback((value) => {
@@ -205,9 +240,9 @@ export default function Index() {
                                     <Text fontSize='2xl' as='b'>Price details</Text>
                                 </Box>
                                 <Box display='flex' alignItems='baseline' marginX='5'>
-                                    <Text as='u' fontSize='s' marginBottom='3'>{datos.precioPorNoche} € x {datos.diasTotales} nights</Text>
+                                    <Text as='u' fontSize='s' marginBottom='3'>{params.preuDia} € x {datos.diasTotales} nights</Text>
                                     <Spacer />
-                                    <Text fontSize='md'>{datos.precioPorNoche * datos.diasTotales} €</Text >
+                                    <Text fontSize='md'>{datos.preuDia * datos.diasTotales} €</Text >
                                 </Box>
                                 <Box display='flex' alignItems='baseline' marginX='5'>
                                     <Text as='u' fontSize='s'>Taxes</Text>
