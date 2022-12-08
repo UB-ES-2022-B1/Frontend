@@ -12,6 +12,7 @@ import {
     Spacer
 } from '@chakra-ui/react'
 import Contador from "./Navbar/Contador";
+import moment from "moment";
 
 
 
@@ -24,7 +25,7 @@ export default function (params) {
 
     const [startDay, setStartDay] = useState('');
     const [endDay, setEndDay] = useState('');
-    const totalDay = endDay - startDay;
+    const totalDay = moment(endDay).diff(startDay,'days');
 
     const [moneyTotalDays, setMoneyTotalDays] = useState(moneyDay * totalDay);
 
