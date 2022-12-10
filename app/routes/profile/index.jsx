@@ -12,7 +12,9 @@ import {
   Popover,
   IconButton,
   PopoverContent,
+  InputGroup,
   PopoverArrow,
+  InputRightElement,
   PopoverCloseButton,
   Stack,
   ButtonGroup,
@@ -21,6 +23,7 @@ import {
   Input,
 } from '@chakra-ui/react';
 import FocusLock from "react-focus-lock"
+import { ViewIcon } from '@chakra-ui/icons'
 import { EditIcon } from '@chakra-ui/icons'
 import { useEffect, forwardRef } from 'react';
 import { useState, useRef } from "react";
@@ -343,51 +346,81 @@ export default function Index() {
   const EditPassword = (props) => {
     const { onOpen, onClose, isOpen } = useDisclosure()
     const firstFieldRef = useRef(null)
+    const [show, setShow] = useState(false)
+    const handleClick = () => setShow(!show)
 
-    return (
-      <>
-        <Popover
-          isOpen={isOpen}
-          initialFocusRef={firstFieldRef}
-          onOpen={onOpen}
-          onClose={onClose}
-          placement='right'
-          closeOnBlur={false}
-        >
-          <PopoverTrigger>
-            <IconButton variant='ghost' size='sm' icon={<EditIcon />} />
-          </PopoverTrigger>
-          <FormControl isInvalid={passwordError}>
-            <PopoverContent p={5}>
-              <FocusLock returnFocus persistentFocus={false}>
-                <PopoverArrow />
-                <PopoverCloseButton />
-                <Stack spacing={4}>
-                  <TextInput
-                    label='Password'
-                    id='password'
-                    onChange={(e) => { setPassword(e.target.value) }}
-                    ref={firstFieldRef}
-                    defaultValue={props.password}
-                  />
-                  <ButtonGroup display='flex' justifyContent='flex-end'>
-                    <Button variant='outline' onClick={onClose}>
-                      Cancel
-                    </Button>
-                    <Button isDisabled={passwordError}  backgroundColor='#98A8F8' onClick={validatePassword}>
-                      Save
-                    </Button>
-                  </ButtonGroup>
-                </Stack>
-              </FocusLock>
-            </PopoverContent>
-            {!passwordError ? null : (
-              <FormErrorMessage>{passwordErrorMessages}</FormErrorMessage>)}
-          </FormControl>
-        </Popover>
-      </>
-    )
+  return (
+    <>
+      <Popover
+        isOpen={isOpen}
+        initialFocusRef={firstFieldRef}
+        onOpen={onOpen}
+        onClose={onClose}
+        placement='right'
+        closeOnBlur={false}
+      >
+        <PopoverTrigger>
+          <IconButton variant='ghost' size='sm' icon={<EditIcon />} />
+        </PopoverTrigger>
+        <PopoverContent p={5}>
+          <FocusLock returnFocus persistentFocus={false}>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <Stack spacing={4}>
+            <FormControl isInvalid={passwordError}>
+                  <FormLabel> Current password</FormLabel>
+                  <InputGroup>
+                    <Input
+                      label='Current password'
+                      id='current_password'
+                      type={show ? 'text' : 'password'}
+                      placeholder='Enter current password'
+                      onChange={(e) => { setPassword(e.target.value) }} />
+                    <InputRightElement >
+                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
+                        {show ? 'Hide' : 'Show'}
+                      </IconButton>
+                    </InputRightElement>
+                  </InputGroup>
+                  {!passwordError ? null : (
+                    <FormErrorMessage>{passwordErrorMessages}</FormErrorMessage>
+                  )}
+                </FormControl>
+                <FormControl isInvalid={passwordError}>
+                  <FormLabel> New password</FormLabel>
+                  <InputGroup>
+                    <Input
+                      label='New password'
+                      id='new_password'
+                      type={show ? 'text' : 'password'}
+                      placeholder='Enter new password'
+                      onChange={(e) => { setPassword(e.target.value) }} />
+                    <InputRightElement >
+                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
+                        {show ? 'Hide' : 'Show'}
+                      </IconButton>
+                    </InputRightElement>
+                  </InputGroup>
+                  {!passwordError ? null : (
+                    <FormErrorMessage>{passwordErrorMessages}</FormErrorMessage>
+                  )}
+                </FormControl>
+              <ButtonGroup display='flex' justifyContent='flex-end'>
+                <Button variant='outline' onClick={onClose}>
+                  Cancel
+                </Button>
+                <Button backgroundColor='#98A8F8' onClick={validatePassword} type='submit' isDisabled={passwordError}>
+                  Save
+                </Button>
+              </ButtonGroup>
+            </Stack>
+          </FocusLock>
+        </PopoverContent>
+      </Popover>
+    </>
+  )
   }
+
 
   return (
     <Flex width="full" align="center" justifyContent="center" padding={"120px"}>
