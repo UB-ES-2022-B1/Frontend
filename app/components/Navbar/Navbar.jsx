@@ -142,7 +142,7 @@ export default function (params) {
     //Crides a back end
     async function handleSubmit() {
         if (validateParam()) {
-            window.location.href = `/search?location=${location}&people=${people}`
+            window.location.href = `/search?location=${location}&people=${people}&dateStart=${dateStart}&dateEnd=${dateEnd}`
         }
     }
 
