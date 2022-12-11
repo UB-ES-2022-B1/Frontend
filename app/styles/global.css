@@ -152,6 +152,8 @@ padding: 20px;
   .heart{
     color: black;
     cursor: pointer;
+    height: 25px;
+    width: 25px;
   }
   .heart:hover {
     animation: heartbeat 1s infinite;
