@@ -132,6 +132,7 @@ export default function Index() {
                         town={ town}
                         province={province }
                         country={ country}
+                        
                     ></HouseTitle>
 
                     <Slider images={images}></Slider>
@@ -176,9 +177,17 @@ export default function Index() {
                             </Box>
                             <Box>
                                 <ReservationCard
-                                    moneyDay={base_price}
-                                    taxes={taxes}
-                                    extra={extra_costs}
+                                    moneyDay={ base_price }
+                                    taxes={ taxes}
+                                    extra={ extra_costs }
+                                    guests={ num_people }
+                                    title={title }
+                                    town={ town }
+                                    province={province }
+                                    country={ country }
+                                    street={ street }
+                                    images={images[0]}
+                                    id={ params.id }
                                 ></ReservationCard>
                             </Box>
 

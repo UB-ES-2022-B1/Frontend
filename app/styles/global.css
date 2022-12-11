@@ -138,7 +138,19 @@ padding: 20px;
     --paleta3: #BCCEF8;
     --paleta4: #98A8F8;
   }
+  @keyframes heartbeat {
+    0%{
+      transform: scale();
+    }
+    50%{
+      transform: scale(1.25);
+    }
+    100%{
+      transform: scale(1);
+    }
+  }
   .heart{
+    color: black;
     cursor: pointer;
     height: 25px;
     width: 25px;
@@ -149,5 +161,4 @@ padding: 20px;
     color: red;
     opacity: 1;
     transition: opacity 500ms;
-    
   }
