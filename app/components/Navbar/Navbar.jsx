@@ -51,7 +51,7 @@ const otherItems = [
         anchor: "See profile"
     },
     {
-        slug: "/logout/",
+        slug: "/households/",
         anchor: "My households"
     },
     {
