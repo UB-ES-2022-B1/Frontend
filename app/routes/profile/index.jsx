@@ -21,14 +21,20 @@ import {
   Input,
 } from '@chakra-ui/react';
 import FocusLock from "react-focus-lock"
-import { EditIcon } from '@chakra-ui/icons'
-import { useEffect, forwardRef, useCallback } from 'react';
+import { EditIcon, LinkIcon } from '@chakra-ui/icons'
+import { useEffect, forwardRef , useCallback} from 'react';
 import { useState, useRef } from "react";
 import { useLocalStorage } from '~/utils/localStorage'
 import { useLoaderData } from "@remix-run/react";
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun';
 import { SERVER_DNS } from "~/utils/constants";
 import { getAccessToken } from '~/session';
+
+
+import { Link } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
+
+
 
 
 const TextInput = forwardRef((props, ref) => {
@@ -421,6 +427,16 @@ export default function Index() {
             </Box>
             <Spacer />
             <Box my={4} textAlign="left"><EditCountry country={country} ></EditCountry></Box>
+          </Flex>
+
+          <Divider></Divider>
+
+          <Flex as='fieldset'>
+            <Box my={4} textAlign="left">
+            <Text>Favourites</Text>
+            </Box>
+            <Spacer />
+            <Box my={4} textAlign="left"> <Link href='http://192.168.9.50:3000/favourites' > <LinkIcon mx='2px' /> </Link></Box>
           </Flex>
 
         </Box>
