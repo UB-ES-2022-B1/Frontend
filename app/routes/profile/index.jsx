@@ -22,7 +22,7 @@ import {
 } from '@chakra-ui/react';
 import FocusLock from "react-focus-lock"
 import { EditIcon } from '@chakra-ui/icons'
-import { useEffect, forwardRef } from 'react';
+import { useEffect, forwardRef, useCallback } from 'react';
 import { useState, useRef } from "react";
 import { useLocalStorage } from '~/utils/localStorage'
 import { useLoaderData } from "@remix-run/react";
@@ -43,7 +43,53 @@ const TextInput = forwardRef((props, ref) => {
 const EditName = (props) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
+  const [firstNameError, setfirstNameError] = useState(false);
+  const [lastNameError, setlastNameError] = useState(false);
+  const [newFirstName, setNewFirstName] = useState('')
+  const [newLastName, setNewLastName] = useState('')
 
+  const validateFirstName = useCallback((nom) => {
+    if (nom === '') {
+      //setNameErrorMessages('Name is required');
+      //setNomError(true);
+      return true
+    } else if (nom.match(/^[A-Za-z]+$/) === null) {
+      //setNameErrorMessages('Name can\'t contain numbers');
+      //setNomError(true);
+      return true
+    } else {
+      //setNomError(false);
+      return false
+    }
+  }, [newFirstName])
+
+  const validateLastName = useCallback((nom) => {
+    if (nom === '') {
+      //setNameErrorMessages('Name is required');
+      //setNomError(true);
+      return true
+    } else if (nom.match(/^[A-Za-z]+$/) === null) {
+      //setNameErrorMessages('Name can\'t contain numbers');
+      //setNomError(true);
+      return true
+    } else {
+      //setNomError(false);
+      return false
+    }
+  }, [newLastName])
+
+  const validateParam = useCallback(() => {
+    let a = validateFirstName(newFirstName)
+    let b = validateLastName(newLastName)
+
+    return a && b
+}, [validateFirstName, validateLastName])
+
+  async function handleSubmit() {
+    if (validateParam()) {
+        //TODO---------------------------------------------------------------------------------------------
+    }
+}
   return (
     <>
       <Popover
@@ -66,15 +112,25 @@ const EditName = (props) => {
                 label='First name'
                 id='first-name'
                 ref={firstFieldRef}
-                defaultValue={props.name}
+                defaultValue={props.name}     
+                        
               />
-              <TextInput label='Last name' id='last-name' defaultValue={props.surname} />
+              <TextInput 
+                label='Last name' 
+                id='last-name' 
+                defaultValue={props.surname} 
+
+              />
               <ButtonGroup display='flex' justifyContent='flex-end'>
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled backgroundColor='#98A8F8'>
+                <Button 
+                  isDisabled={ firstNameError || lastNameError } 
+                  backgroundColor='#98A8F8'
+                  onClick={handleSubmit}>
                   Save
+                  
                 </Button>
               </ButtonGroup>
             </Stack>
