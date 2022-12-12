@@ -25,10 +25,6 @@ export default function Dropdown({ avatar, items }) {
   //   {
   //     slug: "/profile/",
   //     anchor: "See profile"
-  //   },
-  //   {
-  //     slug: "/favourites/",
-  //     anchor: "Favourites"
   //   }
   // ];
   return (

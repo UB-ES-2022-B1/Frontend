@@ -13,34 +13,26 @@ import {
 } from '@chakra-ui/react'
 import Contador from "./Navbar/Contador";
 
-/*function handleSubmit() {
-    console.log(2)
-    if (validateParam()) {
-        window.location.href = `/search?location=${location}&people=${people}`
-    }
-}*/
+
 
 export default function (params) {
-    const preuDia = params.moneyDay;
-    const taxes = params.taxes;
-    const extra = params.extra;
+    const {moneyDay, taxes, extra} = params;
     const [travelers, setTravelers] = useState(1);
     const [travelersText, setTravelersText] = useState('traveler');
     const maxTravelers = 10;
     const textTravelersMax = 'A maximum of ' + maxTravelers + ' travelers can stay in this accommodation, without including babies.';
+
     const [startDay, setStartDay] = useState('');
     const [endDay, setEndDay] = useState('');
-    const [totalDay, setTotalDay ]= useState(''); 
+    const totalDay = endDay - startDay;
 
-    const [moneyTotalDays, setMoneyTotalDays] = useState(preuDia.getDate * totalDay.getDate);
+    const [moneyTotalDays, setMoneyTotalDays] = useState(moneyDay * totalDay);
 
 
     const [moneyTotal, setMoneyTotal] = useState(moneyTotalDays + taxes + extra);
 
     const current = new Date();
     const currentDate = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
-    console.log("Prueva " + totalDay)
-  
 
     const decrease = () => {
         setTravelers(travelers - 1);
@@ -58,11 +50,12 @@ export default function (params) {
         }
     }
 
+
     return (
 
         <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='4'>
             <Box p='3'>
-                <Text fontSize='xl' as='b'>{preuDia} € night</Text >
+                <Text fontSize='xl' as='b'>{moneyDay} € night</Text >
             </Box>
             <Box display='flex' alignItems='baseline'>
                 <Box width='350px' borderWidth='1px' borderRadius='lg' overflow='hidden'>
@@ -107,12 +100,12 @@ export default function (params) {
 
             </Box>
             <Box p='3'></Box>
-            <Button backgroundColor='#98A8F8' width='350px' onClick={() => location.href = `/pagament?moneyTotal=${moneyTotal}&preuDia=${preuDia}&startDay=${startDay}&endDay=${endDay}&guests=${travelers}&title=${params.title}&town=${params.town}&province=${params.province}&country=${params.country}&street=${params.street}&images=${params.images}&id=${params.id}&totalDay=${params.totalDay}&taxes=${taxes}&extra=${extra}`}>Reserve</Button>
+            <Button colorScheme='#98A8F8' width='350px'>Reserve</Button>
             <Box p='3'></Box>
             <Text textAlign="center" fontSize='md'>You will not be charged anything yet</Text >
             <Box p='3'></Box>
             <Box display='flex' alignItems='baseline'>
-                <Button variant='link'><Text as='u' fontSize='s'>{preuDia} € x {totalDay} nights</Text></Button>
+                <Button variant='link'><Text as='u' fontSize='s'>{moneyDay} € x {totalDay} nights</Text></Button>
                 <Spacer />
                 <Text fontSize='md'>{moneyTotalDays} €</Text >
             </Box>
