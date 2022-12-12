@@ -380,7 +380,7 @@ export default function Index() {
             <Text>Favourites</Text>
             </Box>
             <Spacer />
-            <Box my={4} textAlign="left"> <Link href='http://192.168.9.50:3000/favourites' > <LinkIcon mx='2px' /> </Link></Box>
+            <Box my={4} textAlign="left"> <Link href='/favourites' > <LinkIcon mx='2px' /> </Link></Box>
           </Flex>
 
         </Box>

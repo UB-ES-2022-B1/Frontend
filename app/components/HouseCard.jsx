@@ -89,6 +89,8 @@ export default function (params) {
 
                 <a href={`/apartment/${params.id}`}>
                     <div className="housecard">
+                        <Skeleton borderRadius={30} isLoaded={!isLoading}>
+
                         <div>
                             <Box>
                                 <Box zIndex={1} position='absolute' marginLeft='205' marginTop='3'>
@@ -105,6 +107,8 @@ export default function (params) {
                                 </Slider>
                             </Box>
                         </div>
+                        </Skeleton>
+
                         <Box p='2px'>
                             <Skeleton isLoaded={!isLoading}>
                                 <Box

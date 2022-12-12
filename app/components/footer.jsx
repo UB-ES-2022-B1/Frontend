@@ -17,7 +17,7 @@ export default function () {
     }
 
     return (
-        <Flex width="100%" height='50px' position='fixed'  left='0' bottom='0'>
+        <Flex zIndex={5} width="100%" height='50px' position='fixed'  left='0' bottom='0'>
             <Box width="full" backgroundColor="#FAF7F0">
                 <Divider></Divider>
                 <Flex marginLeft='95' marginTop='2'>
