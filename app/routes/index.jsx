@@ -1,6 +1,10 @@
 import { useLoaderData } from "@remix-run/react";
+import TypeGroup from "~/components/Type-group";
+import Dropdown from "~/components/Dropdown";
+import FlorPlant from "~/components/FloorPlant";
+import Navbar from "~/components/Navbar/Navbar";
 import CardTable from "~/components/CardTable"
-import Footer from "~/components/footer"
+
 
 export const loader = ({
   params,
@@ -17,7 +21,6 @@ export default function Index() {
   return (
     <div>
        <CardTable></CardTable>
-       <Footer></Footer>
     </div>
   );
 }

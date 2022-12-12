@@ -1,14 +1,14 @@
-import { Heading, Text, Box, Skeleton, SkeletonText, IconButton } from "@chakra-ui/react";
+import { Heading, Text, Box, Skeleton, SkeletonText } from "@chakra-ui/react";
 import { useLoaderData } from "@remix-run/react";
 import { useState, useEffect } from "react";
 import example2 from '~/assets/example2.webp'
 import Slider from "~/components/slider"
 import Images from '../exports/images';
-import { IMAGES_DNS, SERVER_DNS } from '~/utils/constants'
+import {IMAGES_DNS, SERVER_DNS} from '~/utils/constants'
 import { firstToUpperCase } from "~/utils/textUtils";
-import { FiHeart } from "react-icons/fi";
 
-async function houseLoader(id) {
+async function houseLoader(id) 
+{
 
     let jsonData = { "id_house": id }
     let response = fetch(`${SERVER_DNS}/houses/get-house`, {
@@ -28,11 +28,11 @@ async function houseLoader(id) {
         })
     response = await response;
     if (response.success) {
-        let urls = response.msg[0].images.map((i) => `${IMAGES_DNS}/${i}`)
-        if (response.msg[0].images.length == 0) {
-            return { ...response.msg[0], images: Images }
+        let urls = response.msg[0].images.map((i)=>`${IMAGES_DNS}/${i}`)
+        if(response.msg[0].images.length == 0){
+            return {...response.msg[0], images:Images}
         }
-        return { ...response.msg[0], images: urls }
+        return {...response.msg[0], images:urls}
     }
     else {
         return (
@@ -42,15 +42,16 @@ async function houseLoader(id) {
                 country: 'Spain',
                 title: 'Casa grande con jardín',
                 company_individual: 'A particular',
-                num_people: 2,
-                base_price: '285€'
+                num_people:2,
+                base_price:'285€'
             }
         )
     }
 }
 
 
-export default function (params) {
+export default function(params)
+{
     const settings = {
         dots: false,
         infinite: true,
@@ -60,87 +61,57 @@ export default function (params) {
     }
     const [isLoading, setIsLoading] = useState(true)
     const [house, setHouse] = useState({})
-    const [isClicked, setisClicked] = useState(false)
 
-    useEffect(() => {
-        houseLoader(params.id).then((h) => {
-            setHouse(h)
-            setIsLoading(false)
+    useEffect(()=>
+    {
+        houseLoader(params.id).then((h)=>{
+        setHouse(h)
+        setIsLoading(false)
         })
-    }, [])
-    console.log(isClicked)
+    },[])
 
     return (
-        <>
-            <Box>
-                <IconButton
-                    marginLeft='199'
-                    marginTop='3'
-                    position='absolute'
-                    variant='link'
-                    zIndex={1}
-                    onClick={() => { setisClicked(!isClicked) }}
-                    icon={<FiHeart 
-                                className='heart' 
-                                fill={isClicked ? "red" : "#1a1b1b"} 
-                                opacity={isClicked ? 1 : 0.5} 
-                                color={isClicked ? "red" : "white"}/>}>
-                </IconButton >
-
-                <a href={`/apartment/${params.id}`}>
-                    <div className="housecard">
-                        <Skeleton borderRadius={30} isLoaded={!isLoading}>
-
-                        <div>
-                            <Box>
-                                <Box zIndex={1} position='absolute' marginLeft='205' marginTop='3'>
-
-                                </Box>
-                                <Slider
-                                    width={'250px'}
-                                    height={'250px'}
-                                    autoplay={false}
-                                    hover={true}
-                                    infinite={false}
-                                    images={house.images}
-                                >
-                                </Slider>
-                            </Box>
-                        </div>
-                        </Skeleton>
-
-                        <Box p='2px'>
-                            <Skeleton isLoaded={!isLoading}>
-                                <Box
-                                    mt='1'
-                                    fontWeight='semibold'
-                                    as='h4'
-                                    lineHeight='tight'
-                                    noOfLines={1}
-                                >
-                                    {`${house.town}, ${house.country}`}
-                                </Box>
-
-                            </Skeleton>
-                            <SkeletonText noOfLines={3} isLoaded={!isLoading}>
-                                <Box as='span' color='gray' fontSize='sm'>
-                                    <Box>{firstToUpperCase(`${house.title}`)}</Box>
-                                    <Box>{firstToUpperCase(`${house.company_individual}`)} &bull; {house.num_people} people</Box>
-                                </Box>
-                                <Box >
-                                    <Box as='b'>{`${house.base_price}€`}</Box>
-                                    <Box as='span' fontSize='sm'> night</Box>
-                                </Box>
-                            </SkeletonText>
-                            {/* <Heading fontSize={'1xl'} as='b'>{house.location}</Heading>
+    <a href={`/apartment/${params.id}`}>
+    <div className="housecard">
+        <div>
+            <Slider
+                width={'250px'}
+                height={'250px'}
+                autoplay={false}
+                hover={true}
+                infinite={false}
+                images={house.images}
+            />
+        </div>
+        <Box p='2px'>
+            <Skeleton isLoaded={!isLoading}>
+             <Box
+                mt='1'
+                fontWeight='semibold'
+                as='h4'
+                lineHeight='tight'
+                noOfLines={1}
+                >
+                {`${house.town}, ${house.country}`}
+            </Box>
+            </Skeleton>
+            <SkeletonText noOfLines={3} isLoaded={!isLoading}>
+                <Box as='span'color='gray' fontSize='sm'>
+                    <Box>{firstToUpperCase(`${house.title}`)}</Box>
+                    <Box>{firstToUpperCase(`${house.company_individual}`)} &bull; {house.num_people} people</Box>
+                </Box>
+                <Box >
+                    <Box as='b'>{`${house.base_price}€`}</Box>
+                    <Box as='span' fontSize='sm'> night</Box>
+                </Box>
+            </SkeletonText>
+            {/* <Heading fontSize={'1xl'} as='b'>{house.location}</Heading>
             <Text>{house.sublocation}</Text>
             <Text>{house.dates}</Text>
             <div><Text as='b'>{house.price}</Text><Text>night</Text></div> */}
-
-                        </Box>
-                    </div>
-                </a>
-            </Box>
-        </>
+            
+        </Box>
+    </div>
+    </a>
     )
 }

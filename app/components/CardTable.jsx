@@ -55,11 +55,13 @@ export default function(params)
     function fetchMoreListItems(callback) {
         setPage((page)=>page+1)
         if(!hasInitial){
+        setTimeout(() => {
         console.log('Fetching')
         //setListItems(prevState => ([...prevState, ...Array.from(Array(24).keys(), n => n + prevState.length + 1)]));
         fetchHouses(page).then((newids)=>setListItems(prevState => ([...prevState, ...newids])))
         setIsFetching(false);
         callback()
+        }, 2000);
         }
     }
     return(
