@@ -12,9 +12,14 @@ import {
     Spacer
 } from '@chakra-ui/react'
 import Contador from "./Navbar/Contador";
+import { isAuthenticated } from '~/session';
 
 
 export default function (params) {
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
+    
     const preuDia = params.moneyDay;
     const taxes = params.taxes;
     const extra = params.extra;
@@ -78,9 +83,14 @@ export default function (params) {
         setTravelers(travelers + 1);
     }
     async function handleSubmit() {
-        if (validateParam()) {
-            window.location.href = `/pagament?moneyTotal=${moneyTotal}&preuDia=${preuDia}&startDay=${startDay}&endDay=${endDay}&guests=${travelers}&title=${params.title}&town=${params.town}&province=${params.province}&country=${params.country}&street=${params.street}&images=${params.images}&id=${params.id}&totalDay=${params.totalDay}&taxes=${taxes}&extra=${extra}`
+        if(isLoggedIn){
+            if (validateParam()) {
+                window.location.href = `/pagament?moneyTotal=${moneyTotal}&preuDia=${preuDia}&startDay=${startDay}&endDay=${endDay}&guests=${travelers}&title=${params.title}&town=${params.town}&province=${params.province}&country=${params.country}&street=${params.street}&images=${params.images}&id=${params.id}&totalDay=${params.totalDay}&taxes=${taxes}&extra=${extra}`
+            }
+        }else{
+            window.location.href = `/login`
         }
+        
     }
 
 
@@ -135,7 +145,7 @@ export default function (params) {
             <Button 
                 backgroundColor='#98A8F8' 
                 width='350px' 
-                isDisabled={ dateEndError.dateEndError || dateStartError.dateStartError}
+                isDisabled={ dateEndError.dateEndError || dateStartError.dateStartError }
                 onClick={() => handleSubmit()}>
                     Reserve
                 </Button>
