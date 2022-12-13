@@ -8,6 +8,7 @@ import { IMAGES_DNS, SERVER_DNS } from '~/utils/constants'
 import { firstToUpperCase } from "~/utils/textUtils";
 import { FiHeart } from "react-icons/fi";
 import { isAuthenticated } from '~/session';
+import { getAccessToken } from '~/session';
 
 async function houseLoader(id) {
 
@@ -62,8 +63,8 @@ export default function (params) {
     const [isLoading, setIsLoading] = useState(true)
     const [house, setHouse] = useState({})
     const [isClicked, setisClicked] = useState(false)
-
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+    
     useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
 
     useEffect(() => {
@@ -73,6 +74,24 @@ export default function (params) {
         })
     }, [])
     console.log(isClicked)
+
+
+    async function favorits() {
+        let access = await getAccessToken()
+        let jsonData = { "id_house": params.id, "toAdd": !isClicked}
+        let response = fetch(`${SERVER_DNS}/favorites/add-favorites`,
+          {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(jsonData),
+            headers: {
+              'Authorization': `Bearer ${access}`,
+              'Content-Type': 'application/json',
+            }
+          })
+          .then(response => response.json())
+          .catch((error) => {})        
+      }
 
     return (
         <>
@@ -84,7 +103,7 @@ export default function (params) {
                         position='absolute'
                         variant='link'
                         zIndex={1}
-                        onClick={() => { setisClicked(!isClicked) }}
+                        onClick={() => { setisClicked(!isClicked); favorits() }}
                         icon={<FiHeart
                             className='heart'
                             fill={isClicked ? "red" : "#1a1b1b"}

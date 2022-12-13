@@ -47,14 +47,32 @@ import {
 } from 'react-share';
 import styled from '@emotion/styled';
 import { isAuthenticated } from '~/session';
+import { getAccessToken } from '~/session';
+import { SERVER_DNS } from '~/utils/constants'
 
-
-export default function ({ title, town, province, country, isFavorite=false}) {
+export default function ({ title, town, province, country, isFavorite=false, id}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [name, setName] = useState('');
     const [isClicked, setisClicked] = useState(isFavorite);
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
+
+    async function favorits() {
+        let access = await getAccessToken()
+        let jsonData = { "id_house": id, "toAdd": !isClicked}
+        let response = fetch(`${SERVER_DNS}/favorites/add-favorites`,
+          {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(jsonData),
+            headers: {
+              'Authorization': `Bearer ${access}`,
+              'Content-Type': 'application/json',
+            }
+          })
+          .then(response => response.json())
+          .catch((error) => {})        
+      }
     return (
         <>
                 <Flex  width={"full"}>
@@ -120,7 +138,7 @@ export default function ({ title, town, province, country, isFavorite=false}) {
                         </Popover>
                         {isLoggedIn ?
                             <IconButton   zIndex={2}
-                            variant='ghost' onClick={() => { setisClicked(!isClicked) }} icon={<FiHeart className='heart' fill={isClicked ? "red" : "white"} color={isClicked ? "red" : "black"} />}>
+                            variant='ghost' onClick={() => { setisClicked(!isClicked); favorits() }} icon={<FiHeart className='heart' fill={isClicked ? "red" : "white"} color={isClicked ? "red" : "black"} />}>
                             </IconButton >
                             : null}
                     </ButtonGroup>

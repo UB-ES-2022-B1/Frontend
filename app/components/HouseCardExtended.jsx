@@ -111,6 +111,7 @@ export default function (params) {
                                 province={house.province}
                                 country={house.country}
                                 isFavorite={true}
+                                id={params.id}
                             ></HouseTitle>
                         </Skeleton>
                         <SkeletonText noOfLines={4} isLoaded={!isLoading} margin={'10px 0px'}>
