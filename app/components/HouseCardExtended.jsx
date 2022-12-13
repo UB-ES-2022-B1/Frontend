@@ -53,7 +53,7 @@ async function houseLoader(id) {
 }
 
 
-export default function (params) {
+export default function ({id, isFavorite=false}) {
     const settings = {
         dots: false,
         infinite: true,
@@ -63,24 +63,42 @@ export default function (params) {
     }
     const [isLoading, setIsLoading] = useState(true)
     const [house, setHouse] = useState({})
-    const [isClicked, setisClicked] = useState(true)
+    const [isClicked, setisClicked] = useState(isFavorite)
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
 
     useEffect(() => {
-        houseLoader(params.id).then((h) => {
+        houseLoader(id).then((h) => {
             setHouse(h)
             setIsLoading(false)
         })
     }, [])
+
+    async function favorits() {
+        let access = await getAccessToken()
+        let jsonData = { "id_house": id, "toAdd": !isClicked}
+        let response = fetch(`${SERVER_DNS}/favorites/add-favorites`,
+          {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(jsonData),
+            headers: {
+              'Authorization': `Bearer ${access}`,
+              'Content-Type': 'application/json',
+            }
+          })
+          .then(response => response.json())
+          .catch((error) => {})
+        console.log('a')        
+      }
 
     return (
         <>
             <Box width={'900px'} m={'10px'} p={'10px 7px'} borderRadius={'10px'} boxShadow="lg" overflow={'hidden'}>
 
                 <Flex spacing={8} >
-                <a href={`/apartment/${params.id}`}>
+                <a href={`/apartment/${id}`}>
 
                     <Box>
                         <Skeleton borderRadius={30} isLoaded={!isLoading}>
@@ -110,8 +128,8 @@ export default function (params) {
                                 town={house.town}
                                 province={house.province}
                                 country={house.country}
-                                isFavorite={true}
-                                id={params.id}
+                                isFavorite={isFavorite}
+                                id={id}
                             ></HouseTitle>
                         </Skeleton>
                         <SkeletonText noOfLines={4} isLoaded={!isLoading} margin={'10px 0px'}>
