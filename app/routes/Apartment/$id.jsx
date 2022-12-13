@@ -139,9 +139,9 @@ export default function Index() {
                         country={ country}
                         
                     ></HouseTitle>
-
+                    <Flex justifyContent={"center"}>
                     <Slider images={images}></Slider>
-
+                    </Flex>
                     <Box marginTop={8}>
                         <Flex width="full" justifyContent="center">
                             <Box marginRight={20}>

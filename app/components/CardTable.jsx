@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import HouseCard from "./HouseCard"
 import useInfiniteScroll from "~/utils/useInfiniteScroll";
-import { Center,Spinner, Wrap, Box, Text } from "@chakra-ui/react"
+import { Center,Spinner, Wrap, Box, Text, WrapItem } from "@chakra-ui/react"
 import {SERVER_DNS} from "~/utils/constants"
 
 async function fetchHouses(page)
@@ -90,9 +90,9 @@ export default function(params)
                 <Text>No houses found</Text>
                     :
                 <Box m={'20px'}>
-                    <Wrap minChildWidth='200px' spacing='40px' justify='center'>
+                    <Wrap minChildWidth='200px' spacing='40px' justify={'center'}>
                     {listItems.map((id,index) => {
-                        return <Box className="house-card" key={index}><HouseCard id={id} /></Box>;
+                        return <WrapItem className="house-card" key={index}><HouseCard id={id} /></WrapItem>;
                     })}
                     </Wrap>
                 </Box>
