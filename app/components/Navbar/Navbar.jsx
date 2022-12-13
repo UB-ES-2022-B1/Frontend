@@ -52,6 +52,10 @@ const otherItems = [
         anchor: "See profile"
     },
     {
+        slug: "/households/",
+        anchor: "My households"
+    },
+    {
         slug: "/logout/",
         anchor: "Log out"
     },
@@ -59,6 +63,7 @@ const otherItems = [
         slug: "/favourites/",
         anchor: "Favourites"
     }
+    
 ];
 
 

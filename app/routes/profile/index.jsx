@@ -22,6 +22,7 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import FocusLock from "react-focus-lock"
+import { useNavigate } from "react-router-dom";
 import { EditIcon, LinkIcon } from '@chakra-ui/icons'
 import { useEffect, forwardRef, useCallback } from 'react';
 import { useState, useRef } from "react";
@@ -664,7 +665,7 @@ export default function Index() {
   }, []
   )
   useEffectWithoutFirstRun(() => componentDidMount(products), [products])
-
+  
   return (
     <Flex width="full" align="center" justifyContent="center" padding={"120px"}>
       <Box p={8}>
@@ -726,6 +727,13 @@ export default function Index() {
             <Box my={4} textAlign="left"><EditCountry country={country} ></EditCountry></Box>
           </Flex>
 
+          <Flex as='fieldset'>
+            <Box my={4} textAlign="left">
+              <Text>My households</Text>
+            </Box>
+            <Spacer />
+            <Box my={4} textAlign="left"> <Link href='/households'> <LinkIcon mx='2px' /></Link></Box>
+            </Flex>
           <Divider></Divider>
 
           <Flex as='fieldset'>
