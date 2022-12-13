@@ -9,12 +9,8 @@ import {
 
 export default function () {
 
-    const navicateToPrivacy = () => {
-        //window.location.href = '/privacy';
-    }
-    const navicateToCondition = () => {
-        window.location.href = '/conditions';
-    }
+
+
 
     return (
         <Flex zIndex={5} width="100%" height='50px' position='fixed'  left='0' bottom='0'>
@@ -23,11 +19,15 @@ export default function () {
                 <Flex marginLeft='95' marginTop='2'>
                     <Text color='#696969'>© Housh 2022</Text>
                     <Text color='#696969' marginLeft='3'>·</Text>
-                    <Button variant='link' color='#808080' marginLeft='3' onClick={navicateToPrivacy()}>
+                    <Button variant='link' color='#808080' marginLeft='3' onClick={() => {
+        location.href = `/privacy`;
+    }}>
                         Privacy
                     </Button>
                     <Text color='#696969' marginLeft='3'>·</Text>
-                    <Button variant='link' color='#808080' marginLeft='3' onClick={navicateToCondition()}>
+                    <Button variant='link' color='#808080' marginLeft='3' onClick={() => {
+        location.href = `/conditions`;
+    }}>
                         Conditions
                     </Button>
                     <Spacer></Spacer>
