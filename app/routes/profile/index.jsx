@@ -35,6 +35,7 @@ import { getAccessToken } from '~/session';
 
 import { Link } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { calculateAge } from '~/utils/dateUtils';
 
 
 
@@ -66,14 +67,12 @@ const EditName = (props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    setErrorMessages('')
     if (!nomError && !cognomsError) {
-      //TODO--------------------------------
+      props.onChange(nom,cognoms)
     }
     else {
-      setErrorMessages("Please enter valid parameters")
       setIsSubmitting(false)
     }
   };
@@ -83,28 +82,24 @@ const EditName = (props) => {
       setNameErrorMessages('Name is required');
       setNomError(true);
     } else if (nom.match(/^[A-Za-z]+$/) === null) {
-      console.log("incorrecte: " + nom)
       setNameErrorMessages('Name can\'t contain numbers');
       setNomError(true);
     } else {
       setNomError(false);
     }
-    console.log('validate nom' + nom)
   }, [nom])
 
   const validateCognoms = useCallback(() => {
-    console.log('validate cognom')
+    console.log('validate cognom ', cognoms)
     if (cognoms === '') {
       setCognomsErrorMessages('Surname is required');
       setCognomsError(true);
     } else if (cognoms.match(/[0-9]+/) != null) {
-      console.log("incorrecte: " + cognoms)
       setCognomsErrorMessages('Surname is incorrect');
       setCognomsError(true);
     } else {
       setCognomsError(false);
     }
-    console.log('validate nom' + cognoms)
   }, [cognoms])
 
   const validateParameters = useCallback(() => {
@@ -188,15 +183,14 @@ const EditMail = (props) => {
   const [show, setShow] = useState(false)
   const handleClick = () => setShow(!show)
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(props.email);
   const [emailError, setEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState('')
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setErrorMessages('')
     if (!emailError) {
-      //TODO--------------------------------
+      props.onChange(email)
     }
     else {
       setErrorMessages("Please enter valid parameters")
@@ -244,6 +238,7 @@ const EditMail = (props) => {
             <PopoverArrow />
             <PopoverCloseButton />
             <Stack spacing={4}>
+              <form onSubmit={handleSubmit}>
               <FormControl isInvalid={emailError}>
                 <TextInput
                   type='email'
@@ -262,10 +257,14 @@ const EditMail = (props) => {
                 </Button>
                 <Button
                   isDisabled={emailError}
-                  backgroundColor='#98A8F8'>
+                  backgroundColor='#98A8F8'
+                  onClick={validateParameters}
+                  type='submit'
+                  >
                   Save
                 </Button>
               </ButtonGroup>
+              </form>
             </Stack>
           </FocusLock>
         </PopoverContent>
@@ -284,7 +283,7 @@ const EditPhoneNumber = (props) => {
   const [show, setShow] = useState(false)
   const handleClick = () => setShow(!show)
 
-  const [telefon, setTelefon] = useState('');
+  const [telefon, setTelefon] = useState(props.telefon);
   const [telefonError, setTelefonError] = useState(false);
   const [telefonErrorMessage, setTelefonErrorMessage] = useState('');
 
@@ -293,9 +292,8 @@ const EditPhoneNumber = (props) => {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setErrorMessages('')
     if (!telefonError) {
-      //TODO--------------------------------
+      props.onChange(telefon)
     }
     else {
       setErrorMessages("Please enter valid parameters")
@@ -386,15 +384,19 @@ const EditBirthDate = (props) => {
   const [show, setShow] = useState(false)
   const handleClick = () => setShow(!show)
 
-  const [data, setData] = useState('');
+  const [data, setData] = useState(props.data);
   const [dataError, setDataError] = useState(false);
   const [dateErrorMessages, setDateErrorMessages] = useState('')
 
+  const current = new Date();
+  const currentDate = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
+
+
   async function handleSubmit(event) {
     event.preventDefault();
-    setErrorMessages('')
     if (!dataError) {
-      //TODO--------------------------------
+      console.log('changing data to', data)
+      props.onChange(data)
     }
     else {
       setErrorMessages("Please enter valid parameters")
@@ -447,6 +449,7 @@ const EditBirthDate = (props) => {
             <PopoverArrow />
             <PopoverCloseButton />
             <Stack spacing={4}>
+              <form onSubmit={handleSubmit}>
               <FormControl isInvalid={dataError}>
                 <TextInput
                   type='date'
@@ -454,7 +457,7 @@ const EditBirthDate = (props) => {
                   id='birth-date'
                   ref={firstFieldRef}
                   defaultValue={props.data}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setData(e.target.value)}
                 />{!dataError ? null : (
                   <FormErrorMessage>{dateErrorMessages}</FormErrorMessage>
                 )}
@@ -465,55 +468,14 @@ const EditBirthDate = (props) => {
                 </Button>
                 <Button
                   isDisabled={dataError}
-                  backgroundColor='#98A8F8'>
+                  backgroundColor='#98A8F8'
+                  onClick={validateParameters}
+                  type='submit'
+                  >
                   Save
                 </Button>
               </ButtonGroup>
-            </Stack>
-          </FocusLock>
-        </PopoverContent>
-      </Popover>
-    </>
-  )
-}
-
-const EditBirthDate2 = (props) => {
-  const { onOpen, onClose, isOpen } = useDisclosure()
-  const firstFieldRef = useRef(null)
-
-  return (
-    <>
-      <Popover
-        isOpen={isOpen}
-        initialFocusRef={firstFieldRef}
-        onOpen={onOpen}
-        onClose={onClose}
-        placement='right'
-        closeOnBlur={false}
-      >
-        <PopoverTrigger>
-          <IconButton variant='ghost' size='sm' icon={<EditIcon />} />
-        </PopoverTrigger>
-        <PopoverContent p={5}>
-          <FocusLock returnFocus persistentFocus={false}>
-            <PopoverArrow />
-            <PopoverCloseButton />
-            <Stack spacing={4}>
-              <TextInput
-                type='date'
-                label='BirthDate'
-                id='BirthDate'
-                ref={firstFieldRef}
-                defaultValue={props.data}
-              />
-              <ButtonGroup display='flex' justifyContent='flex-end'>
-                <Button variant='outline' onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button isDisabled backgroundColor='#98A8F8'>
-                  Save
-                </Button>
-              </ButtonGroup>
+              </form>
             </Stack>
           </FocusLock>
         </PopoverContent>
@@ -529,7 +491,7 @@ const EditCountry = (props) => {
   const [show, setShow] = useState(false)
   const handleClick = () => setShow(!show)
 
-  const [nom, setNom] = useState('');
+  const [nom, setNom] = useState(props.country);
   const [nomError, setNomError] = useState(false);
   const [nameErrorMessages, setNameErrorMessages] = useState('');
 
@@ -538,9 +500,8 @@ const EditCountry = (props) => {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setErrorMessages('')
     if (!nomError) {
-      //TODO--------------------------------
+      props.onChange(nom)
     }
     else {
       setErrorMessages("Please enter valid parameters")
@@ -625,13 +586,16 @@ const EditCountry = (props) => {
 
 
 export default function Index() {
-  const [products, setProducts] = useState('');
+  const [products, setProducts] = useState();
   const [email, setEmail] = useLocalStorage('email', '');
+  const [newEmail, setNewEmail] = useState(email);
   const [nom, setNom] = useState('');
   const [cognoms, setCognoms] = useState('');
   const [telefon, setTelefon] = useState('');
   const [country, setCountry] = useState('');
   const [data, setData] = useState('');
+  const [fetched,setFetched] = useState()
+
 
   function componentDidMount(res) {
     setNom(res.name),
@@ -654,7 +618,6 @@ export default function Index() {
       }
     })
       .then(res => {
-        console.log(res)
         return res.json();
       })
       .catch((text) => {
@@ -664,9 +627,49 @@ export default function Index() {
     setProducts(response.msg);
   }, []
   )
-  useEffectWithoutFirstRun(() => componentDidMount(products), [products])
+
+  const [first, setFirst] = useState(true)
+  useEffect(() => {
+    if(fetched != undefined){
+      if(first)
+      {
+        console.log('first')
+        setFirst(false)
+      }
+      else
+      {
+        console.log('asdfasdfa')
+        async function foo(){
+          let token = await getAccessToken()
+          let jsonData = { "email": newEmail, "name": nom, "surname": cognoms, "phone": telefon, "birthdate": data, "country": country }
+          let response = fetch(`${SERVER_DNS}/accounts/update-profile`,
+          {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(jsonData),
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            }
+          })
+          .then(response => response.json())
+          .catch((error) => {
+          })
+          const {success} = await response
+          if(success){
+            console.log('changed on server')
+          }
+        }
+        foo()
+      }
+    }
+  },[nom,cognoms,newEmail,telefon,country,data])
+
+  useEffectWithoutFirstRun(() =>{componentDidMount(products); setFetched(true)}, [products])
   
   return (
+    <>
+    {fetched &&
     <Flex width="full" align="center" justifyContent="center" padding={"120px"}>
       <Box p={8}>
         <Box textAlign="center">
@@ -680,7 +683,7 @@ export default function Index() {
               <Text color='gray'>{nom + ' ' + cognoms}</Text>
             </Box>
             <Spacer />
-            <Box my={4} textAlign="left"><EditName name={nom} surname={cognoms}></EditName></Box>
+            <Box my={4} textAlign="left"><EditName name={nom} surname={cognoms} onChange={(nom,cognom)=>{setNom(nom);setCognoms(cognom)}}></EditName></Box>
           </Flex>
 
           <Divider></Divider>
@@ -688,10 +691,10 @@ export default function Index() {
           <Flex as='fieldset'>
             <Box my={4} textAlign="left">
               <Text>Email address</Text>
-              <Text color='gray'>{email}</Text>
+              <Text color='gray'>{newEmail}</Text>
             </Box>
             <Spacer />
-            <Box my={4} textAlign="left"><EditMail email={email} ></EditMail></Box>
+            <Box my={4} textAlign="left"><EditMail email={newEmail} onChange={(email)=>{setNewEmail(email)}}></EditMail></Box>
           </Flex>
 
           <Divider></Divider>
@@ -702,7 +705,7 @@ export default function Index() {
               <Text color='gray'>{telefon}</Text>
             </Box>
             <Spacer />
-            <Box my={4} textAlign="left"><EditPhoneNumber phone={telefon} ></EditPhoneNumber></Box>
+            <Box my={4} textAlign="left"><EditPhoneNumber phone={telefon} onChange={(tel)=>setTelefon(tel)}></EditPhoneNumber></Box>
           </Flex>
 
           <Divider></Divider>
@@ -713,7 +716,7 @@ export default function Index() {
               <Text color='gray'>{data}</Text>
             </Box>
             <Spacer />
-            <Box my={4} textAlign="left"><EditBirthDate data={data} ></EditBirthDate></Box>
+            <Box my={4} textAlign="left"><EditBirthDate data={data} onChange={(data)=>setData(data)}></EditBirthDate></Box>
           </Flex>
 
           <Divider></Divider>
@@ -724,7 +727,7 @@ export default function Index() {
               <Text color='gray'>{country}</Text>
             </Box>
             <Spacer />
-            <Box my={4} textAlign="left"><EditCountry country={country} ></EditCountry></Box>
+            <Box my={4} textAlign="left"><EditCountry country={country} onChange={(tel)=>setCountry(tel)}></EditCountry></Box>
           </Flex>
           <Divider></Divider>
 
@@ -748,5 +751,7 @@ export default function Index() {
         </Box>
       </Box>
     </Flex>
+    }
+    </>
   );
 }
