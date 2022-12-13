@@ -78,7 +78,7 @@ export default function ({id,isFavorite=false}) {
 
     async function favorits() {
         let access = await getAccessToken()
-        let jsonData = { "id_house": params.id, "toAdd": !isClicked}
+        let jsonData = { "id_house": id, "toAdd": !isClicked}
         let response = fetch(`${SERVER_DNS}/favorites/add-favorites`,
           {
             method: 'POST',
@@ -90,7 +90,8 @@ export default function ({id,isFavorite=false}) {
             }
           })
           .then(response => response.json())
-          .catch((error) => {})        
+          .catch((error) => {})
+        console.log('a')        
       }
 
     return (
