@@ -19,10 +19,10 @@ describe("Register house", () => {
     cy.get("*[type='button']").contains("An entire accommodation").click()
     cy.get("button").contains("Next").click();
 
-    cy.get("input[id='country']").type("Barcelona");
-    cy.get("input[id='provincia']").type("Barcelona");
-    cy.get("input[id='ciutat']").type("Barcelona");
-    cy.get("input[id='carrer']").type("Barcelona");
+    cy.get("input[id='country']").type("Barcelona", {force: true});
+    cy.get("input[id='provincia']").type("Barcelona", {force: true});
+    cy.get("input[id='ciutat']").type("Barcelona", {force: true});
+    cy.get("input[id='carrer']").type("Barcelona", {force: true});
     cy.get("button").contains("Next").click();
 
     cy.get("[class='chakra-text css-i3jkqk']").contains("Guests").parent().
@@ -64,16 +64,16 @@ describe("Register house", () => {
     //images
     cy.get("input[type='file']").selectFile('./../Frontend/cypress/fixtures/fotocasa.jpg')
     cy.get("button").contains("Next").click();
-    cy.get("textarea").type("Cypress Test House");
+    cy.get("textarea").type("Cypress Test House", {force: true});
     cy.get("button").contains("Next").click();
-    cy.get("textarea").type("Cypress Test House");
+    cy.get("textarea").type("Cypress Test House", {force: true});
     cy.get("button").contains("Next").click();
     cy.get("button").contains("Back").click();
-    cy.get("textarea").type("Cypress Test House");
+    cy.get("textarea").type("Cypress Test House",{force: true});
     cy.get("button").contains("Next").click();
     cy.get("[role=button]").contains("+").click().click();
     cy.get("[role=button]").contains("-").click();
-    cy.get("input[type='text']").clear().type("200");
+    cy.get("input[type='text']").clear().type('200');
 
     cy.get("button[type='submit']").click();
 
