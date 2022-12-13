@@ -52,7 +52,7 @@ async function houseLoader(id) {
 }
 
 
-export default function (params) {
+export default function ({id,isFavorite=false}) {
     const settings = {
         dots: false,
         infinite: true,
@@ -62,23 +62,23 @@ export default function (params) {
     }
     const [isLoading, setIsLoading] = useState(true)
     const [house, setHouse] = useState({})
-    const [isClicked, setisClicked] = useState(false)
+    const [isClicked, setisClicked] = useState(isFavorite)
+
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     
     useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
 
     useEffect(() => {
-        houseLoader(params.id).then((h) => {
+        houseLoader(id).then((h) => {
             setHouse(h)
             setIsLoading(false)
         })
     }, [])
-    console.log(isClicked)
 
 
     async function favorits() {
         let access = await getAccessToken()
-        let jsonData = { "id_house": params.id, "toAdd": !isClicked}
+        let jsonData = { "id_house": id, "toAdd": !isClicked}
         let response = fetch(`${SERVER_DNS}/favorites/add-favorites`,
           {
             method: 'POST',
@@ -90,7 +90,8 @@ export default function (params) {
             }
           })
           .then(response => response.json())
-          .catch((error) => {})        
+          .catch((error) => {})
+        console.log('a')        
       }
 
     return (
@@ -111,7 +112,7 @@ export default function (params) {
                             color={isClicked ? "red" : "white"} />}>
                     </IconButton >
                     : null}
-                <a href={`/apartment/${params.id}`}>
+                <a href={`/apartment/${id}`}>
                     <div className="housecard">
                         <Skeleton borderRadius={30} isLoaded={!isLoading}>
 
