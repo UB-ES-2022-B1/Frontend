@@ -7,7 +7,6 @@ export const DataProvider = ({ children }) => {
     return (
         <DataContext.Provider>
             <Navbar></Navbar>
-            <Divider />
             {children}
         </DataContext.Provider>
     )

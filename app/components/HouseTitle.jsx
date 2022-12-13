@@ -22,12 +22,16 @@ import {
     ModalBody,
     ModalCloseButton,
     Input,
+    IconButton,
     FormErrorMessage,
     FormControl,
+    Icon,
 } from '@chakra-ui/react'
+import { FiHeart } from "react-icons/fi";
 import { ExternalLinkIcon, StarIcon, AddIcon } from '@chakra-ui/icons'
 import { Search2Icon } from '@chakra-ui/icons'
 import React, { useState, useCallback } from 'react'
+import { useEffect } from 'react';
 import {
     FacebookShareButton,
     WhatsappShareButton,
@@ -40,14 +44,17 @@ import {
     TelegramShareButton,
     TelegramIcon,
 } from 'react-share';
+import styled from '@emotion/styled';
+import { isAuthenticated } from '~/session';
 
 
 export default function (params) {
-    const {title, town, province, country} = params;
+    const { title, town, province, country } = params;
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [name, setName] = useState('');
-
-
+    const [isClicked, setisClicked] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
     return (
         <Flex width="full" align="center" justifyContent="center" >
             <Box p='3' >
@@ -75,12 +82,11 @@ export default function (params) {
                         </Portal>
                     </Popover>
 
-                    <ButtonGroup variant='outline' spacing='1' marginLeft={390}>
+                    <ButtonGroup variant='outline' spacing='1' marginLeft={500}>
                         <Popover>
                             <PopoverTrigger>
-                                <Button variant='ghost' aria-label='Compartir' leftIcon={<ExternalLinkIcon />}>
-                                    <Text as='u' frontSize='s' color='black'>Share</Text>
-                                </Button >
+                                <IconButton variant='ghost' aria-label='Compartir' leftIcon={<ExternalLinkIcon />}>
+                                </IconButton >
                             </PopoverTrigger>
                             <Portal>
                                 <PopoverContent>
@@ -132,42 +138,10 @@ export default function (params) {
 
                             </Portal>
                         </Popover>
-
-                        <Popover>
-                            <PopoverTrigger>
-                                <Button variant='ghost' aria-label='Guardar' leftIcon={<StarIcon />}>
-                                    <Text as='u' frontSize='s' color='black'>Save</Text>
-                                </Button >
-                            </PopoverTrigger>
-                            <Portal>
-                                <PopoverContent>
-                                    <PopoverArrow />
-                                    <PopoverHeader>Your favorites</PopoverHeader>
-                                    <PopoverCloseButton />
-                                    <PopoverBody>
-                                        <Button onClick={onOpen} variant='ghost' aria-label='list' leftIcon={<AddIcon />}>
-                                            <Text frontSize='s'>Create a new favorites list</Text>
-                                        </Button >
-                                        <Modal isOpen={isOpen} onClose={onClose} size='xl'>
-                                            <ModalOverlay />
-                                            <ModalContent>
-                                                <ModalHeader>Choose a name for this favorites list</ModalHeader>
-                                                <ModalCloseButton />
-                                                <ModalBody>
-                                                    <Input type='txt' value={name} onChange={(e) => setName(e.target.value)} />
-                                                    <Text fontSize='xs'>Maximum 50 characters</Text>
-                                                </ModalBody>
-                                                <ModalFooter>
-                                                    <Button backgroundColor='#98A8F8' variant='solid' width='xl' disabled={!name} onClick={onClose}>
-                                                        Crear
-                                                    </Button>
-                                                </ModalFooter>
-                                            </ModalContent>
-                                        </Modal>
-                                    </PopoverBody>
-                                </PopoverContent>
-                            </Portal>
-                        </Popover>
+                        {isLoggedIn ?
+                            <IconButton variant='ghost' onClick={() => { setisClicked(!isClicked) }} icon={<FiHeart className='heart' fill={isClicked ? "red" : "white"} color={isClicked ? "red" : "black"} />}>
+                            </IconButton >
+                            : null}
                     </ButtonGroup>
                 </Box>
             </Box>

@@ -463,7 +463,7 @@ export default function Index() {
               </FormControl>
               {errorMessages && <ErrorMessage message={errorMessages} />}
               <Box textAlign="center">
-                <Button mt={4} backgroundColor="#98A8F8" mt={4} textColor="black" isLoading={isSubmitting} onClick={validateParameters} type='submit' isDisabled={emailError || passwordError || nomError || cognomsError || telefonError || dataError || telefonCountryError || errorTerms } >
+                <Button mt={4} backgroundColor="#98A8F8" textColor="black" isLoading={isSubmitting} onClick={validateParameters} type='submit' isDisabled={emailError || passwordError || nomError || cognomsError || telefonError || dataError || telefonCountryError || errorTerms } >
                   Register
                 </Button>
               </Box>

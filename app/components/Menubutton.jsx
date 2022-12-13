@@ -1,7 +1,7 @@
 import { Avatar } from "@chakra-ui/react";
 import React, { useState, useEffect, useRef } from "react";
 
-function Menubutton({ items = [], image,dropdownTitle }) {
+function Menubutton({ items = [], image, dropdownTitle }) {
   const activatorRef = useRef(null);
   const dropdownListRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
