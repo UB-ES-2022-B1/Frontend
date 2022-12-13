@@ -16,7 +16,8 @@ import {
 import { ChevronLeftIcon } from '@chakra-ui/icons'
 import { FiMapPin, FiUser, FiDollarSign } from "react-icons/fi";
 import { useLoaderData } from "@remix-run/react";
-
+import { getAccessToken } from '~/session';
+import { SERVER_DNS } from '~/utils/constants';
 
 export const loader = async ({
     request
@@ -95,7 +96,33 @@ export default function Index() {
         validateDate()
         validateCVC()
         validateTarjeta()
+
     }, [validateDate, validateCVC, validateTarjeta])
+
+    async function reserve(params){
+        let token = await getAccessToken()
+        let jsonData = { "id_house": datos.id, "total_price":datos.precioTotal, "check_in": datos.dataEntrada, "check_out": datos.dataEntrada, "guests": datos.huespedes}
+        let response = fetch(`${SERVER_DNS}/trips/reserve`, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(jsonData),
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => {
+                return response.json();
+            })
+            .catch((text) => {
+                return {success:false}
+            })
+        response = await response;
+        if (response.success) {
+            return response.ids
+        }
+        return []
+    }
 
     return (
         <Flex width="full" align="center" justifyContent="center" padding="20px">
@@ -262,7 +289,7 @@ export default function Index() {
                                 </Box>
                             </Box>
                         </Flex>
-                        <Button type='submit' backgroundColor="#98A8F8" align='center' width='350px' height='60px' onClick={() => { validateParameters(); setIsReserved(!isReserved) }} isDisabled={dateError.dateError || cvcError.cvcError || numError.numError}>
+                        <Button type='submit' backgroundColor="#98A8F8" align='center' width='350px' height='60px' onClick={() => { validateParameters(); setIsReserved(!isReserved);reserve() }} isDisabled={dateError.dateError || cvcError.cvcError || numError.numError}>
                             Send a reservation request
                         </Button>
                     </Box>
