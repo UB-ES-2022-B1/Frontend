@@ -273,8 +273,10 @@ const EditMail = (props) => {
   )
 }
 
+
 const EditPhoneNumber = (props) => {
   
+  const pattern =  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
 
@@ -377,6 +379,104 @@ const EditPhoneNumber = (props) => {
 }
 
 const EditBirthDate = (props) => {
+  const { onOpen, onClose, isOpen } = useDisclosure()
+  const firstFieldRef = useRef(null)
+
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+
+  const [data, setData] = useState('');
+  const [dataError, setDataError] = useState(false);
+  const [dateErrorMessages, setDateErrorMessages] = useState('')
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setErrorMessages('')
+    if (!dataError) {
+      //TODO--------------------------------
+    }
+    else {
+      setErrorMessages("Please enter valid parameters")
+      setIsSubmitting(false)
+    }
+  };
+
+  const validateData = useCallback(() => {
+    console.log('validate data')
+    let date = new Date(data)
+    let current = new Date(currentDate)
+    if (data === '') {
+      setDateErrorMessages('Date is required')
+      setDataError(true)
+    } else if (date >= current) {
+      setDateErrorMessages('You\'re not from the future');
+      setDataError(true);
+    } else if (calculateAge(date, current) < 18) {
+      setDateErrorMessages('You must be of legal age');
+      setDataError(true);
+    }
+    else {
+      setDataError(false)
+      setDateErrorMessages('')
+    }
+
+  }, [data])
+
+  const validateParameters = useCallback(() => {
+    validateData()
+  }, [validateData])
+
+  useEffectWithoutFirstRun(validateData, [data])
+
+  return (
+    <>
+      <Popover
+        isOpen={isOpen}
+        initialFocusRef={firstFieldRef}
+        onOpen={onOpen}
+        onClose={onClose}
+        placement='right'
+        closeOnBlur={false}
+      >
+        <PopoverTrigger>
+          <IconButton variant='ghost' size='sm' icon={<EditIcon />} />
+        </PopoverTrigger>
+        <PopoverContent p={5}>
+          <FocusLock returnFocus persistentFocus={false}>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <Stack spacing={4}>
+              <FormControl isInvalid={dataError}>
+                <TextInput
+                  type='date'
+                  label='Birth Date'
+                  id='birth-date'
+                  ref={firstFieldRef}
+                  defaultValue={props.data}
+                  onChange={(e) => setEmail(e.target.value)}
+                />{!dataError ? null : (
+                  <FormErrorMessage>{dateErrorMessages}</FormErrorMessage>
+                )}
+              </FormControl>
+              <ButtonGroup display='flex' justifyContent='flex-end'>
+                <Button variant='outline' onClick={onClose}>
+                  Cancel
+                </Button>
+                <Button
+                  isDisabled={dataError}
+                  backgroundColor='#98A8F8'>
+                  Save
+                </Button>
+              </ButtonGroup>
+            </Stack>
+          </FocusLock>
+        </PopoverContent>
+      </Popover>
+    </>
+  )
+}
+
+const EditBirthDate2 = (props) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
 
