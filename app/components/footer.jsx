@@ -13,7 +13,7 @@ export default function () {
         //window.location.href = '/privacy';
     }
     const navicateToCondition = () => {
-        //window.location.href = '/condition';
+        window.location.href = '/conditions';
     }
 
     return (
