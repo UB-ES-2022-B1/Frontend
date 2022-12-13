@@ -56,12 +56,12 @@ const otherItems = [
         anchor: "My households"
     },
     {
-        slug: "/logout/",
-        anchor: "Log out"
-    },
-    {
         slug: "/favourites/",
         anchor: "Favourites"
+    },
+    {
+        slug: "/logout/",
+        anchor: "Log out"
     }
     
 ];
