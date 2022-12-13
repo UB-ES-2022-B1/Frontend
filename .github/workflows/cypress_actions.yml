@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - Cypress-testing
+      - main
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
