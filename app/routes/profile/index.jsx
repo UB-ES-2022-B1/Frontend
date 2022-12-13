@@ -726,6 +726,7 @@ export default function Index() {
             <Spacer />
             <Box my={4} textAlign="left"><EditCountry country={country} ></EditCountry></Box>
           </Flex>
+          <Divider></Divider>
 
           <Flex as='fieldset'>
             <Box my={4} textAlign="left">
