@@ -13,6 +13,7 @@ import {
   IconButton,
   PopoverContent,
   PopoverArrow,
+  InputGroup,
   InputRightElement,
   PopoverCloseButton,
   Stack,
@@ -23,16 +24,20 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 import FocusLock from "react-focus-lock"
-import { ViewIcon } from '@chakra-ui/icons'
-import { EditIcon } from '@chakra-ui/icons'
-import { useEffect, forwardRef } from 'react';
+import { EditIcon, LinkIcon,ViewIcon } from '@chakra-ui/icons'
+import { useEffect, forwardRef, useCallback } from 'react';
 import { useState, useRef } from "react";
 import { useLocalStorage } from '~/utils/localStorage'
 import { useLoaderData } from "@remix-run/react";
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun';
 import { SERVER_DNS } from "~/utils/constants";
 import { getAccessToken } from '~/session';
-import { useMemo, useCallback } from "react";
+
+import { Link } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
+
+
+
 
 const TextInput = forwardRef((props, ref) => {
   return (
@@ -47,6 +52,69 @@ const EditName = (props) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
 
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+
+  const [nom, setNom] = useState(props.name);
+  const [nomError, setNomError] = useState(false);
+  const [nameErrorMessages, setNameErrorMessages] = useState('');
+
+  const [cognoms, setCognoms] = useState(props.surname);
+  const [cognomsError, setCognomsError] = useState(false);
+  const [cognomsErrorMessages, setCognomsErrorMessages] = useState('');
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setErrorMessages('')
+    if (!nomError && !cognomsError) {
+      //TODO--------------------------------
+    }
+    else {
+      setErrorMessages("Please enter valid parameters")
+      setIsSubmitting(false)
+    }
+  };
+
+  const validateNom = useCallback(() => {
+    if (nom === '') {
+      setNameErrorMessages('Name is required');
+      setNomError(true);
+    } else if (nom.match(/^[A-Za-z]+$/) === null) {
+      console.log("incorrecte: " + nom)
+      setNameErrorMessages('Name can\'t contain numbers');
+      setNomError(true);
+    } else {
+      setNomError(false);
+    }
+    console.log('validate nom' + nom)
+  }, [nom])
+
+  const validateCognoms = useCallback(() => {
+    console.log('validate cognom')
+    if (cognoms === '') {
+      setCognomsErrorMessages('Surname is required');
+      setCognomsError(true);
+    } else if (cognoms.match(/[0-9]+/) != null) {
+      console.log("incorrecte: " + cognoms)
+      setCognomsErrorMessages('Surname is incorrect');
+      setCognomsError(true);
+    } else {
+      setCognomsError(false);
+    }
+    console.log('validate nom' + cognoms)
+  }, [cognoms])
+
+  const validateParameters = useCallback(() => {
+    validateNom()
+    validateCognoms()
+  }, [validateNom, validateCognoms])
+
+  useEffectWithoutFirstRun(validateNom, [nom])
+  useEffectWithoutFirstRun(validateCognoms, [cognoms])
+
   return (
     <>
       <Popover
@@ -64,23 +132,48 @@ const EditName = (props) => {
           <FocusLock returnFocus persistentFocus={false}>
             <PopoverArrow />
             <PopoverCloseButton />
-            <Stack spacing={4}>
-              <TextInput
-                label='First name'
-                id='first-name'
-                ref={firstFieldRef}
-                defaultValue={props.name}
-              />
-              <TextInput label='Last name' id='last-name' defaultValue={props.surname} />
+            <form onSubmit={handleSubmit}>
+              <FormControl isInvalid={nomError}>
+                <TextInput
+                  label='First name'
+                  id='first-name'
+
+                  ref={firstFieldRef}
+                  defaultValue={props.name}
+                  onChange={(e) => setNom(e.target.value)}
+
+                />{!nomError ? null : (
+                  <FormErrorMessage>{nameErrorMessages}</FormErrorMessage>
+                )}
+              </FormControl>
+              <FormControl isInvalid={cognomsError}>
+                <TextInput
+                  label='Last name'
+                  id='last-name'
+
+                  defaultValue={props.surname}
+                  onChange={(e) => setCognoms(e.target.value)}
+
+                />{!cognomsError ? null : (
+                  <FormErrorMessage>{cognomsErrorMessages}</FormErrorMessage>
+                )}
+              </FormControl>
               <ButtonGroup display='flex' justifyContent='flex-end'>
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled backgroundColor='#98A8F8'>
+                <Button
+                  isDisabled={nomError || cognomsError}
+                  backgroundColor='#98A8F8'
+                  onClick={validateParameters}
+                  type='submit'
+                  isLoading={isSubmitting} >
                   Save
+
                 </Button>
               </ButtonGroup>
-            </Stack>
+            </form>
+
           </FocusLock>
         </PopoverContent>
       </Popover>
@@ -92,6 +185,47 @@ const EditMail = (props) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
 
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState('')
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setErrorMessages('')
+    if (!emailError) {
+      //TODO--------------------------------
+    }
+    else {
+      setErrorMessages("Please enter valid parameters")
+      setIsSubmitting(false)
+    }
+  };
+
+  const validateEmail = useCallback(() => {
+    const mailformat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gi
+    if (email === '') {
+      setEmailErrorMessage('Email is required')
+      setEmailError(true)
+    }
+    else if (email.match(mailformat) == null) {
+      setEmailErrorMessage('Invalid email format')
+      setEmailError(true)
+    }
+    else {
+      setEmailErrorMessage('')
+      setEmailError(false)
+    }
+  }, [email])
+
+  const validateParameters = useCallback(() => {
+    validateEmail()
+  }, [validateEmail])
+
+  useEffectWithoutFirstRun(validateEmail, [email])
+
   return (
     <>
       <Popover
@@ -110,18 +244,25 @@ const EditMail = (props) => {
             <PopoverArrow />
             <PopoverCloseButton />
             <Stack spacing={4}>
-              <TextInput
-                type='email'
-                label='Email address'
-                id='Email-address'
-                ref={firstFieldRef}
-                defaultValue={props.email}
-              />
+              <FormControl isInvalid={emailError}>
+                <TextInput
+                  type='email'
+                  label='Email address'
+                  id='Email-address'
+                  ref={firstFieldRef}
+                  defaultValue={props.email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />{!emailError ? null : (
+                  <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
+                )}
+              </FormControl>
               <ButtonGroup display='flex' justifyContent='flex-end'>
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled backgroundColor='#98A8F8'>
+                <Button
+                  isDisabled={emailError}
+                  backgroundColor='#98A8F8'>
                   Save
                 </Button>
               </ButtonGroup>
@@ -133,9 +274,57 @@ const EditMail = (props) => {
   )
 }
 
+
 const EditPhoneNumber = (props) => {
+  
+  const pattern =  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
+
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+
+  const [telefon, setTelefon] = useState('');
+  const [telefonError, setTelefonError] = useState(false);
+  const [telefonErrorMessage, setTelefonErrorMessage] = useState('');
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setErrorMessages('')
+    if (!telefonError) {
+      //TODO--------------------------------
+    }
+    else {
+      setErrorMessages("Please enter valid parameters")
+      setIsSubmitting(false)
+    }
+  };
+
+  const validateTelefon = useCallback(() => {
+    console.log('validate telefon', telefon)
+    if (telefon === '') {
+      setTelefonErrorMessage('Phone is required')
+      setTelefonError(true)
+    }
+    else if (telefon.match(pattern) == null) {
+      setTelefonErrorMessage('Invalid phone number')
+      setTelefonError(true)
+    }
+    else {
+      setTelefonErrorMessage('')
+      setTelefonError(false)
+    }
+  }, [telefon])
+
+
+  const validateParameters = useCallback(() => {
+    validateTelefon()
+  }, [validateTelefon])
+
+  useEffectWithoutFirstRun(validateTelefon, [telefon])
 
   return (
     <>
@@ -154,22 +343,35 @@ const EditPhoneNumber = (props) => {
           <FocusLock returnFocus persistentFocus={false}>
             <PopoverArrow />
             <PopoverCloseButton />
-            <Stack spacing={4}>
-              <TextInput
-                label='Phone number'
-                id='Phone-number'
-                ref={firstFieldRef}
-                defaultValue={props.phone}
-              />
+            <form onSubmit={handleSubmit}>
+              <FormControl isInvalid={telefonError}>
+                <TextInput
+                  label='Phone number'
+                  id='Phone-number'
+                  ref={firstFieldRef}
+                  defaultValue={props.phone}
+                  onChange={(e) => setTelefon(e.target.value)}
+
+                />{!telefonError ? null : (
+                  <FormErrorMessage>{telefonErrorMessage}</FormErrorMessage>
+                )}
+              </FormControl>
               <ButtonGroup display='flex' justifyContent='flex-end'>
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled backgroundColor='#98A8F8'>
+                <Button
+                  isDisabled={telefonError}
+                  backgroundColor='#98A8F8'
+                  onClick={validateParameters}
+                  type='submit'
+                  isLoading={isSubmitting} >
                   Save
+
                 </Button>
               </ButtonGroup>
-            </Stack>
+            </form>
+
           </FocusLock>
         </PopoverContent>
       </Popover>
@@ -178,6 +380,104 @@ const EditPhoneNumber = (props) => {
 }
 
 const EditBirthDate = (props) => {
+  const { onOpen, onClose, isOpen } = useDisclosure()
+  const firstFieldRef = useRef(null)
+
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+
+  const [data, setData] = useState('');
+  const [dataError, setDataError] = useState(false);
+  const [dateErrorMessages, setDateErrorMessages] = useState('')
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setErrorMessages('')
+    if (!dataError) {
+      //TODO--------------------------------
+    }
+    else {
+      setErrorMessages("Please enter valid parameters")
+      setIsSubmitting(false)
+    }
+  };
+
+  const validateData = useCallback(() => {
+    console.log('validate data')
+    let date = new Date(data)
+    let current = new Date(currentDate)
+    if (data === '') {
+      setDateErrorMessages('Date is required')
+      setDataError(true)
+    } else if (date >= current) {
+      setDateErrorMessages('You\'re not from the future');
+      setDataError(true);
+    } else if (calculateAge(date, current) < 18) {
+      setDateErrorMessages('You must be of legal age');
+      setDataError(true);
+    }
+    else {
+      setDataError(false)
+      setDateErrorMessages('')
+    }
+
+  }, [data])
+
+  const validateParameters = useCallback(() => {
+    validateData()
+  }, [validateData])
+
+  useEffectWithoutFirstRun(validateData, [data])
+
+  return (
+    <>
+      <Popover
+        isOpen={isOpen}
+        initialFocusRef={firstFieldRef}
+        onOpen={onOpen}
+        onClose={onClose}
+        placement='right'
+        closeOnBlur={false}
+      >
+        <PopoverTrigger>
+          <IconButton variant='ghost' size='sm' icon={<EditIcon />} />
+        </PopoverTrigger>
+        <PopoverContent p={5}>
+          <FocusLock returnFocus persistentFocus={false}>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <Stack spacing={4}>
+              <FormControl isInvalid={dataError}>
+                <TextInput
+                  type='date'
+                  label='Birth Date'
+                  id='birth-date'
+                  ref={firstFieldRef}
+                  defaultValue={props.data}
+                  onChange={(e) => setEmail(e.target.value)}
+                />{!dataError ? null : (
+                  <FormErrorMessage>{dateErrorMessages}</FormErrorMessage>
+                )}
+              </FormControl>
+              <ButtonGroup display='flex' justifyContent='flex-end'>
+                <Button variant='outline' onClick={onClose}>
+                  Cancel
+                </Button>
+                <Button
+                  isDisabled={dataError}
+                  backgroundColor='#98A8F8'>
+                  Save
+                </Button>
+              </ButtonGroup>
+            </Stack>
+          </FocusLock>
+        </PopoverContent>
+      </Popover>
+    </>
+  )
+}
+
+const EditBirthDate2 = (props) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
 
@@ -226,6 +526,195 @@ const EditCountry = (props) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
 
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+
+  const [nom, setNom] = useState('');
+  const [nomError, setNomError] = useState(false);
+  const [nameErrorMessages, setNameErrorMessages] = useState('');
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setErrorMessages('')
+    if (!nomError) {
+      //TODO--------------------------------
+    }
+    else {
+      setErrorMessages("Please enter valid parameters")
+      setIsSubmitting(false)
+    }
+  };
+
+  const validateNom = useCallback(() => {
+    if (nom === '') {
+      setNameErrorMessages('Country is required');
+      setNomError(true);
+    } else if (nom.match(/^[A-Za-z]+$/) === null) {
+      console.log("incorrecte: " + nom)
+      setNameErrorMessages('Country can\'t contain numbers');
+      setNomError(true);
+    } else {
+      setNomError(false);
+    }
+    console.log('validate nom' + nom)
+  }, [nom])
+
+
+  const validateParameters = useCallback(() => {
+    validateNom()
+  }, [validateNom])
+
+  useEffectWithoutFirstRun(validateNom, [nom])
+
+  return (
+    <>
+      <Popover
+        isOpen={isOpen}
+        initialFocusRef={firstFieldRef}
+        onOpen={onOpen}
+        onClose={onClose}
+        placement='right'
+        closeOnBlur={false}
+      >
+        <PopoverTrigger>
+          <IconButton variant='ghost' size='sm' icon={<EditIcon />} />
+        </PopoverTrigger>
+        <PopoverContent p={5}>
+          <FocusLock returnFocus persistentFocus={false}>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <form onSubmit={handleSubmit}>
+              <FormControl isInvalid={nomError}>
+                <TextInput
+                  label='Country'
+                  id='Country'
+
+                  ref={firstFieldRef}
+                  defaultValue={props.country}
+                  onChange={(e) => setNom(e.target.value)}
+
+                />{!nomError ? null : (
+                  <FormErrorMessage>{nameErrorMessages}</FormErrorMessage>
+                )}
+              </FormControl>
+              <ButtonGroup display='flex' justifyContent='flex-end'>
+                <Button variant='outline' onClick={onClose}>
+                  Cancel
+                </Button>
+                <Button
+                  isDisabled={nomError}
+                  backgroundColor='#98A8F8'
+                  onClick={validateParameters}
+                  type='submit'
+                  isLoading={isSubmitting} >
+                  Save
+
+                </Button>
+              </ButtonGroup>
+            </form>
+
+          </FocusLock>
+        </PopoverContent>
+      </Popover>
+    </>
+  )
+}
+
+
+const EditPassword = (props) => {
+  const { onOpen, onClose, isOpen } = useDisclosure()
+  const firstFieldRef = useRef(null)
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+
+  const [password_current, setPassword_current] = useState('');
+  const [password_new, setPassword_new] = useState('');
+  const [passwordError_current, setPasswordError_current] = useState(false);
+  const [passwordErrorMessages_current, setpasswordErrorMessages_current] = useState('');
+  const [passwordError_new, setPasswordError_new] = useState(false)
+  const [passwordErrorMessages_new, setpasswordErrorMessages_new] = useState('')
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setErrorMessages('')
+    if (!nomError && !cognomsError) {
+      //TODO--------------------------------
+    }
+    else {
+      setErrorMessages("Please enter valid parameters")
+      setIsSubmitting(false)
+    }
+  };
+
+  const validatePassword_current = useCallback(() => {
+    console.log('validate password')
+    if (password_current.length < 8) {
+      setpasswordErrorMessages_current('Minimum 8 characters');
+      setPasswordError_current(true);
+    }
+    else if (password_current.match(/(?=.*?[A-Z])/) == null) {
+      setpasswordErrorMessages_current("At least one uppercase letter");
+      setPasswordError_current(true);
+    }
+    else if (password_current.match(/(?=.*?[a-z])/) == null) {
+      setpasswordErrorMessages_current("At least one lowercase letter");
+      setPasswordError_current(true);
+    }
+    else if (password_current.match(/(?=.*?[0-9])/) == null) {
+      setpasswordErrorMessages_current("At least one digit");
+      setPasswordError_current(true);
+    }
+    else if (password_current.match(/(?=.*?[#?.,!@$%^&*-])/) == null) {
+      setpasswordErrorMessages_current("At least one special character");
+      setPasswordError_current(true);
+    }
+    else {
+      setPasswordError_current(password_current === '')
+  
+    }
+  }, [password_current])
+
+  const validatePassword_new = useCallback(() => {
+    console.log('validate password')
+    if (password_new.length < 8) {
+      setpasswordErrorMessages_new('Minimum 8 characters');
+      setPasswordError_new(true);
+    }
+    else if (password_new.match(/(?=.*?[A-Z])/) == null) {
+      setpasswordErrorMessages_new("At least one uppercase letter");
+      setPasswordError_new(true);
+    }
+    else if (password_new.match(/(?=.*?[a-z])/) == null) {
+      setpasswordErrorMessages_new("At least one lowercase letter");
+      setPasswordError_new(true);
+    }
+    else if (password_new.match(/(?=.*?[0-9])/) == null) {
+      setpasswordErrorMessages_new("At least one digit");
+      setPasswordError_new(true);
+    }
+    else if (password_new.match(/(?=.*?[#?.,!@$%^&*-])/) == null) {
+      setpasswordErrorMessages_new("At least one special character");
+      setPasswordError_new(true);
+    }
+    else {
+      setPasswordError_new(password_new === '')
+  
+    }
+  }, [password_new])
+
+  const validateParameters = useCallback(() => {
+    validatePassword_current()
+    validatePassword_new()
+  }, [validatePassword_current, validatePassword_new])
+
+
+
   return (
     <>
       <Popover
@@ -244,17 +733,50 @@ const EditCountry = (props) => {
             <PopoverArrow />
             <PopoverCloseButton />
             <Stack spacing={4}>
-              <TextInput
-                label='Country'
-                id='Country'
-                ref={firstFieldRef}
-                defaultValue={props.country}
-              />
+            <FormControl isInvalid={passwordError_current}>
+              <InputGroup>
+                  <TextInput
+                      type={show ? 'text' : 'password'}
+                      label='Current password'
+                      id='current_password'
+                      ref= {firstFieldRef}
+                      placeholder='Enter current password'
+                      onChange={(a) => { setPassword_current(a.target.value) }} />
+                    <InputRightElement >
+                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
+                        {show ? 'Hide' : 'Show'}
+                      </IconButton>
+                    </InputRightElement>
+                    </InputGroup>
+                    {!passwordError_current ? null: (
+                        <FormErrorMessage>{passwordErrorMessages_current}</FormErrorMessage>
+                      )}
+                </FormControl>
+                <FormControl isInvalid={passwordError_new}>
+                  <InputGroup>
+                    <Input
+                      type={show ? 'text' : 'password'}
+                      label='New password'
+                      id='new_password'
+                      ref= {firstFieldRef}
+                      placeholder='Enter new password'
+                      onChange={(e) => { setPassword_new(e.target.value) }} />
+                      
+                    <InputRightElement >
+                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
+                        {show ? 'Hide' : 'Show'}
+                      </IconButton>
+                    </InputRightElement>
+                    </InputGroup>
+                    {!passwordError_new ? null: (
+                        <FormErrorMessage>{passwordErrorMessages_new}</FormErrorMessage>
+                      )}
+                </FormControl>
               <ButtonGroup display='flex' justifyContent='flex-end'>
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled backgroundColor='#98A8F8'>
+                <Button backgroundColor='#98A8F8' type='submit' onClick={validateParameters} isDisabled={passwordError_current || passwordError_new}>
                   Save
                 </Button>
               </ButtonGroup>
@@ -268,6 +790,7 @@ const EditCountry = (props) => {
 
 
 
+
 export default function Index() {
   const [products, setProducts] = useState('');
   const [email, setEmail] = useLocalStorage('email', '');
@@ -276,10 +799,7 @@ export default function Index() {
   const [telefon, setTelefon] = useState('');
   const [country, setCountry] = useState('');
   const [data, setData] = useState('');
-
   const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState(false)
-  const [passwordErrorMessages, setpasswordErrorMessages] = useState('')
 
   function componentDidMount(res) {
     setNom(res.name),
@@ -314,111 +834,11 @@ export default function Index() {
   }, []
   )
 
-  const validatePassword = useCallback(() => {
-    console.log('validate password')
-    if (password.length < 8) {
-      setpasswordErrorMessages('Minimum 8 characters');
-      setPasswordError(true);
-    }
-    else if (password.match(/(?=.*?[A-Z])/) == null) {
-      setpasswordErrorMessages("At least one uppercase letter");
-      setPasswordError(true);
-    }
-    else if (password.match(/(?=.*?[a-z])/) == null) {
-      setpasswordErrorMessages("At least one lowercase letter");
-      setPasswordError(true);
-    }
-    else if (password.match(/(?=.*?[0-9])/) == null) {
-      setpasswordErrorMessages("At least one digit");
-      setPasswordError(true);
-    }
-    else if (password.match(/(?=.*?[#?.,!@$%^&*-])/) == null) {
-      setpasswordErrorMessages("At least one special character");
-      setPasswordError(true);
-    }
-    else {
-      setPasswordError(password === '')
-
-    }
-  }, [password])
+  
 
   useEffectWithoutFirstRun(() => componentDidMount(products), [products])
 
-  const EditPassword = (props) => {
-    const { onOpen, onClose, isOpen } = useDisclosure()
-    const firstFieldRef = useRef(null)
-    const [show, setShow] = useState(false)
-    const handleClick = () => setShow(!show)
-
-  return (
-    <>
-      <Popover
-        isOpen={isOpen}
-        initialFocusRef={firstFieldRef}
-        onOpen={onOpen}
-        onClose={onClose}
-        placement='right'
-        closeOnBlur={false}
-      >
-        <PopoverTrigger>
-          <IconButton variant='ghost' size='sm' icon={<EditIcon />} />
-        </PopoverTrigger>
-        <PopoverContent p={5}>
-          <FocusLock returnFocus persistentFocus={false}>
-            <PopoverArrow />
-            <PopoverCloseButton />
-            <Stack spacing={4}>
-            <FormControl isInvalid={passwordError}>
-                  <TextInput
-                      type={show ? 'text' : 'password'}
-                      label='Current password'
-                      id='current_password'
-                      ref= {firstFieldRef}
-                      placeholder='Enter current password'
-                      onChange={(e) => { setPassword(e.target.value) }} />
-                      {!passwordError ? null: (
-                        <FormErrorMessage>{passwordErrorMessages}</FormErrorMessage>
-                      )}
-                    <InputRightElement >
-                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
-                        {show ? 'Hide' : 'Show'}
-                      </IconButton>
-                    </InputRightElement>
-                </FormControl>
-                <FormControl isInvalid={passwordError}>
-                  <FormLabel> New password</FormLabel>
-                    <TextInput
-                      type={show ? 'text' : 'password'}
-                      label='New password'
-                      id='new_password'
-                      ref= {firstFieldRef}
-                      placeholder='Enter new password'
-                      onChange={(e) => { setPassword(e.target.value) }} />
-                      {!passwordError ? null: (
-                        <FormErrorMessage>{passwordErrorMessages}</FormErrorMessage>
-                      )}
-                    <InputRightElement >
-                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
-                        {show ? 'Hide' : 'Show'}
-                      </IconButton>
-                    </InputRightElement>
-                </FormControl>
-              <ButtonGroup display='flex' justifyContent='flex-end'>
-                <Button variant='outline' onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button backgroundColor='#98A8F8' onClick={validatePassword} type='submit' isDisabled={passwordError}>
-                  Save
-                </Button>
-              </ButtonGroup>
-            </Stack>
-          </FocusLock>
-        </PopoverContent>
-      </Popover>
-    </>
-  )
-  }
-
+  
 
   return (
     <Flex width="full" align="center" justifyContent="center" padding={"120px"}>
@@ -481,14 +901,13 @@ export default function Index() {
             <Box my={4} textAlign="left"><EditCountry country={country} ></EditCountry></Box>
           </Flex>
           <Divider></Divider>
-
           <Flex as='fieldset'>
             <Box my={4} textAlign="left">
               <Text>Password</Text>
-              <Text color='gray'>********</Text>
+              <Text color='gray'>**********</Text>
             </Box>
             <Spacer />
-            <Box my={4} textAlign="left"><EditPassword password={password} ></EditPassword></Box>
+            <Box my={4} textAlign="left"><EditPassword ></EditPassword></Box>
           </Flex>
         </Box>
       </Box>
