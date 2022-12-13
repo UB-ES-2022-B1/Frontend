@@ -12,7 +12,6 @@ import {
   Popover,
   IconButton,
   PopoverContent,
-  InputGroup,
   PopoverArrow,
   InputRightElement,
   PopoverCloseButton,
@@ -21,6 +20,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import FocusLock from "react-focus-lock"
 import { ViewIcon } from '@chakra-ui/icons'
@@ -315,6 +315,7 @@ export default function Index() {
   )
 
   const validatePassword = useCallback(() => {
+    console.log('validate password')
     if (password.length < 8) {
       setpasswordErrorMessages('Minimum 8 characters');
       setPasswordError(true);
@@ -368,42 +369,39 @@ export default function Index() {
             <PopoverCloseButton />
             <Stack spacing={4}>
             <FormControl isInvalid={passwordError}>
-                  <FormLabel> Current password</FormLabel>
-                  <InputGroup>
-                    <Input
+                  <TextInput
+                      type={show ? 'text' : 'password'}
                       label='Current password'
                       id='current_password'
-                      type={show ? 'text' : 'password'}
+                      ref= {firstFieldRef}
                       placeholder='Enter current password'
                       onChange={(e) => { setPassword(e.target.value) }} />
+                      {!passwordError ? null: (
+                        <FormErrorMessage>{passwordErrorMessages}</FormErrorMessage>
+                      )}
                     <InputRightElement >
                     <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
                         {show ? 'Hide' : 'Show'}
                       </IconButton>
                     </InputRightElement>
-                  </InputGroup>
-                  {!passwordError ? null : (
-                    <FormErrorMessage>{passwordErrorMessages}</FormErrorMessage>
-                  )}
                 </FormControl>
                 <FormControl isInvalid={passwordError}>
                   <FormLabel> New password</FormLabel>
-                  <InputGroup>
-                    <Input
+                    <TextInput
+                      type={show ? 'text' : 'password'}
                       label='New password'
                       id='new_password'
-                      type={show ? 'text' : 'password'}
+                      ref= {firstFieldRef}
                       placeholder='Enter new password'
                       onChange={(e) => { setPassword(e.target.value) }} />
+                      {!passwordError ? null: (
+                        <FormErrorMessage>{passwordErrorMessages}</FormErrorMessage>
+                      )}
                     <InputRightElement >
                     <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
                         {show ? 'Hide' : 'Show'}
                       </IconButton>
                     </InputRightElement>
-                  </InputGroup>
-                  {!passwordError ? null : (
-                    <FormErrorMessage>{passwordErrorMessages}</FormErrorMessage>
-                  )}
                 </FormControl>
               <ButtonGroup display='flex' justifyContent='flex-end'>
                 <Button variant='outline' onClick={onClose}>
