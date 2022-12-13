@@ -72,7 +72,6 @@ export default function slider({height='530px',width='800px',hover=false,infinit
 
 
   return (
-    <Flex justifyContent="center" >
       <Box height={height} width={width} overflow='hidden' alignItems='center' position='relative'
           onMouseEnter={()=>showArrows(true)}
           onMouseLeave={()=>showArrows(!hover)}
@@ -146,7 +145,6 @@ export default function slider({height='530px',width='800px',hover=false,infinit
           ))}
         </Slider>
       </Box>
-    </Flex>
     // <Flex justifyContent="center" >
 
     // <div style={{

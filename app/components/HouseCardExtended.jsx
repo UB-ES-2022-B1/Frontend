@@ -1,4 +1,4 @@
-import { Heading, Text, Box, Skeleton, SkeletonText, IconButton } from "@chakra-ui/react";
+import { Heading, Text, Box, Skeleton, SkeletonText, IconButton, Grid, GridItem, Stack, Flex, Spacer } from "@chakra-ui/react";
 import { useLoaderData } from "@remix-run/react";
 import { useState, useEffect } from "react";
 import example2 from '~/assets/example2.webp'
@@ -7,8 +7,9 @@ import Images from '../exports/images';
 import { IMAGES_DNS, SERVER_DNS } from '~/utils/constants'
 import { firstToUpperCase } from "~/utils/textUtils";
 import { FiHeart } from "react-icons/fi";
-import { isAuthenticated } from '~/session';
-import { getAccessToken } from '~/session';
+import { isAuthenticated, getAccessToken } from '~/session';
+import HouseTitle from "~/components/HouseTitleReformed";
+
 
 async function houseLoader(id) {
 
@@ -52,7 +53,7 @@ async function houseLoader(id) {
 }
 
 
-export default function ({id,isFavorite=false}) {
+export default function ({id, isFavorite=false}) {
     const settings = {
         dots: false,
         infinite: true,
@@ -65,7 +66,6 @@ export default function ({id,isFavorite=false}) {
     const [isClicked, setisClicked] = useState(isFavorite)
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    
     useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
 
     useEffect(() => {
@@ -74,7 +74,6 @@ export default function ({id,isFavorite=false}) {
             setIsLoading(false)
         })
     }, [])
-
 
     async function favorits() {
         let access = await getAccessToken()
@@ -96,34 +95,19 @@ export default function ({id,isFavorite=false}) {
 
     return (
         <>
-            <Box>
-                {isLoggedIn ?
-                    <IconButton
-                        marginLeft='199'
-                        marginTop='3'
-                        position='absolute'
-                        variant='link'
-                        zIndex={1}
-                        onClick={() => { setisClicked(!isClicked); favorits() }}
-                        icon={<FiHeart
-                            className='heart'
-                            fill={isClicked ? "red" : "#1a1b1b"}
-                            opacity={isClicked ? 1 : 0.5}
-                            color={isClicked ? "red" : "white"} />}>
-                    </IconButton >
-                    : null}
+            <Box width={'900px'} m={'10px'} p={'10px 7px'} borderRadius={'10px'} boxShadow="lg" overflow={'hidden'}>
+
+                <Flex spacing={8} >
                 <a href={`/apartment/${id}`}>
-                    <div className="housecard">
+
+                    <Box>
                         <Skeleton borderRadius={30} isLoaded={!isLoading}>
 
-                        <div>
                             <Box>
-                                <Box zIndex={1} position='absolute' marginLeft='205' marginTop='3'>
 
-                                </Box>
                                 <Slider
-                                    width={'250px'}
-                                    height={'250px'}
+                                    width={'300px'}
+                                    height={'300px'}
                                     autoplay={false}
                                     hover={true}
                                     infinite={false}
@@ -131,40 +115,40 @@ export default function ({id,isFavorite=false}) {
                                 >
                                 </Slider>
                             </Box>
-                        </div>
                         </Skeleton>
-
-                        <Box p='2px'>
-                            <Skeleton isLoaded={!isLoading}>
-                                <Box
-                                    mt='1'
-                                    fontWeight='semibold'
-                                    as='h4'
-                                    lineHeight='tight'
-                                    noOfLines={1}
-                                >
-                                    {`${house.town}, ${house.country}`}
-                                </Box>
-
-                            </Skeleton>
-                            <SkeletonText noOfLines={3} isLoaded={!isLoading}>
-                                <Box as='span' color='gray' fontSize='sm'>
-                                    <Box>{firstToUpperCase(`${house.title}`)}</Box>
-                                    <Box>{firstToUpperCase(`${house.company_individual}`)} &bull; {house.num_people} people</Box>
-                                </Box>
-                                <Box >
-                                    <Box as='b'>{`${house.base_price}€`}</Box>
-                                    <Box as='span' fontSize='sm'> night</Box>
-                                </Box>
-                            </SkeletonText>
-                            {/* <Heading fontSize={'1xl'} as='b'>{house.location}</Heading>
-            <Text>{house.sublocation}</Text>
-            <Text>{house.dates}</Text>
-            <div><Text as='b'>{house.price}</Text><Text>night</Text></div> */}
-
-                        </Box>
-                    </div>
+                    </Box>
                 </a>
+
+
+
+                    <Box p='3px 10px' flex='1'>
+                        <Skeleton isLoaded={!isLoading} margin={'10px 0px'}>
+                            <HouseTitle
+                                title={firstToUpperCase(`${house.title}`)}
+                                town={house.town}
+                                province={house.province}
+                                country={house.country}
+                                isFavorite={isFavorite}
+                                id={id}
+                            ></HouseTitle>
+                        </Skeleton>
+                        <SkeletonText noOfLines={4} isLoaded={!isLoading} margin={'10px 0px'}>
+                            <Box as='span'>{firstToUpperCase(`${house.description}`)}</Box>
+
+                            <Box as='span' color='gray' fontSize='sm'>
+                                <Box>{firstToUpperCase(`${house.company_individual}`)} &bull; {house.num_people} guests &bull; {house.num_hab} bedrooms &bull; {house.num_beds} beds &bull; {house.num_bathrooms} bathrooms
+                                </Box>
+                            </Box>
+                        </SkeletonText>
+                    
+                        <SkeletonText noOfLines={1} isLoaded={!isLoading}>
+                        <Box flex={1} >
+                                <Box as='b'>{`${house.base_price}€`}</Box>
+                                <Box as='span' fontSize='sm'> night</Box>
+                        </Box>
+                        </SkeletonText>
+                    </Box>
+                </Flex>
             </Box>
         </>
     )

@@ -8,7 +8,7 @@ import {SERVER_DNS} from "~/utils/constants"
 
 
 export default function Index() {
-const [favorites, setFavorites] = useState()
+const [myHouses, setMyHouses] = useState()
 
 useEffect(async() => {
     let logged = await isAuthenticated()
@@ -17,7 +17,7 @@ useEffect(async() => {
     }
     else{
         let token = await getAccessToken()
-        let response = fetch(`${SERVER_DNS}/favorites/get-favorites`, {
+        let response = fetch(`${SERVER_DNS}/houses/get-own-houses`, {
             method: 'GET',
             mode: 'cors',
             headers: {
@@ -29,25 +29,26 @@ useEffect(async() => {
             })
             .catch((error) => {
                 // setFavorites([])
-                console.log('Error getting favorites: ', error.msg)
+                console.log('Error getting my houses: ', error.msg)
             });
-        const {success,favorites} = await response
-        if(success){setFavorites(favorites)}
-        else{setFavorites([])}
+        const {success,ids} = await response
+        if(success){setMyHouses(ids)}
+        else{setMyHouses([])}
+        console.log(ids)
     }
     }, [])
 
 
-useEffect(()=>{console.log(favorites)},[favorites])
+useEffect(()=>{console.log(myHouses)},[myHouses])
 
 return (
     <div>
-            {favorites && favorites.length==0 ? <Text p={2}>No favourite houses yet</Text> : null}
+            {myHouses && myHouses.length==0 ? <Text p={2}>You have not added any houses to host</Text> : null}
             <Flex width='full' justifyContent='center'>
 
-            {favorites && <SimpleGrid columns={1} spacing='10px' >
-                {favorites.map((id,index)=>{
-                    return <Box className="house-card" key={index}><HouseCardExtended id={id} isFavorite={true} /></Box>
+            {myHouses && <SimpleGrid columns={1} spacing='10px' >
+                {myHouses.map((id,index)=>{
+                    return <Box className="house-card" key={index}><HouseCardExtended id={id}/></Box>
                 })}
             </SimpleGrid>}
             </Flex>

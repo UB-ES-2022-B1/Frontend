@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo} from "react";
 import HouseCard from "./HouseCard"
 import useInfiniteScroll from "~/utils/useInfiniteScroll";
-import { Center,Spinner, Wrap, Box, Text } from "@chakra-ui/react"
+import { Center,Spinner, Wrap, Box, Text, WrapItem } from "@chakra-ui/react"
 import {SERVER_DNS} from "~/utils/constants"
+import { isAuthenticated } from '~/session';
+import { getAccessToken } from '~/session';
+
 
 async function fetchHouses(page)
 {
@@ -38,10 +41,69 @@ export default function(params)
 
     const [listItems, setListItems] = useState([]);
     const [page,setPage] = useState(1)
+
+    // const [isLoggedIn, setIsLoggedIn] = useState(false)
+    // useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
+    const [favorites, setFavorites] = useState()
+    // useEffect(() => {
+    //     console.log('a')
+    // if (!isLoggedIn){}
+    // else{
+    //     getAccessToken().then((token)=>{
+    //     let response = fetch(`${SERVER_DNS}/favorites/get-favorites`, {
+    //         method: 'GET',
+    //         mode: 'cors',
+    //         headers: {
+    //             'Authorization': `Bearer ${token}`,
+    //         }
+    //         })
+    //         .then((res) => {
+    //             console.log(res)
+    //             if(res.success){
+    //                 setFavorites(res.ids)
+    //             }
+    //             else{
+
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.log('Error getting favorites: ', error)
+    //         });
+    //     })
+    // }
+    // }, [isLoggedIn])
+
+
+    useEffect(async() => {
+    let logged = await isAuthenticated()
+    if (!logged){
+        setFavorites([])
+    }
+    else{
+        let token = await getAccessToken()
+        let response = fetch(`${SERVER_DNS}/favorites/get-favorites`, {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+            })
+            .then((res) => {
+                return res.json()
+            })
+            .catch((error) => {
+                // setFavorites([])
+                console.log('Error getting favorites: ', error.msg)
+            });
+        const {success,favorites} = await response
+        if(success){setFavorites(favorites)}
+        else{setFavorites([])}
+    }
+    }, [])
+
     // useEffect(fetchHouses(++page),[])
     //const [listItems, setListItems] = useState(Array.from(Array(24).keys(), n => n + 1));
     useEffect(()=>{
-        console.log(hasInitial)
         if(hasInitial){
             setListItems(initial)}
         else{
@@ -67,13 +129,13 @@ export default function(params)
 
 {!hasInitial?
         <>       
-            <Box m={'20px'}>
+            {favorites && <Box m={'20px'}>
                 <Wrap minChildWidth='200px' spacing='40px' justify='center'>
                 {listItems.map((id,index) => {
-                    return <Box className="house-card" key={index}><HouseCard id={id} /></Box>;
+                    return <Box className="house-card" key={index}><HouseCard id={id} isFavorite={favorites.includes(id)}/></Box>;
                 })}
                 </Wrap>
-            </Box>
+            </Box>}
             <Center>
             {isFetching?<Spinner
                     margin='0 auto'
@@ -89,10 +151,10 @@ export default function(params)
             {empty ? 
                 <Text>No houses found</Text>
                     :
-                <Box m={'20px'}>
-                    <Wrap minChildWidth='200px' spacing='40px' justify='center'>
+                favorites && <Box m={'20px'}>
+                    <Wrap minChildWidth='200px' spacing='40px' justify={'center'}>
                     {listItems.map((id,index) => {
-                        return <Box className="house-card" key={index}><HouseCard id={id} /></Box>;
+                        return <WrapItem className="house-card" key={index}><HouseCard id={id} isFavorite={favorites.includes(id)} /></WrapItem>;
                     })}
                     </Wrap>
                 </Box>
