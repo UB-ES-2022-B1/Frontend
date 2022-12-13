@@ -714,7 +714,8 @@ const EditPassword = (props) => {
   }, [validatePassword_current, validatePassword_new])
 
 
-
+  useEffectWithoutFirstRun(validatePassword_current,[passwordError_current])
+  useEffectWithoutFirstRun(validatePassword_new,[passwordError_new])
   return (
     <>
       <Popover
