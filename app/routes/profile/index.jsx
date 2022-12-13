@@ -19,10 +19,11 @@ import {
   FormControl,
   FormLabel,
   Input,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import FocusLock from "react-focus-lock"
 import { EditIcon, LinkIcon } from '@chakra-ui/icons'
-import { useEffect, forwardRef , useCallback} from 'react';
+import { useEffect, forwardRef, useCallback } from 'react';
 import { useState, useRef } from "react";
 import { useLocalStorage } from '~/utils/localStorage'
 import { useLoaderData } from "@remix-run/react";
@@ -49,53 +50,70 @@ const TextInput = forwardRef((props, ref) => {
 const EditName = (props) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
-  const [firstNameError, setfirstNameError] = useState(false);
-  const [lastNameError, setlastNameError] = useState(false);
-  const [newFirstName, setNewFirstName] = useState('')
-  const [newLastName, setNewLastName] = useState('')
 
-  const validateFirstName = useCallback((nom) => {
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+
+  const [nom, setNom] = useState(props.name);
+  const [nomError, setNomError] = useState(false);
+  const [nameErrorMessages, setNameErrorMessages] = useState('');
+
+  const [cognoms, setCognoms] = useState(props.surname);
+  const [cognomsError, setCognomsError] = useState(false);
+  const [cognomsErrorMessages, setCognomsErrorMessages] = useState('');
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setErrorMessages('')
+    if (!nomError && !cognomsError) {
+      //TODO--------------------------------
+    }
+    else {
+      setErrorMessages("Please enter valid parameters")
+      setIsSubmitting(false)
+    }
+  };
+
+  const validateNom = useCallback(() => {
     if (nom === '') {
-      //setNameErrorMessages('Name is required');
-      //setNomError(true);
-      return true
+      setNameErrorMessages('Name is required');
+      setNomError(true);
     } else if (nom.match(/^[A-Za-z]+$/) === null) {
-      //setNameErrorMessages('Name can\'t contain numbers');
-      //setNomError(true);
-      return true
+      console.log("incorrecte: " + nom)
+      setNameErrorMessages('Name can\'t contain numbers');
+      setNomError(true);
     } else {
-      //setNomError(false);
-      return false
+      setNomError(false);
     }
-  }, [newFirstName])
+    console.log('validate nom' + nom)
+  }, [nom])
 
-  const validateLastName = useCallback((nom) => {
-    if (nom === '') {
-      //setNameErrorMessages('Name is required');
-      //setNomError(true);
-      return true
-    } else if (nom.match(/^[A-Za-z]+$/) === null) {
-      //setNameErrorMessages('Name can\'t contain numbers');
-      //setNomError(true);
-      return true
+  const validateCognoms = useCallback(() => {
+    console.log('validate cognom')
+    if (cognoms === '') {
+      setCognomsErrorMessages('Surname is required');
+      setCognomsError(true);
+    } else if (cognoms.match(/[0-9]+/) != null) {
+      console.log("incorrecte: " + cognoms)
+      setCognomsErrorMessages('Surname is incorrect');
+      setCognomsError(true);
     } else {
-      //setNomError(false);
-      return false
+      setCognomsError(false);
     }
-  }, [newLastName])
+    console.log('validate nom' + cognoms)
+  }, [cognoms])
 
-  const validateParam = useCallback(() => {
-    let a = validateFirstName(newFirstName)
-    let b = validateLastName(newLastName)
+  const validateParameters = useCallback(() => {
+    validateNom()
+    validateCognoms()
+  }, [validateNom, validateCognoms])
 
-    return a && b
-}, [validateFirstName, validateLastName])
+  useEffectWithoutFirstRun(validateNom, [nom])
+  useEffectWithoutFirstRun(validateCognoms, [cognoms])
 
-  async function handleSubmit() {
-    if (validateParam()) {
-        //TODO---------------------------------------------------------------------------------------------
-    }
-}
   return (
     <>
       <Popover
@@ -113,33 +131,48 @@ const EditName = (props) => {
           <FocusLock returnFocus persistentFocus={false}>
             <PopoverArrow />
             <PopoverCloseButton />
-            <Stack spacing={4}>
-              <TextInput
-                label='First name'
-                id='first-name'
-                ref={firstFieldRef}
-                defaultValue={props.name}     
-                        
-              />
-              <TextInput 
-                label='Last name' 
-                id='last-name' 
-                defaultValue={props.surname} 
+            <form onSubmit={handleSubmit}>
+              <FormControl isInvalid={nomError}>
+                <TextInput
+                  label='First name'
+                  id='first-name'
 
-              />
+                  ref={firstFieldRef}
+                  defaultValue={props.name}
+                  onChange={(e) => setNom(e.target.value)}
+
+                />{!nomError ? null : (
+                  <FormErrorMessage>{nameErrorMessages}</FormErrorMessage>
+                )}
+              </FormControl>
+              <FormControl isInvalid={cognomsError}>
+                <TextInput
+                  label='Last name'
+                  id='last-name'
+
+                  defaultValue={props.surname}
+                  onChange={(e) => setCognoms(e.target.value)}
+
+                />{!cognomsError ? null : (
+                  <FormErrorMessage>{cognomsErrorMessages}</FormErrorMessage>
+                )}
+              </FormControl>
               <ButtonGroup display='flex' justifyContent='flex-end'>
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button 
-                  isDisabled={ firstNameError || lastNameError } 
+                <Button
+                  isDisabled={nomError || cognomsError}
                   backgroundColor='#98A8F8'
-                  onClick={handleSubmit}>
+                  onClick={validateParameters}
+                  type='submit'
+                  isLoading={isSubmitting} >
                   Save
-                  
+
                 </Button>
               </ButtonGroup>
-            </Stack>
+            </form>
+
           </FocusLock>
         </PopoverContent>
       </Popover>
@@ -151,6 +184,47 @@ const EditMail = (props) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
 
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState('')
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setErrorMessages('')
+    if (!emailError) {
+      //TODO--------------------------------
+    }
+    else {
+      setErrorMessages("Please enter valid parameters")
+      setIsSubmitting(false)
+    }
+  };
+
+  const validateEmail = useCallback(() => {
+    const mailformat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/gi
+    if (email === '') {
+      setEmailErrorMessage('Email is required')
+      setEmailError(true)
+    }
+    else if (email.match(mailformat) == null) {
+      setEmailErrorMessage('Invalid email format')
+      setEmailError(true)
+    }
+    else {
+      setEmailErrorMessage('')
+      setEmailError(false)
+    }
+  }, [email])
+
+  const validateParameters = useCallback(() => {
+    validateEmail()
+  }, [validateEmail])
+
+  useEffectWithoutFirstRun(validateEmail, [email])
+
   return (
     <>
       <Popover
@@ -169,18 +243,25 @@ const EditMail = (props) => {
             <PopoverArrow />
             <PopoverCloseButton />
             <Stack spacing={4}>
-              <TextInput
-                type='email'
-                label='Email address'
-                id='Email-address'
-                ref={firstFieldRef}
-                defaultValue={props.email}
-              />
+              <FormControl isInvalid={emailError}>
+                <TextInput
+                  type='email'
+                  label='Email address'
+                  id='Email-address'
+                  ref={firstFieldRef}
+                  defaultValue={props.email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />{!emailError ? null : (
+                  <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
+                )}
+              </FormControl>
               <ButtonGroup display='flex' justifyContent='flex-end'>
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled backgroundColor='#98A8F8'>
+                <Button
+                  isDisabled={emailError}
+                  backgroundColor='#98A8F8'>
                   Save
                 </Button>
               </ButtonGroup>
@@ -193,8 +274,54 @@ const EditMail = (props) => {
 }
 
 const EditPhoneNumber = (props) => {
+  
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
+
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+
+  const [telefon, setTelefon] = useState('');
+  const [telefonError, setTelefonError] = useState(false);
+  const [telefonErrorMessage, setTelefonErrorMessage] = useState('');
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setErrorMessages('')
+    if (!telefonError) {
+      //TODO--------------------------------
+    }
+    else {
+      setErrorMessages("Please enter valid parameters")
+      setIsSubmitting(false)
+    }
+  };
+
+  const validateTelefon = useCallback(() => {
+    console.log('validate telefon', telefon)
+    if (telefon === '') {
+      setTelefonErrorMessage('Phone is required')
+      setTelefonError(true)
+    }
+    else if (telefon.match(pattern) == null) {
+      setTelefonErrorMessage('Invalid phone number')
+      setTelefonError(true)
+    }
+    else {
+      setTelefonErrorMessage('')
+      setTelefonError(false)
+    }
+  }, [telefon])
+
+
+  const validateParameters = useCallback(() => {
+    validateTelefon()
+  }, [validateTelefon])
+
+  useEffectWithoutFirstRun(validateTelefon, [telefon])
 
   return (
     <>
@@ -213,22 +340,35 @@ const EditPhoneNumber = (props) => {
           <FocusLock returnFocus persistentFocus={false}>
             <PopoverArrow />
             <PopoverCloseButton />
-            <Stack spacing={4}>
-              <TextInput
-                label='Phone number'
-                id='Phone-number'
-                ref={firstFieldRef}
-                defaultValue={props.phone}
-              />
+            <form onSubmit={handleSubmit}>
+              <FormControl isInvalid={telefonError}>
+                <TextInput
+                  label='Phone number'
+                  id='Phone-number'
+                  ref={firstFieldRef}
+                  defaultValue={props.phone}
+                  onChange={(e) => setTelefon(e.target.value)}
+
+                />{!telefonError ? null : (
+                  <FormErrorMessage>{telefonErrorMessage}</FormErrorMessage>
+                )}
+              </FormControl>
               <ButtonGroup display='flex' justifyContent='flex-end'>
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled backgroundColor='#98A8F8'>
+                <Button
+                  isDisabled={telefonError}
+                  backgroundColor='#98A8F8'
+                  onClick={validateParameters}
+                  type='submit'
+                  isLoading={isSubmitting} >
                   Save
+
                 </Button>
               </ButtonGroup>
-            </Stack>
+            </form>
+
           </FocusLock>
         </PopoverContent>
       </Popover>
@@ -285,6 +425,49 @@ const EditCountry = (props) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
 
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+
+  const [nom, setNom] = useState('');
+  const [nomError, setNomError] = useState(false);
+  const [nameErrorMessages, setNameErrorMessages] = useState('');
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setErrorMessages('')
+    if (!nomError) {
+      //TODO--------------------------------
+    }
+    else {
+      setErrorMessages("Please enter valid parameters")
+      setIsSubmitting(false)
+    }
+  };
+
+  const validateNom = useCallback(() => {
+    if (nom === '') {
+      setNameErrorMessages('Country is required');
+      setNomError(true);
+    } else if (nom.match(/^[A-Za-z]+$/) === null) {
+      console.log("incorrecte: " + nom)
+      setNameErrorMessages('Country can\'t contain numbers');
+      setNomError(true);
+    } else {
+      setNomError(false);
+    }
+    console.log('validate nom' + nom)
+  }, [nom])
+
+
+  const validateParameters = useCallback(() => {
+    validateNom()
+  }, [validateNom])
+
+  useEffectWithoutFirstRun(validateNom, [nom])
+
   return (
     <>
       <Popover
@@ -302,22 +485,36 @@ const EditCountry = (props) => {
           <FocusLock returnFocus persistentFocus={false}>
             <PopoverArrow />
             <PopoverCloseButton />
-            <Stack spacing={4}>
-              <TextInput
-                label='Country'
-                id='Country'
-                ref={firstFieldRef}
-                defaultValue={props.country}
-              />
+            <form onSubmit={handleSubmit}>
+              <FormControl isInvalid={nomError}>
+                <TextInput
+                  label='Country'
+                  id='Country'
+
+                  ref={firstFieldRef}
+                  defaultValue={props.country}
+                  onChange={(e) => setNom(e.target.value)}
+
+                />{!nomError ? null : (
+                  <FormErrorMessage>{nameErrorMessages}</FormErrorMessage>
+                )}
+              </FormControl>
               <ButtonGroup display='flex' justifyContent='flex-end'>
                 <Button variant='outline' onClick={onClose}>
                   Cancel
                 </Button>
-                <Button isDisabled backgroundColor='#98A8F8'>
+                <Button
+                  isDisabled={nomError}
+                  backgroundColor='#98A8F8'
+                  onClick={validateParameters}
+                  type='submit'
+                  isLoading={isSubmitting} >
                   Save
+
                 </Button>
               </ButtonGroup>
-            </Stack>
+            </form>
+
           </FocusLock>
         </PopoverContent>
       </Popover>
@@ -433,7 +630,7 @@ export default function Index() {
 
           <Flex as='fieldset'>
             <Box my={4} textAlign="left">
-            <Text>Favourites</Text>
+              <Text>Favourites</Text>
             </Box>
             <Spacer />
             <Box my={4} textAlign="left"> <Link href='http://192.168.1.65:3000/favourites/' > <LinkIcon mx='2px' /> </Link></Box>
