@@ -627,8 +627,11 @@ const EditCountry = (props) => {
 const EditPassword = (props) => {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
-  const [show, setShow] = useState(false)
-  const handleClick = () => setShow(!show)
+  const [show_current, setShow_current] = useState(false)
+  const [show_new, setShow_new] = useState(false)
+
+  const handleClick_current = () => setShow_current(!show_current)
+  const handleClick_new = () => setShow_new(!show_new)
 
   const [password_current, setPassword_current] = useState('');
   const [password_new, setPassword_new] = useState('');
@@ -675,7 +678,8 @@ const EditPassword = (props) => {
       setPasswordError_current(true);
     }
     else {
-      setPasswordError_current(password_current === '')
+      setPasswordError_current(false)
+      setpasswordErrorMessages_current("")
   
     }
   }, [password_current])
@@ -703,7 +707,9 @@ const EditPassword = (props) => {
       setPasswordError_new(true);
     }
     else {
-      setPasswordError_new(password_new === '')
+      setPasswordError_new(false)
+      setpasswordErrorMessages_new("")
+      
   
     }
   }, [password_new])
@@ -714,8 +720,8 @@ const EditPassword = (props) => {
   }, [validatePassword_current, validatePassword_new])
 
 
-  useEffectWithoutFirstRun(validatePassword_current,[passwordError_current])
-  useEffectWithoutFirstRun(validatePassword_new,[passwordError_new])
+  useEffectWithoutFirstRun(validatePassword_current,[password_current])
+  useEffectWithoutFirstRun(validatePassword_new,[password_new])
   return (
     <>
       <Popover
@@ -737,15 +743,15 @@ const EditPassword = (props) => {
             <FormControl isInvalid={passwordError_current}>
               <InputGroup>
                   <TextInput
-                      type={show ? 'text' : 'password'}
+                      type={show_current ? 'text' : 'password'}
                       label='Current password'
                       id='current_password'
                       ref= {firstFieldRef}
                       placeholder='Enter current password'
                       onChange={(a) => { setPassword_current(a.target.value) }} />
                     <InputRightElement >
-                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
-                        {show ? 'Hide' : 'Show'}
+                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick_current} icon={<ViewIcon/>}>
+                        {show_current ? 'Hide' : 'Show'}
                       </IconButton>
                     </InputRightElement>
                     </InputGroup>
@@ -756,7 +762,7 @@ const EditPassword = (props) => {
                 <FormControl isInvalid={passwordError_new}>
                   <InputGroup>
                     <Input
-                      type={show ? 'text' : 'password'}
+                      type={show_new ? 'text' : 'password'}
                       label='New password'
                       id='new_password'
                       ref= {firstFieldRef}
@@ -764,8 +770,8 @@ const EditPassword = (props) => {
                       onChange={(e) => { setPassword_new(e.target.value) }} />
                       
                     <InputRightElement >
-                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick} icon={<ViewIcon/>}>
-                        {show ? 'Hide' : 'Show'}
+                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick_new} icon={<ViewIcon/>}>
+                        {show_new ? 'Hide' : 'Show'}
                       </IconButton>
                     </InputRightElement>
                     </InputGroup>
