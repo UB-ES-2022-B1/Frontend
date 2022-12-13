@@ -7,7 +7,7 @@ import Images from '../exports/images';
 import { IMAGES_DNS, SERVER_DNS } from '~/utils/constants'
 import { firstToUpperCase } from "~/utils/textUtils";
 import { FiHeart } from "react-icons/fi";
-import { isAuthenticated } from '~/session';
+import { isAuthenticated, getAccessToken } from '~/session';
 import HouseTitle from "~/components/HouseTitleReformed";
 
 
