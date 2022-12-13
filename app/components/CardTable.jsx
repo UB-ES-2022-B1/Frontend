@@ -77,7 +77,7 @@ export default function(params)
     useEffect(async() => {
     let logged = await isAuthenticated()
     if (!logged){
-        // setFavorites([])
+        setFavorites([])
     }
     else{
         let token = await getAccessToken()
