@@ -42,6 +42,7 @@ useEffect(()=>{console.log(favorites)},[favorites])
 
 return (
     <div>
+            {favorites && favorites.length==0 ? <Text p={2}>No favourite houses yet</Text> : null}
             <Flex width='full' justifyContent='center'>
 
             {favorites && <SimpleGrid columns={1} spacing='10px' >
