@@ -49,10 +49,10 @@ import styled from '@emotion/styled';
 import { isAuthenticated } from '~/session';
 
 
-export default function ({ title, town, province, country, width='full'}) {
+export default function ({ title, town, province, country, isFavorite=false}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [name, setName] = useState('');
-    const [isClicked, setisClicked] = useState(false);
+    const [isClicked, setisClicked] = useState(isFavorite);
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
     return (
@@ -119,7 +119,8 @@ export default function ({ title, town, province, country, width='full'}) {
                             </Portal>
                         </Popover>
                         {isLoggedIn ?
-                            <IconButton variant='ghost' onClick={() => { setisClicked(!isClicked) }} icon={<FiHeart className='heart' fill={isClicked ? "red" : "white"} color={isClicked ? "red" : "black"} />}>
+                            <IconButton   zIndex={2}
+                            variant='ghost' onClick={() => { setisClicked(!isClicked) }} icon={<FiHeart className='heart' fill={isClicked ? "red" : "white"} color={isClicked ? "red" : "black"} />}>
                             </IconButton >
                             : null}
                     </ButtonGroup>

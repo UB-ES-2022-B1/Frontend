@@ -63,7 +63,7 @@ export default function (params) {
     }
     const [isLoading, setIsLoading] = useState(true)
     const [house, setHouse] = useState({})
-    const [isClicked, setisClicked] = useState(false)
+    const [isClicked, setisClicked] = useState(true)
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
@@ -74,14 +74,14 @@ export default function (params) {
             setIsLoading(false)
         })
     }, [])
-    console.log(isClicked)
 
     return (
         <>
             <Box width={'900px'} m={'10px'} p={'10px 7px'} borderRadius={'10px'} boxShadow="lg" overflow={'hidden'}>
-                {/* <a href={`/apartment/${params.id}`}> */}
 
                 <Flex spacing={8} >
+                <a href={`/apartment/${params.id}`}>
+
                     <Box>
                         <Skeleton borderRadius={30} isLoaded={!isLoading}>
 
@@ -99,6 +99,8 @@ export default function (params) {
                             </Box>
                         </Skeleton>
                     </Box>
+                </a>
+
 
 
                     <Box p='3px 10px' flex='1'>
@@ -108,6 +110,7 @@ export default function (params) {
                                 town={house.town}
                                 province={house.province}
                                 country={house.country}
+                                isFavorite={true}
                             ></HouseTitle>
                         </Skeleton>
                         <SkeletonText noOfLines={4} isLoaded={!isLoading} margin={'10px 0px'}>
@@ -119,15 +122,14 @@ export default function (params) {
                             </Box>
                         </SkeletonText>
                     
-                        {/* <SkeletonText noOfLines={1} isLoaded={!isLoading}> */}
-                        <Box flex={1}>
+                        <SkeletonText noOfLines={1} isLoaded={!isLoading}>
+                        <Box flex={1} >
                                 <Box as='b'>{`${house.base_price}€`}</Box>
                                 <Box as='span' fontSize='sm'> night</Box>
                         </Box>
-                        {/* </SkeletonText> */}
+                        </SkeletonText>
                     </Box>
                 </Flex>
-                {/* </a> */}
             </Box>
         </>
     )
