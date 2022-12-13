@@ -205,7 +205,7 @@ export default function (params) {
                                                 <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
                                                 <PopoverCloseButton />
                                                 <PopoverBody>
-                                                    <Input type='date' onChange={(e) => { setDateStart(e.target.value); validateStartDate(e.target.value) }} />
+                                                    <Input type='date' min={currentDate} onChange={(e) => { setDateStart(e.target.value); validateStartDate(e.target.value) }} />
                                                 </PopoverBody>
                                             </PopoverContent>
                                         </Portal>
@@ -221,7 +221,7 @@ export default function (params) {
                                                 <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
                                                 <PopoverCloseButton />
                                                 <PopoverBody>
-                                                    <Input type='date' onChange={(e) => { setDateEnd(e.target.value); validateEndDate(e.target.value) }} />
+                                                    <Input type='date' min={currentDate} onChange={(e) => { setDateEnd(e.target.value); validateEndDate(e.target.value) }} />
                                                 </PopoverBody>
                                             </PopoverContent>
                                         </Portal>
