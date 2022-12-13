@@ -45,7 +45,7 @@ import {
     TelegramIcon,
 } from 'react-share';
 import styled from '@emotion/styled';
-
+import { isAuthenticated } from '~/session';
 
 
 export default function (params) {
@@ -53,7 +53,8 @@ export default function (params) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [name, setName] = useState('');
     const [isClicked, setisClicked] = useState(false);
-
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
     return (
         <Flex width="full" align="center" justifyContent="center" >
             <Box p='3' >
@@ -137,9 +138,10 @@ export default function (params) {
 
                             </Portal>
                         </Popover>
-                        <IconButton variant='ghost' onClick={() => {setisClicked(!isClicked)}} icon={<FiHeart className='heart' fill={isClicked ? "red" : "white"} color={isClicked ? "red" : "black"}/>}>
-                        </IconButton >
-
+                        {isLoggedIn ?
+                            <IconButton variant='ghost' onClick={() => { setisClicked(!isClicked) }} icon={<FiHeart className='heart' fill={isClicked ? "red" : "white"} color={isClicked ? "red" : "black"} />}>
+                            </IconButton >
+                            : null}
                     </ButtonGroup>
                 </Box>
             </Box>

@@ -7,6 +7,7 @@ import Images from '../exports/images';
 import { IMAGES_DNS, SERVER_DNS } from '~/utils/constants'
 import { firstToUpperCase } from "~/utils/textUtils";
 import { FiHeart } from "react-icons/fi";
+import { isAuthenticated } from '~/session';
 
 async function houseLoader(id) {
 
@@ -62,6 +63,9 @@ export default function (params) {
     const [house, setHouse] = useState({})
     const [isClicked, setisClicked] = useState(false)
 
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
+
     useEffect(() => {
         houseLoader(params.id).then((h) => {
             setHouse(h)
@@ -73,22 +77,25 @@ export default function (params) {
     return (
         <>
             <Box>
-                <IconButton
-                    marginLeft='199'
-                    marginTop='3'
-                    position='absolute'
-                    variant='link'
-                    zIndex={1}
-                    onClick={() => { setisClicked(!isClicked) }}
-                    icon={<FiHeart 
-                                className='heart' 
-                                fill={isClicked ? "red" : "#1a1b1b"} 
-                                opacity={isClicked ? 1 : 0.5} 
-                                color={isClicked ? "red" : "white"}/>}>
-                </IconButton >
-
+                {isLoggedIn ?
+                    <IconButton
+                        marginLeft='199'
+                        marginTop='3'
+                        position='absolute'
+                        variant='link'
+                        zIndex={1}
+                        onClick={() => { setisClicked(!isClicked) }}
+                        icon={<FiHeart
+                            className='heart'
+                            fill={isClicked ? "red" : "#1a1b1b"}
+                            opacity={isClicked ? 1 : 0.5}
+                            color={isClicked ? "red" : "white"} />}>
+                    </IconButton >
+                    : null}
                 <a href={`/apartment/${params.id}`}>
                     <div className="housecard">
+                        <Skeleton borderRadius={30} isLoaded={!isLoading}>
+
                         <div>
                             <Box>
                                 <Box zIndex={1} position='absolute' marginLeft='205' marginTop='3'>
@@ -105,6 +112,8 @@ export default function (params) {
                                 </Slider>
                             </Box>
                         </div>
+                        </Skeleton>
+
                         <Box p='2px'>
                             <Skeleton isLoaded={!isLoading}>
                                 <Box
