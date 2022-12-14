@@ -1,18 +1,17 @@
-import { useEffect, useState, useMemo} from "react";
+import { useEffect, useState, useMemo } from "react";
 import HouseCard from "./HouseCard"
 import useInfiniteScroll from "~/utils/useInfiniteScroll";
-import { Center,Spinner, Wrap, Box, Text, WrapItem } from "@chakra-ui/react"
-import {SERVER_DNS} from "~/utils/constants"
+import { Center, Spinner, Wrap, Flex, Heading, Box, Text, WrapItem } from "@chakra-ui/react"
+import { SERVER_DNS } from "~/utils/constants"
 import { isAuthenticated } from '~/session';
 import { getAccessToken } from '~/session';
 
 
-async function fetchHouses(page)
-{
+async function fetchHouses(page) {
     let response = fetch(`${SERVER_DNS}/houses/get-houses`, {
         method: 'POST',
         mode: 'cors',
-        body: JSON.stringify({page_id:page}),
+        body: JSON.stringify({ page_id: page }),
         headers: {
             'Content-Type': 'application/json',
         }
@@ -23,24 +22,23 @@ async function fetchHouses(page)
         .catch((text) => {
             console.log(txt.msg);
         })
-    const {success, ids} = await response;
-    if(success){
+    const { success, ids } = await response;
+    if (success) {
         return ids
     }
-    else{
+    else {
         return Array.from(Array(20).keys(), n => n + 1)
     }
 }
 
-export default function(params)
-{
+export default function (params) {
     const initial = params.initial
     let empty = false
-    const hasInitial = (typeof(initial) != 'undefined')
-    if(hasInitial){empty = initial.length == 0}
+    const hasInitial = (typeof (initial) != 'undefined')
+    if (hasInitial) { empty = initial.length == 0 }
 
     const [listItems, setListItems] = useState([]);
-    const [page,setPage] = useState(1)
+    const [page, setPage] = useState(1)
 
     // const [isLoggedIn, setIsLoggedIn] = useState(false)
     // useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
@@ -74,93 +72,98 @@ export default function(params)
     // }, [isLoggedIn])
 
 
-    useEffect(async() => {
-    let logged = await isAuthenticated()
-    if (!logged){
-        setFavorites([])
-    }
-    else{
-        let token = await getAccessToken()
-        let response = fetch(`${SERVER_DNS}/favorites/get-favorites`, {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
+    useEffect(async () => {
+        let logged = await isAuthenticated()
+        if (!logged) {
+            setFavorites([])
+        }
+        else {
+            let token = await getAccessToken()
+            let response = fetch(`${SERVER_DNS}/favorites/get-favorites`, {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
             })
-            .then((res) => {
-                return res.json()
-            })
-            .catch((error) => {
-                // setFavorites([])
-                console.log('Error getting favorites: ', error.msg)
-            });
-        const {success,favorites} = await response
-        if(success){setFavorites(favorites)}
-        else{setFavorites([])}
-    }
+                .then((res) => {
+                    return res.json()
+                })
+                .catch((error) => {
+                    // setFavorites([])
+                    console.log('Error getting favorites: ', error.msg)
+                });
+            const { success, favorites } = await response
+            if (success) { setFavorites(favorites) }
+            else { setFavorites([]) }
+        }
     }, [])
 
     // useEffect(fetchHouses(++page),[])
     //const [listItems, setListItems] = useState(Array.from(Array(24).keys(), n => n + 1));
-    useEffect(()=>{
-        if(hasInitial){
-            setListItems(initial)}
-        else{
-        fetchHouses(page).then((ids)=>setListItems(ids))
-        setPage((page)=>page+1)
+    useEffect(() => {
+        if (hasInitial) {
+            setListItems(initial)
         }
-    },[initial])
+        else {
+            fetchHouses(page).then((ids) => setListItems(ids))
+            setPage((page) => page + 1)
+        }
+    }, [initial])
 
     const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreListItems);
 
     function fetchMoreListItems(callback) {
-        setPage((page)=>page+1)
-        if(!hasInitial){
-        console.log('Fetching')
-        //setListItems(prevState => ([...prevState, ...Array.from(Array(24).keys(), n => n + prevState.length + 1)]));
-        fetchHouses(page).then((newids)=>setListItems(prevState => ([...prevState, ...newids])))
-        setIsFetching(false);
-        callback()
+        setPage((page) => page + 1)
+        if (!hasInitial) {
+            console.log('Fetching')
+            //setListItems(prevState => ([...prevState, ...Array.from(Array(24).keys(), n => n + prevState.length + 1)]));
+            fetchHouses(page).then((newids) => setListItems(prevState => ([...prevState, ...newids])))
+            setIsFetching(false);
+            callback()
         }
     }
-    return(
+    return (
         <>
 
-{!hasInitial?
-        <>       
-            {favorites && <Box m={'20px'}>
-                <Wrap minChildWidth='200px' spacing='40px' justify='center'>
-                {listItems.map((id,index) => {
-                    return <Box className="house-card" key={index}><HouseCard id={id} isFavorite={favorites.includes(id)}/></Box>;
-                })}
-                </Wrap>
-            </Box>}
-            <Center>
-            {isFetching?<Spinner
-                    margin='0 auto'
-                    thickness='4px'
-                    speed='0.65s'
-                    emptyColor='gray.200'
-                    color='teal.500'
-                    size='xl' />:null}
-            </Center>
-        </>
-        :
-        <>
-            {empty ? 
-                <Text>No houses found</Text>
-                    :
-                favorites && <Box m={'20px'}>
-                    <Wrap minChildWidth='200px' spacing='40px' justify={'center'}>
-                    {listItems.map((id,index) => {
-                        return <WrapItem className="house-card" key={index}><HouseCard id={id} isFavorite={favorites.includes(id)} /></WrapItem>;
-                    })}
-                    </Wrap>
-                </Box>
+            {!hasInitial ?
+                <>
+                    {favorites && <Box m={'20px'}>
+                        <Wrap minChildWidth='200px' spacing='40px' justify='center'>
+                            {listItems.map((id, index) => {
+                                return <Box className="house-card" key={index}><HouseCard id={id} isFavorite={favorites.includes(id)} /></Box>;
+                            })}
+                        </Wrap>
+                    </Box>}
+                    <Center>
+                        {isFetching ? <Spinner
+                            margin='0 auto'
+                            thickness='4px'
+                            speed='0.65s'
+                            emptyColor='gray.200'
+                            color='teal.500'
+                            size='xl' /> : null}
+                    </Center>
+                </>
+                :
+                <>
+                    {empty ?
+                        <Box width="full" align="center" justifyContent="center" padding={"10px"}>
+                            <Heading>No houses found</Heading>
+                            <Text>Try searching with other parameters</Text>
+                        </Box>
+
+                        :
+                        favorites && <Box m={'20px'}>
+                            <Wrap minChildWidth='200px' spacing='40px' justify={'center'}>
+                                {listItems.map((id, index) => {
+                                    return <WrapItem className="house-card" key={index}><HouseCard id={id} isFavorite={favorites.includes(id)} /></WrapItem>;
+                                })}
+                            </Wrap>
+                        </Box>
+                    }
+                </>
             }
-        </>
-        }
         </>
     )
 }

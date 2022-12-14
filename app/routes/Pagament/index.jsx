@@ -180,7 +180,7 @@ export default function Index() {
                                     </Box>
                                     <Box marginY='3' align="left" justifyContent="left">
                                         <Text as='b' fontSize='s'>Payment details</Text>
-                                        <Text fontSize='md'>Total cost: {datos.precioTotal}€</Text >
+                                        <Text fontSize='md'>Total cost: {moneyTotal}€</Text >
                                     </Box>
                                 </Flex>
                                 <Divider></Divider>

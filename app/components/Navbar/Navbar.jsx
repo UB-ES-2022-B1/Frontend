@@ -108,7 +108,7 @@ export default function (params) {
 
     //validar parametres de input de cerca
     const validateLocation = useCallback((value) => {
-        if (value.match(/^[A-Za-z]+$/) === null) {
+        if (value.match(/^[A-Za-z\s]*$/) === null) {
             setLocationError((prev) => { return { locationError: true, locationErrorMess: 'Location can\'t contain numbers' } })
             return false
         } else {
