@@ -1,4 +1,4 @@
-describe("get-favourites", () => {
+describe.skip("get-favourites", () => {
     beforeEach(() => {
     // runs before each test in the block
     cy.clearCookies();
