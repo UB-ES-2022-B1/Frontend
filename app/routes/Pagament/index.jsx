@@ -66,7 +66,8 @@ export default function Index() {
     const [numError, setNumError] = useState({ numError: true, numErrorMess: "" });
     const [isReserved, setIsReserved] = useState(false)
     const totalDay = moment(datos.dataSalida).diff(datos.dataEntrada,'days');
-    
+    const precioDias = datos.preuDia * totalDay
+    const moneyTotal = precioDias + parseInt(datos.extra) + parseInt(datos.taxes);
 
     //Validations
     const validateTarjeta = useCallback((value) => {
@@ -287,7 +288,7 @@ export default function Index() {
                                 <Box display='flex' alignItems='baseline' margin='5'>
                                     <Text fontSize='md' as='b'>Total (EUR)</Text>
                                     <Spacer />
-                                    <Text>{datos.precioTotal}€</Text >
+                                    <Text>{moneyTotal}€</Text >
                                 </Box>
                             </Box>
                         </Flex>
