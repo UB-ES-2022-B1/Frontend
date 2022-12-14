@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
     Box,
     Text,
@@ -12,34 +12,33 @@ import {
     Spacer
 } from '@chakra-ui/react'
 import Contador from "./Navbar/Contador";
+import { isAuthenticated } from '~/session';
 import moment from "moment";
 
-/*function handleSubmit() {
-    console.log(2)
-    if (validateParam()) {
-        window.location.href = `/search?location=${location}&people=${people}`
-    }
-}*/
 
 export default function (params) {
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
+    
     const preuDia = params.moneyDay;
     const taxes = params.taxes;
     const extra = params.extra;
-    const [travelers, setTravelers] = useState(1);
-    const [travelersText, setTravelersText] = useState('traveler');
-    const maxTravelers = 10;
-    const textTravelersMax = 'A maximum of ' + maxTravelers + ' travelers can stay in this accommodation, without including babies.';
     const current = new Date();
     const currentDate = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
+
+    const [travelers, setTravelers] = useState(1);
+    const maxTravelers = 10;
+    const textTravelersMax = 'A maximum of ' + maxTravelers + ' travelers can stay in this accommodation, without including babies.';
     const [startDay, setStartDay] = useState(currentDate);
     const [endDay, setEndDay] = useState(currentDate);
+    const [dateEndError, setDateEndError] = useState({ dateEndError: false, dateEndErrorMess: "" });
+    const [dateStartError, setDateStartError] = useState({ dateStartError: false, dateStartErrorMess: "" });
     const totalDay = moment(endDay).diff(startDay,'days');
+    const [moneyTotalDays, setMoneyTotalDays] = useState(preuDia.getDate * totalDay.getDate);
+    const [moneyTotal, setMoneyTotal] = useState(moneyTotalDays + taxes + extra);
+    
 
-
-    const [moneyTotal, setMoneyTotal] = useState(totalDay * preuDia + taxes + extra);
-
-
-    console.log("Prueva " + totalDay)
   
 
     const decrease = () => {
@@ -49,17 +48,19 @@ export default function (params) {
     const increase = () => {
         setTravelers(travelers + 1);
     }
-    const travelersChange = () => {
-        if (travelers < 2) {
-            setTravelersText('traveler')
+    async function handleSubmit() {
+        if(isLoggedIn){
+            if (validateParam()) {
+                window.location.href = `/pagament?moneyTotal=${moneyTotal}&preuDia=${preuDia}&startDay=${startDay}&endDay=${endDay}&guests=${travelers}&title=${params.title}&town=${params.town}&province=${params.province}&country=${params.country}&street=${params.street}&images=${params.images}&id=${params.id}&totalDay=${params.totalDay}&taxes=${taxes}&extra=${extra}`
+            }
+        }else{
+            window.location.href = `/login`
         }
-        else {
-            setTravelersText('travelers')
-        }
+        
     }
 
-    return (
 
+    return (
         <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='4'>
             <Box p='3'>
                 <Text fontSize='xl' as='b'>{preuDia} € night</Text >
@@ -70,17 +71,17 @@ export default function (params) {
                     <Center height='50px'>
                         <Box>
                             <Text fontSize='xs' >Arrival</Text >
-                            <Input type='date' min={currentDate} value={startDay} onChange={(e) => setStartDay(e.target.value)} width='170px' placeholder='Llegada' variant='unstyled' size='lg' />
+                            <Input type='date' min={currentDate} value={startDay} onChange={(e) => {setStartDay(e.target.value); validateStartDate(e.target.value)}} width='170px' placeholder='Llegada' variant='unstyled' size='lg' />
                         </Box>
                         <Divider orientation='vertical' />
                         <Box >
                             <Text fontSize='xs' >Departure</Text >
-                            <Input type='date' min={startDay} value={endDay} onChange={(e) => setEndDay(e.target.value)} width='170px' variant='unstyled' size='lg' />
+                            <Input type='date' min={startDay} value={endDay} onChange={(e) => { setEndDay(e.target.value); validateEndDate(e.target.value) }} width='170px' variant='unstyled' size='lg' />
                         </Box>
                     </Center>
                     <Divider orientation='horizontal' />
                     <Menu>
-                        {({ isOpen }) => (
+                        {({ isOpen, onClose }) => (
                             <>
                                 <MenuButton isActive={isOpen} as={Button} minWidth='350px' variant='unstyled'>
                                     {travelers} {'traveler'}{travelers > 1 ? 's' : ''}
@@ -94,7 +95,7 @@ export default function (params) {
                                     </Box>
                                     <Box p='3'>
                                         <Text fontSize='xs' >{textTravelersMax}</Text>
-                                        <Button variant='link'><Text as='u' fontSize='s'>Close</Text></Button>
+                                        <Button variant='link'><Text as='u' fontSize='s' onClick={onClose}>Close</Text></Button>
                                     </Box>
 
 
@@ -107,7 +108,13 @@ export default function (params) {
 
             </Box>
             <Box p='3'></Box>
-            <Button backgroundColor='#98A8F8' width='350px' onClick={() => location.href = `/pagament?moneyTotal=${totalDay * preuDia + taxes + extra}&preuDia=${preuDia}&startDay=${startDay}&endDay=${endDay}&guests=${travelers}&title=${params.title}&town=${params.town}&province=${params.province}&country=${params.country}&street=${params.street}&images=${params.images}&id=${params.id}&totalDay=${params.totalDay}&taxes=${taxes}&extra=${extra}`}>Reserve</Button>
+            <Button 
+                backgroundColor='#98A8F8' 
+                width='350px' 
+                isDisabled={ dateEndError.dateEndError || dateStartError.dateStartError }
+                onClick={() => handleSubmit()}>
+                    Reserve
+                </Button>
             <Box p='3'></Box>
             <Text textAlign="center" fontSize='md'>You will not be charged anything yet</Text >
             <Box p='3'></Box>

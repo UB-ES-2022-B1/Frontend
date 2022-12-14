@@ -4,7 +4,6 @@ import Cookies from 'js-cookie'
 
 export async function getAccessToken()
 { 
-  console.log('getaccestoken called')
   const refresh = getCookie('refresh_token')
   if(!refresh.valid){
     return Promise.reject("Not logged in")
