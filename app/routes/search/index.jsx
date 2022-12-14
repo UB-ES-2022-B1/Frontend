@@ -17,7 +17,7 @@ export const loader = async ({
 };
 
 async function search(params){
-    let jsonData = { "town": params.location, "num_people":parseInt(params.people), "check_in": params.dateStart, "chack_out": params.dateStart}
+    let jsonData = { "town": params.location, "num_people":parseInt(params.people), "check_in": params.dateStart, "check_out": params.dateEnd}
     let response = fetch(`${SERVER_DNS}/houses/search-houses`, {
         method: 'POST',
         mode: 'cors',
