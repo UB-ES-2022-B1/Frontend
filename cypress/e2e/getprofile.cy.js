@@ -18,7 +18,7 @@ describe("get-profile", () => {
     cy.url().should('eq', 'https://test-dev--housh.netlify.app/profile/')
 
     cy.get("[class='chakra-text css-0']").contains('Legal name').siblings().should((elem) => {
-    expect(elem.text()).to.equal('CypressTestingUser CypressAutotesting');
+    expect(elem.text()).to.contains('CypressTestingUser CypressAutotesting');
     });
     cy.get("[class='chakra-text css-0']").contains('Email address').siblings().should((elem) => {
     expect(elem.text()).to.equal('cypress@cypressauto.com');
