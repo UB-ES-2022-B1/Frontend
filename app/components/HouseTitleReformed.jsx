@@ -27,12 +27,13 @@ import {
     FormControl,
     Icon,
     Spacer,
+    propNames,
 } from '@chakra-ui/react'
 import { FiHeart } from "react-icons/fi";
-import { ExternalLinkIcon, StarIcon, AddIcon } from '@chakra-ui/icons'
+import { ExternalLinkIcon, StarIcon, AddIcon, DeleteIcon } from '@chakra-ui/icons'
 import { Search2Icon } from '@chakra-ui/icons'
 import React, { useState, useCallback } from 'react'
-import { useEffect } from 'react';
+import { useEffect, useRef} from 'react';
 import {
     FacebookShareButton,
     WhatsappShareButton,
@@ -49,13 +50,20 @@ import styled from '@emotion/styled';
 import { isAuthenticated } from '~/session';
 import { getAccessToken } from '~/session';
 import { SERVER_DNS } from '~/utils/constants'
+import FocusLock from "react-focus-lock"
 
-export default function ({ title, town, province, country, isFavorite=false, id}) {
+
+export default function ({ title, town, province, country, isFavorite=false, id,isFavoritable=true ,isRemovable=false, onDelete}) {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const firstFieldRef = useRef(null)
     const [name, setName] = useState('');
     const [isClicked, setisClicked] = useState(isFavorite);
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     useEffect(() => { isAuthenticated().then(res => setIsLoggedIn(res)) }, [])
+
+    async function removeHouse(){
+        onDelete(id)
+    }
 
     async function favorits() {
         let access = await getAccessToken()
@@ -136,11 +144,45 @@ export default function ({ title, town, province, country, isFavorite=false, id}
 
                             </Portal>
                         </Popover>
-                        {isLoggedIn ?
+                        {isLoggedIn && isFavoritable?
                             <IconButton   zIndex={2}
                             variant='ghost' onClick={() => { setisClicked(!isClicked); favorits() }} icon={<FiHeart className='heart' fill={isClicked ? "red" : "white"} color={isClicked ? "red" : "black"} />}>
                             </IconButton >
                             : null}
+                        {isRemovable ?
+                        <>
+                            <Popover
+                                isOpen={isOpen}
+                                initialFocusRef={firstFieldRef}
+                                onOpen={onOpen}
+                                onClose={onClose}
+                                placement='right'
+                                closeOnBlur={false}
+                            >
+                                <PopoverTrigger>
+                                    <IconButton zIndex={2} variant='ghost' icon={<DeleteIcon />} />
+                                </PopoverTrigger>
+                                <PopoverContent p={5}>
+                                    <FocusLock returnFocus persistentFocus={false}>
+                                        <PopoverArrow />
+                                        <PopoverCloseButton />
+                                            <Text>Are you sure you want to delete this house?</Text>
+                                            <ButtonGroup p={'5px'} display='flex' justifyContent='center'>
+                                                <Button variant='outline' onClick={onClose}>
+                                                    Cancel
+                                                </Button>
+                                                <Button
+                                                    backgroundColor='#98A8F8'
+                                                    onClick={removeHouse}>
+                                                    Delete
+                                                </Button>
+                                            </ButtonGroup>
+                                    </FocusLock>
+                                </PopoverContent>
+                            </Popover>
+                        </>
+                            : null
+                        }
                     </ButtonGroup>
                 </Flex>
                 <Box>

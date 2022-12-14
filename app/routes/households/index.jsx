@@ -38,6 +38,23 @@ useEffect(async() => {
     }
     }, [])
 
+function arrayRemove(arr, value) { 
+
+    return arr.filter(function(ele){ 
+        console.log(ele)
+        return ele != value; 
+    });
+}
+
+async function deleteHouse(id){
+    
+
+
+
+   setMyHouses([...arrayRemove(myHouses,id)])
+}
+
+
 
 useEffect(()=>{console.log(myHouses)},[myHouses])
 
@@ -47,8 +64,8 @@ return (
             <Flex width='full' justifyContent='center'>
 
             {myHouses && <SimpleGrid columns={1} spacing='10px' >
-                {myHouses.map((id,index)=>{
-                    return <Box className="house-card" key={index}><HouseCardExtended id={id}/></Box>
+                {myHouses.map((id)=>{
+                    return <Box className="house-card" key={id}><HouseCardExtended id={id} isFavoritable={false} isRemovable={true} onDelete={deleteHouse}/></Box>
                 })}
             </SimpleGrid>}
             </Flex>

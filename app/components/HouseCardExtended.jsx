@@ -53,7 +53,7 @@ async function houseLoader(id) {
 }
 
 
-export default function ({id, isFavorite=false}) {
+export default function ({id, isFavorite=false,isFavoritable=true, isRemovable=false, onDelete}) {
     const settings = {
         dots: false,
         infinite: true,
@@ -130,6 +130,9 @@ export default function ({id, isFavorite=false}) {
                                 country={house.country}
                                 isFavorite={isFavorite}
                                 id={id}
+                                isRemovable={isRemovable}
+                                isFavoritable={isFavoritable}
+                                onDelete={onDelete}
                             ></HouseTitle>
                         </Skeleton>
                         <SkeletonText noOfLines={4} isLoaded={!isLoading} margin={'10px 0px'}>
