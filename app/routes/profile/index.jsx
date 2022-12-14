@@ -608,12 +608,11 @@ const EditPassword = (props) => {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setErrorMessages('')
-    if (!passwordError_new && !setPasswordError_current) {
+    console.log('haqndlesubmit')
+    if (!passwordError_new && !passwordError_current) {
         props.onChange(password_current,password_new)
     }
     else {
-      setErrorMessages("Please enter valid parameters")
       setIsSubmitting(false)
     }
   };
@@ -703,6 +702,7 @@ const EditPassword = (props) => {
             <PopoverArrow />
             <PopoverCloseButton />
             <Stack spacing={4}>
+              <form onSubmit={handleSubmit}>
               <FormControl isInvalid={passwordError_current}>
                 <InputGroup>
                   <Input
@@ -750,6 +750,7 @@ const EditPassword = (props) => {
                   Save
                 </Button>
               </ButtonGroup>
+              </form>
             </Stack>
           </FocusLock>
         </PopoverContent>
@@ -771,7 +772,7 @@ export default function Index() {
   const [country, setCountry] = useState('');
   const [data, setData] = useState('');
   const [fetched, setFetched] = useState()
-  const [olldPassword, setOldPassword] = useState('')
+  const [oldPassword, setOldPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
 
   function componentDidMount(res) {
@@ -813,7 +814,6 @@ export default function Index() {
         setFirst(false)
       }
       else {
-        console.log('asdfasdfa')
         async function foo() {
           let token = await getAccessToken()
           let jsonData = { "email": newEmail, "name": nom, "surname": cognoms, "phone": telefon, "birthdate": data, "country": country }
@@ -833,12 +833,41 @@ export default function Index() {
           const { success } = await response
           if (success) {
             console.log('changed on server')
+            setEmail(newEmail)
           }
         }
         foo()
       }
     }
   }, [nom, cognoms, newEmail, telefon, country, data])
+
+  useEffect(() => {
+    console.log('call')
+    if (fetched != undefined) {
+        async function foo() {
+          let token = await getAccessToken()
+          let jsonData = { 'current_password': oldPassword, 'new_password': newPassword }
+          let response = fetch(`${SERVER_DNS}/accounts/change-password`,
+            {
+              method: 'POST',
+              mode: 'cors',
+              body: JSON.stringify(jsonData),
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              }
+            })
+            .then(response => response.json())
+            .catch((error) => {
+            })
+          const { success } = await response
+          if (success) {
+            console.log('changed on server')
+          }
+        }
+        foo()
+      }
+  }, [oldPassword])
 
   useEffectWithoutFirstRun(() => { componentDidMount(products); setFetched(true) }, [products])
 
