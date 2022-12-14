@@ -13,6 +13,8 @@ import {
   IconButton,
   PopoverContent,
   PopoverArrow,
+  InputGroup,
+  InputRightElement,
   PopoverCloseButton,
   Stack,
   ButtonGroup,
@@ -31,7 +33,6 @@ import { useLoaderData } from "@remix-run/react";
 import useEffectWithoutFirstRun from '~/utils/useEffectWithoutFirstRun';
 import { SERVER_DNS } from "~/utils/constants";
 import { getAccessToken } from '~/session';
-
 
 import { Link } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
@@ -585,6 +586,180 @@ const EditCountry = (props) => {
 }
 
 
+const EditPassword = (props) => {
+  const { onOpen, onClose, isOpen } = useDisclosure()
+  const firstFieldRef = useRef(null)
+  const [show_current, setShow_current] = useState(false)
+  const [show_new, setShow_new] = useState(false)
+
+  const handleClick_current = () => setShow_current(!show_current)
+  const handleClick_new = () => setShow_new(!show_new)
+
+  const [password_current, setPassword_current] = useState('');
+  const [password_new, setPassword_new] = useState('');
+  const [passwordError_current, setPasswordError_current] = useState(false);
+  const [passwordErrorMessages_current, setpasswordErrorMessages_current] = useState('');
+  const [passwordError_new, setPasswordError_new] = useState(false)
+  const [passwordErrorMessages_new, setpasswordErrorMessages_new] = useState('')
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setErrorMessages('')
+    if (!nomError && !cognomsError) {
+      //TODO--------------------------------
+    }
+    else {
+      setErrorMessages("Please enter valid parameters")
+      setIsSubmitting(false)
+    }
+  };
+
+  const validatePassword_current = useCallback(() => {
+    console.log('validate password')
+    if (password_current.length < 8) {
+      setpasswordErrorMessages_current('Minimum 8 characters');
+      setPasswordError_current(true);
+    }
+    else if (password_current.match(/(?=.*?[A-Z])/) == null) {
+      setpasswordErrorMessages_current("At least one uppercase letter");
+      setPasswordError_current(true);
+    }
+    else if (password_current.match(/(?=.*?[a-z])/) == null) {
+      setpasswordErrorMessages_current("At least one lowercase letter");
+      setPasswordError_current(true);
+    }
+    else if (password_current.match(/(?=.*?[0-9])/) == null) {
+      setpasswordErrorMessages_current("At least one digit");
+      setPasswordError_current(true);
+    }
+    else if (password_current.match(/(?=.*?[#?.,!@$%^&*-])/) == null) {
+      setpasswordErrorMessages_current("At least one special character");
+      setPasswordError_current(true);
+    }
+    else {
+      setPasswordError_current(false)
+      setpasswordErrorMessages_current("")
+  
+    }
+  }, [password_current])
+
+  const validatePassword_new = useCallback(() => {
+    console.log('validate password')
+    if (password_new.length < 8) {
+      setpasswordErrorMessages_new('Minimum 8 characters');
+      setPasswordError_new(true);
+    }
+    else if (password_new.match(/(?=.*?[A-Z])/) == null) {
+      setpasswordErrorMessages_new("At least one uppercase letter");
+      setPasswordError_new(true);
+    }
+    else if (password_new.match(/(?=.*?[a-z])/) == null) {
+      setpasswordErrorMessages_new("At least one lowercase letter");
+      setPasswordError_new(true);
+    }
+    else if (password_new.match(/(?=.*?[0-9])/) == null) {
+      setpasswordErrorMessages_new("At least one digit");
+      setPasswordError_new(true);
+    }
+    else if (password_new.match(/(?=.*?[#?.,!@$%^&*-])/) == null) {
+      setpasswordErrorMessages_new("At least one special character");
+      setPasswordError_new(true);
+    }
+    else {
+      setPasswordError_new(false)
+      setpasswordErrorMessages_new("")
+      
+  
+    }
+  }, [password_new])
+
+  const validateParameters = useCallback(() => {
+    validatePassword_current()
+    validatePassword_new()
+  }, [validatePassword_current, validatePassword_new])
+
+
+  useEffectWithoutFirstRun(validatePassword_current,[password_current])
+  useEffectWithoutFirstRun(validatePassword_new,[password_new])
+  return (
+    <>
+      <Popover
+        isOpen={isOpen}
+        initialFocusRef={firstFieldRef}
+        onOpen={onOpen}
+        onClose={onClose}
+        placement='right'
+        closeOnBlur={false}
+      >
+        <PopoverTrigger>
+          <IconButton variant='ghost' size='sm' icon={<EditIcon />} />
+        </PopoverTrigger>
+        <PopoverContent p={5}>
+          <FocusLock returnFocus persistentFocus={false}>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <Stack spacing={4}>
+            <FormControl isInvalid={passwordError_current}>
+              <InputGroup>
+                  <TextInput
+                      type={show_current ? 'text' : 'password'}
+                      label='Current password'
+                      id='current_password'
+                      ref= {firstFieldRef}
+                      placeholder='Enter current password'
+                      onChange={(a) => { setPassword_current(a.target.value) }} />
+                    <InputRightElement >
+                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick_current} icon={<ViewIcon/>}>
+                        {show_current ? 'Hide' : 'Show'}
+                      </IconButton>
+                    </InputRightElement>
+                    </InputGroup>
+                    {!passwordError_current ? null: (
+                        <FormErrorMessage>{passwordErrorMessages_current}</FormErrorMessage>
+                      )}
+                </FormControl>
+                <FormControl isInvalid={passwordError_new}>
+                  <InputGroup>
+                    <Input
+                      type={show_new ? 'text' : 'password'}
+                      label='New password'
+                      id='new_password'
+                      ref= {firstFieldRef}
+                      placeholder='Enter new password'
+                      onChange={(e) => { setPassword_new(e.target.value) }} />
+                      
+                    <InputRightElement >
+                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick_new} icon={<ViewIcon/>}>
+                        {show_new ? 'Hide' : 'Show'}
+                      </IconButton>
+                    </InputRightElement>
+                    </InputGroup>
+                    {!passwordError_new ? null: (
+                        <FormErrorMessage>{passwordErrorMessages_new}</FormErrorMessage>
+                      )}
+                </FormControl>
+              <ButtonGroup display='flex' justifyContent='flex-end'>
+                <Button variant='outline' onClick={onClose}>
+                  Cancel
+                </Button>
+                <Button backgroundColor='#98A8F8' type='submit' onClick={validateParameters} isDisabled={passwordError_current || passwordError_new}>
+                  Save
+                </Button>
+              </ButtonGroup>
+            </Stack>
+          </FocusLock>
+        </PopoverContent>
+      </Popover>
+    </>
+  )
+}
+
+
+
+
 export default function Index() {
   const [products, setProducts] = useState();
   const [email, setEmail] = useLocalStorage('email', '');
@@ -594,8 +769,6 @@ export default function Index() {
   const [telefon, setTelefon] = useState('');
   const [country, setCountry] = useState('');
   const [data, setData] = useState('');
-  const [fetched,setFetched] = useState()
-
 
   function componentDidMount(res) {
     setNom(res.name),
@@ -603,7 +776,8 @@ export default function Index() {
       setTelefon(res.phone),
       setCountry(res.country),
       setEmail(res.email),
-      setData(res.birthdate)
+      setData(res.birthdate),
+      setPassword(res.password)
   }
   useEffect(async () => {
     let token = await getAccessToken()
@@ -739,15 +913,14 @@ export default function Index() {
             <Box my={4} textAlign="left"> <Link href='/households'> <LinkIcon mx='2px' /></Link></Box>
             </Flex>
           <Divider></Divider>
-
           <Flex as='fieldset'>
             <Box my={4} textAlign="left">
-              <Text>Favourites</Text>
+              <Text>Password</Text>
+              <Text color='gray'>**********</Text>
             </Box>
             <Spacer />
-            <Box my={4} textAlign="left"> <Link href='http://192.168.1.65:3000/favourites/' > <LinkIcon mx='2px' /> </Link></Box>
+            <Box my={4} textAlign="left"><EditPassword ></EditPassword></Box>
           </Flex>
-
         </Box>
       </Box>
     </Flex>
