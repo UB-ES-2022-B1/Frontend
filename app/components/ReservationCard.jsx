@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import Contador from "./Navbar/Contador";
 import { isAuthenticated } from '~/session';
+import moment from "moment";
 
 
 export default function (params) {
@@ -31,49 +32,14 @@ export default function (params) {
     const textTravelersMax = 'A maximum of ' + maxTravelers + ' travelers can stay in this accommodation, without including babies.';
     const [startDay, setStartDay] = useState(currentDate);
     const [endDay, setEndDay] = useState(currentDate);
-    const [totalDay, setTotalDay ]= useState(''); 
-
-    const [moneyTotalDays, setMoneyTotalDays] = useState(preuDia.getDate * totalDay.getDate);
-    const [moneyTotal, setMoneyTotal] = useState(moneyTotalDays + taxes + extra);
-
-    
     const [dateEndError, setDateEndError] = useState({ dateEndError: false, dateEndErrorMess: "" });
     const [dateStartError, setDateStartError] = useState({ dateStartError: false, dateStartErrorMess: "" });
+    const totalDay = moment(endDay).diff(startDay,'days');
+    const [moneyTotalDays, setMoneyTotalDays] = useState(preuDia.getDate * totalDay.getDate);
+    const [moneyTotal, setMoneyTotal] = useState(moneyTotalDays + taxes + extra);
+    
 
-
-    const validateEndDate = useCallback((value) => {
-        let end = new Date(value)
-        let start = new Date(startDay)
-        if (end <= start) {
-            setDateEndError((prev) => { return { dateEndError: true, dateEndErrorMess: 'End date must be later than start date' } })
-            return false
-        } else {
-            setDateEndError((prev) => { return { ...prev, dateEndError: false } })
-            return true
-        }
-    }, [endDay, startDay])
-
-    const validateStartDate = useCallback((value) => {
-
-        let today = new Date(currentDate)
-        let start = new Date(value)
-
-        if (today > start) {
-            setDateStartError((prev) => { return { dateStartError: true, dateStartErrorMess: 'Start date must be later or equal to today' } })
-            return false
-        }
-        else {
-            setDateStartError((prev) => { return { ...prev, dateStartError: false } })
-            return true
-        }
-    }, [startDay])
-
-    const validateParam = useCallback(() => {
-        let b = validateStartDate(startDay)
-        let c = validateEndDate(endDay)
-        console.log(b && c)
-        return b && c
-    }, [ validateEndDate, validateStartDate])
+  
 
     const decrease = () => {
         setTravelers(travelers - 1);
@@ -155,7 +121,7 @@ export default function (params) {
             <Box display='flex' alignItems='baseline'>
                 <Button variant='link'><Text as='u' fontSize='s'>{preuDia} € x {totalDay} nights</Text></Button>
                 <Spacer />
-                <Text fontSize='md'>{moneyTotalDays} €</Text >
+                <Text fontSize='md'>{totalDay * preuDia} €</Text >
             </Box>
             <Box display='flex' alignItems='baseline'>
                 <Button variant='link'><Text as='u' fontSize='s'>Taxes</Text></Button>
@@ -170,7 +136,7 @@ export default function (params) {
             <Center height='50px'>
                 <Box>
                     <Divider />
-                    <Text fontSize='md' as='b'>Total {moneyTotal}€</Text >
+                    <Text fontSize='md' as='b'>Total {totalDay * preuDia + taxes + extra}€</Text >
 
                 </Box>
 

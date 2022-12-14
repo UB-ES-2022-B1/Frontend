@@ -610,7 +610,7 @@ const EditPassword = (props) => {
     event.preventDefault();
     console.log('haqndlesubmit')
     if (!passwordError_new && !passwordError_current) {
-        props.onChange(password_current,password_new)
+      props.onChange(password_current, password_new)
     }
     else {
       setIsSubmitting(false)
@@ -703,53 +703,53 @@ const EditPassword = (props) => {
             <PopoverCloseButton />
             <Stack spacing={4}>
               <form onSubmit={handleSubmit}>
-              <FormControl isInvalid={passwordError_current}>
-                <InputGroup>
-                  <Input
-                    type={show_current ? 'text' : 'password'}
-                    label='Current password'
-                    id='current_password'
-                    ref={firstFieldRef}
-                    placeholder='Enter current password'
-                    onChange={(a) => { setPassword_current(a.target.value) }} />
-                  <InputRightElement >
-                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick_current} icon={<ViewIcon />}>
-                      {show_current ? 'Hide' : 'Show'}
-                    </IconButton>
-                  </InputRightElement>
-                </InputGroup>
-                {!passwordError_current ? null : (
-                  <FormErrorMessage>{passwordErrorMessages_current}</FormErrorMessage>
-                )}
-              </FormControl>
-              <FormControl isInvalid={passwordError_new}>
-                <InputGroup>
-                  <Input
-                    type={show_new ? 'text' : 'password'}
-                    label='New password'
-                    id='new_password'
-                    ref={firstFieldRef}
-                    placeholder='Enter new password'
-                    onChange={(e) => { setPassword_new(e.target.value) }} />
+                <FormControl isInvalid={passwordError_current}>
+                  <InputGroup>
+                    <Input
+                      type={show_current ? 'text' : 'password'}
+                      label='Current password'
+                      id='current_password'
+                      ref={firstFieldRef}
+                      placeholder='Enter current password'
+                      onChange={(a) => { setPassword_current(a.target.value) }} />
+                    <InputRightElement >
+                      <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick_current} icon={<ViewIcon />}>
+                        {show_current ? 'Hide' : 'Show'}
+                      </IconButton>
+                    </InputRightElement>
+                  </InputGroup>
+                  {!passwordError_current ? null : (
+                    <FormErrorMessage>{passwordErrorMessages_current}</FormErrorMessage>
+                  )}
+                </FormControl>
+                <FormControl isInvalid={passwordError_new}>
+                  <InputGroup>
+                    <Input
+                      type={show_new ? 'text' : 'password'}
+                      label='New password'
+                      id='new_password'
+                      ref={firstFieldRef}
+                      placeholder='Enter new password'
+                      onChange={(e) => { setPassword_new(e.target.value) }} />
 
-                  <InputRightElement >
-                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick_new} icon={<ViewIcon />}>
-                      {show_new ? 'Hide' : 'Show'}
-                    </IconButton>
-                  </InputRightElement>
-                </InputGroup>
-                {!passwordError_new ? null : (
-                  <FormErrorMessage>{passwordErrorMessages_new}</FormErrorMessage>
-                )}
-              </FormControl>
-              <ButtonGroup display='flex' justifyContent='flex-end'>
-                <Button variant='outline' onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button backgroundColor='#98A8F8' type='submit' onClick={validateParameters} isDisabled={passwordError_current || passwordError_new}>
-                  Save
-                </Button>
-              </ButtonGroup>
+                    <InputRightElement >
+                      <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick_new} icon={<ViewIcon />}>
+                        {show_new ? 'Hide' : 'Show'}
+                      </IconButton>
+                    </InputRightElement>
+                  </InputGroup>
+                  {!passwordError_new ? null : (
+                    <FormErrorMessage>{passwordErrorMessages_new}</FormErrorMessage>
+                  )}
+                </FormControl>
+                <ButtonGroup display='flex' justifyContent='flex-end'>
+                  <Button variant='outline' onClick={onClose}>
+                    Cancel
+                  </Button>
+                  <Button backgroundColor='#98A8F8' type='submit' onClick={validateParameters} isDisabled={passwordError_current || passwordError_new}>
+                    Save
+                  </Button>
+                </ButtonGroup>
               </form>
             </Stack>
           </FocusLock>
@@ -844,29 +844,29 @@ export default function Index() {
   useEffect(() => {
     console.log('call')
     if (fetched != undefined) {
-        async function foo() {
-          let token = await getAccessToken()
-          let jsonData = { 'current_password': oldPassword, 'new_password': newPassword }
-          let response = fetch(`${SERVER_DNS}/accounts/change-password`,
-            {
-              method: 'POST',
-              mode: 'cors',
-              body: JSON.stringify(jsonData),
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-              }
-            })
-            .then(response => response.json())
-            .catch((error) => {
-            })
-          const { success } = await response
-          if (success) {
-            console.log('changed on server')
-          }
+      async function foo() {
+        let token = await getAccessToken()
+        let jsonData = { 'current_password': oldPassword, 'new_password': newPassword }
+        let response = fetch(`${SERVER_DNS}/accounts/change-password`,
+          {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify(jsonData),
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            }
+          })
+          .then(response => response.json())
+          .catch((error) => {
+          })
+        const { success } = await response
+        if (success) {
+          console.log('changed on server')
         }
-        foo()
       }
+      foo()
+    }
   }, [oldPassword])
 
   useEffectWithoutFirstRun(() => { componentDidMount(products); setFetched(true) }, [products])
@@ -933,14 +933,18 @@ export default function Index() {
                 <Spacer />
                 <Box my={4} textAlign="left"><EditCountry country={country} onChange={(tel) => setCountry(tel)}></EditCountry></Box>
               </Flex>
+
               <Divider></Divider>
+
               <Flex as='fieldset'>
                 <Box my={4} textAlign="left">
-                  <Text>Favourites</Text>
+                  <Text>Password</Text>
+                  <Text color='gray'>**********</Text>
                 </Box>
                 <Spacer />
-                <Box my={4} textAlign="left"> <Link href='/favourites'> <LinkIcon mx='2px' /></Link></Box>
+                <Box my={4} textAlign="left"><EditPassword onChange={(oldp, newp) => { setOldPassword(oldp); setNewPassword(newp) }}></EditPassword></Box>
               </Flex>
+
               <Divider></Divider>
 
               <Flex as='fieldset'>
@@ -950,15 +954,17 @@ export default function Index() {
                 <Spacer />
                 <Box my={4} textAlign="left"> <Link href='/households'> <LinkIcon mx='2px' /></Link></Box>
               </Flex>
+
               <Divider></Divider>
+
               <Flex as='fieldset'>
                 <Box my={4} textAlign="left">
-                  <Text>Password</Text>
-                  <Text color='gray'>**********</Text>
+                  <Text>Favourites</Text>
                 </Box>
                 <Spacer />
-                <Box my={4} textAlign="left"><EditPassword onChange={(oldp, newp) => { setOldPassword(oldp); setNewPassword(newp) }}></EditPassword></Box>
+                <Box my={4} textAlign="left"> <Link href='/favourites'> <LinkIcon mx='2px' /></Link></Box>
               </Flex>
+
             </Box>
           </Box>
         </Flex>
