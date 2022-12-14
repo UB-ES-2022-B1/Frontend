@@ -25,7 +25,7 @@ import {
 } from '@chakra-ui/react';
 import FocusLock from "react-focus-lock"
 import { useNavigate } from "react-router-dom";
-import { EditIcon, LinkIcon } from '@chakra-ui/icons'
+import { EditIcon, LinkIcon, ViewIcon } from '@chakra-ui/icons'
 import { useEffect, forwardRef, useCallback } from 'react';
 import { useState, useRef } from "react";
 import { useLocalStorage } from '~/utils/localStorage'
@@ -37,6 +37,7 @@ import { getAccessToken } from '~/session';
 import { Link } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 import { calculateAge } from '~/utils/dateUtils';
+
 
 
 
@@ -71,7 +72,7 @@ const EditName = (props) => {
   function handleSubmit(event) {
     event.preventDefault();
     if (!nomError && !cognomsError) {
-      props.onChange(nom,cognoms)
+      props.onChange(nom, cognoms)
     }
     else {
       setIsSubmitting(false)
@@ -240,31 +241,31 @@ const EditMail = (props) => {
             <PopoverCloseButton />
             <Stack spacing={4}>
               <form onSubmit={handleSubmit}>
-              <FormControl isInvalid={emailError}>
-                <TextInput
-                  type='email'
-                  label='Email address'
-                  id='Email-address'
-                  ref={firstFieldRef}
-                  defaultValue={props.email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />{!emailError ? null : (
-                  <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
-                )}
-              </FormControl>
-              <ButtonGroup display='flex' justifyContent='flex-end'>
-                <Button variant='outline' onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button
-                  isDisabled={emailError}
-                  backgroundColor='#98A8F8'
-                  onClick={validateParameters}
-                  type='submit'
+                <FormControl isInvalid={emailError}>
+                  <TextInput
+                    type='email'
+                    label='Email address'
+                    id='Email-address'
+                    ref={firstFieldRef}
+                    defaultValue={props.email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />{!emailError ? null : (
+                    <FormErrorMessage>{emailErrorMessage}</FormErrorMessage>
+                  )}
+                </FormControl>
+                <ButtonGroup display='flex' justifyContent='flex-end'>
+                  <Button variant='outline' onClick={onClose}>
+                    Cancel
+                  </Button>
+                  <Button
+                    isDisabled={emailError}
+                    backgroundColor='#98A8F8'
+                    onClick={validateParameters}
+                    type='submit'
                   >
-                  Save
-                </Button>
-              </ButtonGroup>
+                    Save
+                  </Button>
+                </ButtonGroup>
               </form>
             </Stack>
           </FocusLock>
@@ -276,8 +277,8 @@ const EditMail = (props) => {
 
 
 const EditPhoneNumber = (props) => {
-  
-  const pattern =  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+
+  const pattern = /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
   const { onOpen, onClose, isOpen } = useDisclosure()
   const firstFieldRef = useRef(null)
 
@@ -451,31 +452,31 @@ const EditBirthDate = (props) => {
             <PopoverCloseButton />
             <Stack spacing={4}>
               <form onSubmit={handleSubmit}>
-              <FormControl isInvalid={dataError}>
-                <TextInput
-                  type='date'
-                  label='Birth Date'
-                  id='birth-date'
-                  ref={firstFieldRef}
-                  defaultValue={props.data}
-                  onChange={(e) => setData(e.target.value)}
-                />{!dataError ? null : (
-                  <FormErrorMessage>{dateErrorMessages}</FormErrorMessage>
-                )}
-              </FormControl>
-              <ButtonGroup display='flex' justifyContent='flex-end'>
-                <Button variant='outline' onClick={onClose}>
-                  Cancel
-                </Button>
-                <Button
-                  isDisabled={dataError}
-                  backgroundColor='#98A8F8'
-                  onClick={validateParameters}
-                  type='submit'
+                <FormControl isInvalid={dataError}>
+                  <TextInput
+                    type='date'
+                    label='Birth Date'
+                    id='birth-date'
+                    ref={firstFieldRef}
+                    defaultValue={props.data}
+                    onChange={(e) => setData(e.target.value)}
+                  />{!dataError ? null : (
+                    <FormErrorMessage>{dateErrorMessages}</FormErrorMessage>
+                  )}
+                </FormControl>
+                <ButtonGroup display='flex' justifyContent='flex-end'>
+                  <Button variant='outline' onClick={onClose}>
+                    Cancel
+                  </Button>
+                  <Button
+                    isDisabled={dataError}
+                    backgroundColor='#98A8F8'
+                    onClick={validateParameters}
+                    type='submit'
                   >
-                  Save
-                </Button>
-              </ButtonGroup>
+                    Save
+                  </Button>
+                </ButtonGroup>
               </form>
             </Stack>
           </FocusLock>
@@ -608,8 +609,8 @@ const EditPassword = (props) => {
   async function handleSubmit(event) {
     event.preventDefault();
     setErrorMessages('')
-    if (!nomError && !cognomsError) {
-      //TODO--------------------------------
+    if (!passwordError_new && !setPasswordError_current) {
+        props.onChange(password_current,password_new)
     }
     else {
       setErrorMessages("Please enter valid parameters")
@@ -642,7 +643,7 @@ const EditPassword = (props) => {
     else {
       setPasswordError_current(false)
       setpasswordErrorMessages_current("")
-  
+
     }
   }, [password_current])
 
@@ -671,8 +672,8 @@ const EditPassword = (props) => {
     else {
       setPasswordError_new(false)
       setpasswordErrorMessages_new("")
-      
-  
+
+
     }
   }, [password_new])
 
@@ -682,8 +683,8 @@ const EditPassword = (props) => {
   }, [validatePassword_current, validatePassword_new])
 
 
-  useEffectWithoutFirstRun(validatePassword_current,[password_current])
-  useEffectWithoutFirstRun(validatePassword_new,[password_new])
+  useEffectWithoutFirstRun(validatePassword_current, [password_current])
+  useEffectWithoutFirstRun(validatePassword_new, [password_new])
   return (
     <>
       <Popover
@@ -702,45 +703,45 @@ const EditPassword = (props) => {
             <PopoverArrow />
             <PopoverCloseButton />
             <Stack spacing={4}>
-            <FormControl isInvalid={passwordError_current}>
-              <InputGroup>
-                  <TextInput
-                      type={show_current ? 'text' : 'password'}
-                      label='Current password'
-                      id='current_password'
-                      ref= {firstFieldRef}
-                      placeholder='Enter current password'
-                      onChange={(a) => { setPassword_current(a.target.value) }} />
-                    <InputRightElement >
-                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick_current} icon={<ViewIcon/>}>
-                        {show_current ? 'Hide' : 'Show'}
-                      </IconButton>
-                    </InputRightElement>
-                    </InputGroup>
-                    {!passwordError_current ? null: (
-                        <FormErrorMessage>{passwordErrorMessages_current}</FormErrorMessage>
-                      )}
-                </FormControl>
-                <FormControl isInvalid={passwordError_new}>
-                  <InputGroup>
-                    <Input
-                      type={show_new ? 'text' : 'password'}
-                      label='New password'
-                      id='new_password'
-                      ref= {firstFieldRef}
-                      placeholder='Enter new password'
-                      onChange={(e) => { setPassword_new(e.target.value) }} />
-                      
-                    <InputRightElement >
-                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick_new} icon={<ViewIcon/>}>
-                        {show_new ? 'Hide' : 'Show'}
-                      </IconButton>
-                    </InputRightElement>
-                    </InputGroup>
-                    {!passwordError_new ? null: (
-                        <FormErrorMessage>{passwordErrorMessages_new}</FormErrorMessage>
-                      )}
-                </FormControl>
+              <FormControl isInvalid={passwordError_current}>
+                <InputGroup>
+                  <Input
+                    type={show_current ? 'text' : 'password'}
+                    label='Current password'
+                    id='current_password'
+                    ref={firstFieldRef}
+                    placeholder='Enter current password'
+                    onChange={(a) => { setPassword_current(a.target.value) }} />
+                  <InputRightElement >
+                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick_current} icon={<ViewIcon />}>
+                      {show_current ? 'Hide' : 'Show'}
+                    </IconButton>
+                  </InputRightElement>
+                </InputGroup>
+                {!passwordError_current ? null : (
+                  <FormErrorMessage>{passwordErrorMessages_current}</FormErrorMessage>
+                )}
+              </FormControl>
+              <FormControl isInvalid={passwordError_new}>
+                <InputGroup>
+                  <Input
+                    type={show_new ? 'text' : 'password'}
+                    label='New password'
+                    id='new_password'
+                    ref={firstFieldRef}
+                    placeholder='Enter new password'
+                    onChange={(e) => { setPassword_new(e.target.value) }} />
+
+                  <InputRightElement >
+                    <IconButton h='2rem' size='sm' variant='ghost' onClick={handleClick_new} icon={<ViewIcon />}>
+                      {show_new ? 'Hide' : 'Show'}
+                    </IconButton>
+                  </InputRightElement>
+                </InputGroup>
+                {!passwordError_new ? null : (
+                  <FormErrorMessage>{passwordErrorMessages_new}</FormErrorMessage>
+                )}
+              </FormControl>
               <ButtonGroup display='flex' justifyContent='flex-end'>
                 <Button variant='outline' onClick={onClose}>
                   Cancel
@@ -769,6 +770,9 @@ export default function Index() {
   const [telefon, setTelefon] = useState('');
   const [country, setCountry] = useState('');
   const [data, setData] = useState('');
+  const [fetched, setFetched] = useState()
+  const [olldPassword, setOldPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
 
   function componentDidMount(res) {
     setNom(res.name),
@@ -776,8 +780,7 @@ export default function Index() {
       setTelefon(res.phone),
       setCountry(res.country),
       setEmail(res.email),
-      setData(res.birthdate),
-      setPassword(res.password)
+      setData(res.birthdate)
   }
   useEffect(async () => {
     let token = await getAccessToken()
@@ -804,127 +807,133 @@ export default function Index() {
 
   const [first, setFirst] = useState(true)
   useEffect(() => {
-    if(fetched != undefined){
-      if(first)
-      {
+    if (fetched != undefined) {
+      if (first) {
         console.log('first')
         setFirst(false)
       }
-      else
-      {
+      else {
         console.log('asdfasdfa')
-        async function foo(){
+        async function foo() {
           let token = await getAccessToken()
           let jsonData = { "email": newEmail, "name": nom, "surname": cognoms, "phone": telefon, "birthdate": data, "country": country }
           let response = fetch(`${SERVER_DNS}/accounts/update-profile`,
-          {
-            method: 'POST',
-            mode: 'cors',
-            body: JSON.stringify(jsonData),
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            }
-          })
-          .then(response => response.json())
-          .catch((error) => {
-          })
-          const {success} = await response
-          if(success){
+            {
+              method: 'POST',
+              mode: 'cors',
+              body: JSON.stringify(jsonData),
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              }
+            })
+            .then(response => response.json())
+            .catch((error) => {
+            })
+          const { success } = await response
+          if (success) {
             console.log('changed on server')
           }
         }
         foo()
       }
     }
-  },[nom,cognoms,newEmail,telefon,country,data])
+  }, [nom, cognoms, newEmail, telefon, country, data])
 
-  useEffectWithoutFirstRun(() =>{componentDidMount(products); setFetched(true)}, [products])
-  
+  useEffectWithoutFirstRun(() => { componentDidMount(products); setFetched(true) }, [products])
+
   return (
     <>
-    {fetched &&
-    <Flex width="full" align="center" justifyContent="center" padding={"120px"}>
-      <Box p={8}>
-        <Box textAlign="center">
-          <Heading>{'Personal information'}</Heading>
-        </Box>
-        <Box my={4} textAlign="left">
-
-          <Flex as='fieldset'>
-            <Box my={4} textAlign="left">
-              <Text>Legal name</Text>
-              <Text color='gray'>{nom + ' ' + cognoms}</Text>
+      {fetched &&
+        <Flex width="full" align="center" justifyContent="center" padding={"10px"}>
+          <Box p={2}>
+            <Box textAlign="center">
+              <Heading>{'Personal information'}</Heading>
             </Box>
-            <Spacer />
-            <Box my={4} textAlign="left"><EditName name={nom} surname={cognoms} onChange={(nom,cognom)=>{setNom(nom);setCognoms(cognom)}}></EditName></Box>
-          </Flex>
-
-          <Divider></Divider>
-
-          <Flex as='fieldset'>
             <Box my={4} textAlign="left">
-              <Text>Email address</Text>
-              <Text color='gray'>{newEmail}</Text>
+
+              <Flex as='fieldset'>
+                <Box my={4} textAlign="left">
+                  <Text>Legal name</Text>
+                  <Text color='gray'>{nom + ' ' + cognoms}</Text>
+                </Box>
+                <Spacer />
+                <Box my={4} textAlign="left"><EditName name={nom} surname={cognoms} onChange={(nom, cognom) => { setNom(nom); setCognoms(cognom) }}></EditName></Box>
+              </Flex>
+
+              <Divider></Divider>
+
+              <Flex as='fieldset'>
+                <Box my={4} textAlign="left">
+                  <Text>Email address</Text>
+                  <Text color='gray'>{newEmail}</Text>
+                </Box>
+                <Spacer />
+                <Box my={4} textAlign="left"><EditMail email={newEmail} onChange={(email) => { setNewEmail(email) }}></EditMail></Box>
+              </Flex>
+
+              <Divider></Divider>
+
+              <Flex as='fieldset'>
+                <Box my={4} textAlign="left">
+                  <Text>Phone number</Text>
+                  <Text color='gray'>{telefon}</Text>
+                </Box>
+                <Spacer />
+                <Box my={4} textAlign="left"><EditPhoneNumber phone={telefon} onChange={(tel) => setTelefon(tel)}></EditPhoneNumber></Box>
+              </Flex>
+
+              <Divider></Divider>
+
+              <Flex as='fieldset'>
+                <Box my={4} textAlign="left">
+                  <Text>Birthday</Text>
+                  <Text color='gray'>{data}</Text>
+                </Box>
+                <Spacer />
+                <Box my={4} textAlign="left"><EditBirthDate data={data} onChange={(data) => setData(data)}></EditBirthDate></Box>
+              </Flex>
+
+              <Divider></Divider>
+
+              <Flex as='fieldset'>
+                <Box my={4} textAlign="left">
+                  <Text>Country</Text>
+                  <Text color='gray'>{country}</Text>
+                </Box>
+                <Spacer />
+                <Box my={4} textAlign="left"><EditCountry country={country} onChange={(tel) => setCountry(tel)}></EditCountry></Box>
+              </Flex>
+              <Divider></Divider>
+              <Flex as='fieldset'>
+                <Box my={4} textAlign="left">
+                  <Text>Favourites</Text>
+                </Box>
+                <Spacer />
+                <Box my={4} textAlign="left"> <Link href='/favourites'> <LinkIcon mx='2px' /></Link></Box>
+              </Flex>
+              <Divider></Divider>
+
+              <Flex as='fieldset'>
+                <Box my={4} textAlign="left">
+                  <Text>My households</Text>
+                </Box>
+                <Spacer />
+                <Box my={4} textAlign="left"> <Link href='/households'> <LinkIcon mx='2px' /></Link></Box>
+              </Flex>
+              <Divider></Divider>
+              <Flex as='fieldset'>
+                <Box my={4} textAlign="left">
+                  <Text>Password</Text>
+                  <Text color='gray'>**********</Text>
+                </Box>
+                <Spacer />
+                <Box my={4} textAlign="left"><EditPassword onChange={(oldp, newp) => { setOldPassword(oldp); setNewPassword(newp) }}></EditPassword></Box>
+              </Flex>
             </Box>
-            <Spacer />
-            <Box my={4} textAlign="left"><EditMail email={newEmail} onChange={(email)=>{setNewEmail(email)}}></EditMail></Box>
-          </Flex>
-
-          <Divider></Divider>
-
-          <Flex as='fieldset'>
-            <Box my={4} textAlign="left">
-              <Text>Phone number</Text>
-              <Text color='gray'>{telefon}</Text>
-            </Box>
-            <Spacer />
-            <Box my={4} textAlign="left"><EditPhoneNumber phone={telefon} onChange={(tel)=>setTelefon(tel)}></EditPhoneNumber></Box>
-          </Flex>
-
-          <Divider></Divider>
-
-          <Flex as='fieldset'>
-            <Box my={4} textAlign="left">
-              <Text>Birthday</Text>
-              <Text color='gray'>{data}</Text>
-            </Box>
-            <Spacer />
-            <Box my={4} textAlign="left"><EditBirthDate data={data} onChange={(data)=>setData(data)}></EditBirthDate></Box>
-          </Flex>
-
-          <Divider></Divider>
-
-          <Flex as='fieldset'>
-            <Box my={4} textAlign="left">
-              <Text>Country</Text>
-              <Text color='gray'>{country}</Text>
-            </Box>
-            <Spacer />
-            <Box my={4} textAlign="left"><EditCountry country={country} onChange={(tel)=>setCountry(tel)}></EditCountry></Box>
-          </Flex>
-          <Divider></Divider>
-
-          <Flex as='fieldset'>
-            <Box my={4} textAlign="left">
-              <Text>My households</Text>
-            </Box>
-            <Spacer />
-            <Box my={4} textAlign="left"> <Link href='/households'> <LinkIcon mx='2px' /></Link></Box>
-            </Flex>
-          <Divider></Divider>
-          <Flex as='fieldset'>
-            <Box my={4} textAlign="left">
-              <Text>Password</Text>
-              <Text color='gray'>**********</Text>
-            </Box>
-            <Spacer />
-            <Box my={4} textAlign="left"><EditPassword ></EditPassword></Box>
-          </Flex>
-        </Box>
-      </Box>
-    </Flex>
-    }
+          </Box>
+        </Flex>
+      }
     </>
   );
 }
