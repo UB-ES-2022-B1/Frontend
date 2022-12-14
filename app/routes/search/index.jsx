@@ -17,7 +17,15 @@ export const loader = async ({
 };
 
 async function search(params){
-    let jsonData = { "town": params.location, "num_people":parseInt(params.people), "check_in": params.dateStart, "check_out": params.dateEnd}
+    let jsonData;
+    if(params.location === "") {
+        jsonData = { "num_people":parseInt(params.people)}
+    }else if(params.dateStart === "" || params.dateEnd === "") {
+        jsonData = { "town": params.location, "num_people":parseInt(params.people)}
+    }else{
+        jsonData = { "town": params.location, "num_people":parseInt(params.people), "check_in": params.dateStart, "check_out": params.dateEnd}
+    }
+    
     let response = fetch(`${SERVER_DNS}/houses/search-houses`, {
         method: 'POST',
         mode: 'cors',
