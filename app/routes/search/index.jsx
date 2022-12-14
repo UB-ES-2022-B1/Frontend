@@ -11,11 +11,21 @@ export const loader = async ({
     const url= new URL(request.url);
     const location = url.searchParams.get("location");
     const people = url.searchParams.get("people");
-    return {location:location, people:people}
+    const dateStart = url.searchParams.get('dateStart');
+    const dateEnd = url.searchParams.get('dateEnd');
+    return {location:location, people:people, dateEnd:dateEnd, dateStart:dateStart}
 };
 
 async function search(params){
-    let jsonData = { "town": params.location, "num_people":parseInt(params.people)}
+    let jsonData;
+    if(params.location === "") {
+        jsonData = { "num_people":parseInt(params.people)}
+    }else if(params.dateStart === "" || params.dateEnd === "") {
+        jsonData = { "town": params.location, "num_people":parseInt(params.people)}
+    }else{
+        jsonData = { "town": params.location, "num_people":parseInt(params.people), "check_in": params.dateStart, "check_out": params.dateEnd}
+    }
+    
     let response = fetch(`${SERVER_DNS}/houses/search-houses`, {
         method: 'POST',
         mode: 'cors',

@@ -10,6 +10,7 @@ import {
     Flex,
     Box,
     Divider,
+    Skeleton,
 } from '@chakra-ui/react';
 import { useLoaderData } from "@remix-run/react";
 import { useEffect } from "react";
@@ -62,6 +63,8 @@ export default function Index() {
     const [images, setImages] = useState([]);
 
     const [inexistent, setInexistent] = useState(false)
+
+    const [isLoading, setIsLoading] = useState(true)
 
     function componentsSet(res) {
         setTitle(firstToUpperCase(res.title)),
@@ -116,6 +119,7 @@ export default function Index() {
         response = await response;
         if (response.success) {
             componentsSet(response.msg[0]);
+            setIsLoading(false)
         }
         else {
             setInexistent(true)
@@ -125,17 +129,19 @@ export default function Index() {
 
     return (
         <>
-            {inexistent ? <h1>No house with this id</h1> :
+            {isLoading ? null:
+            inexistent ? <h1>No house with this id</h1> :
                 <Box>
                     <HouseTitle
                         title={title}
                         town={ town}
                         province={province }
                         country={ country}
+                        id = {params.id}
                     ></HouseTitle>
-
+                    <Flex justifyContent={"center"}>
                     <Slider images={images}></Slider>
-
+                    </Flex>
                     <Box marginTop={8}>
                         <Flex width="full" justifyContent="center">
                             <Box marginRight={20}>
@@ -176,9 +182,17 @@ export default function Index() {
                             </Box>
                             <Box>
                                 <ReservationCard
-                                    moneyDay={base_price}
-                                    taxes={taxes}
-                                    extra={extra_costs}
+                                    moneyDay={ base_price }
+                                    taxes={ taxes}
+                                    extra={ extra_costs }
+                                    guests={ num_people }
+                                    title={title }
+                                    town={ town }
+                                    province={province }
+                                    country={ country }
+                                    street={ street }
+                                    images={images[0]}
+                                    id={ params.id }
                                 ></ReservationCard>
                             </Box>
 

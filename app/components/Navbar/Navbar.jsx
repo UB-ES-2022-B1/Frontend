@@ -27,9 +27,10 @@ import Dropdown from "~/components/Dropdown";
 import { useFetcher } from 'react-router-dom';
 //import { useEffect, useState } from 'react';
 import { isAuthenticated } from '~/session';
-import {IMAGES_DNS, SERVER_DNS} from '~/utils/constants'
+import { IMAGES_DNS, SERVER_DNS } from '~/utils/constants'
 
 import logo from "~/assets/logo2.png"
+import styles from "~/styles/navbar.css"
 
 const defaultItems = [
     {
@@ -51,10 +52,24 @@ const otherItems = [
         anchor: "See profile"
     },
     {
+        slug: "/households/",
+        anchor: "My households"
+    },
+    {
+        slug: "/favourites/",
+        anchor: "Favourites"
+    },
+    {
         slug: "/logout/",
         anchor: "Log out"
     }
+    
 ];
+
+
+export function links() {
+    return [{ rel: "stylesheet", href: styles }];
+}
 
 export default function (params) {
     //declarant variables
@@ -93,7 +108,7 @@ export default function (params) {
 
     //validar parametres de input de cerca
     const validateLocation = useCallback((value) => {
-        if (value.match(/^[A-Za-z]+$/) === null) {
+        if (value.match(/^[A-Za-z\s]*$/) === null) {
             setLocationError((prev) => { return { locationError: true, locationErrorMess: 'Location can\'t contain numbers' } })
             return false
         } else {
@@ -135,113 +150,124 @@ export default function (params) {
         let a = validateLocation(location)
         let b = validateStartDate(dateStart)
         let c = validateEndDate(dateEnd)
-        
+
         return a && b && c
     }, [validateLocation, validateEndDate, validateStartDate])
 
     //Crides a back end
     async function handleSubmit() {
         if (validateParam()) {
-            window.location.href = `/search?location=${location}&people=${people}`
+            window.location.href = `/search?location=${location}&people=${people}&dateStart=${dateStart}&dateEnd=${dateEnd}`
         }
     }
 
 
     return (
-        <Flex width="full" align="center" justifyContent="center" padding={"10px"} backgroundColor="#CDFCF6">
-            <div align="left">
-                <a href="/"><img width='100' height='100' src={logo} /></a>
-            </div>
-            <Spacer />
-            <Box p={1} maxWidth="1000px" borderWidth={1} borderRadius={30} boxShadow="lg" backgroundColor="#FAF7F0">
-                <Center height='50px'>
+        <>
+            <div className='navbar scrolled'>
+                <link
+                    rel="stylesheet"
+                    type="text/css"
+                    charSet="UTF-8"
+                    href={styles}
+                />
+                <Flex width="full" align="center" justifyContent="center" padding={"10px"} backgroundColor="#CDFCF6">
+                    <div align="left">
+                        <a href="/"><img width='100' height='100' src={logo} /></a>
+                    </div>
+                    <Spacer />
+                    <Box p={1} maxWidth="1000px"  borderWidth={1} borderRadius={30} boxShadow="lg" backgroundColor="#FAF7F0">
+                        <Center height='50px'>
 
-                    <Box textAlign="center" borderRadius={30}>
+                            <Box textAlign="center" borderRadius={30}>
 
-                        <FormControl as='fieldset' isInvalid={locationError["locationError"]}>
+                                <FormControl as='fieldset' isInvalid={locationError["locationError"]}>
 
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Button variant='ghost' style={{ color: locationError["locationError"] ? "red" : "black" }} borderRadius={30}>Destiny</Button>
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <Button variant='ghost' style={{ color: locationError["locationError"] ? "red" : "black" }} borderRadius={30}>Destiny</Button>
 
-                                </PopoverTrigger>
-                                <Portal>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverHeader backgroundColor="#FAF7F0">Where?</PopoverHeader>
-                                        <PopoverCloseButton />
-                                        <PopoverBody>
-                                            <Input placeholder='Destiny' value={location} onChange={(e) => { setLocation(e.target.value); validateLocation(e.target.value) }} />
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Portal>
-                            </Popover>
+                                        </PopoverTrigger>
+                                        <Portal>
+                                            <PopoverContent>
+                                                <PopoverArrow />
+                                                <PopoverHeader backgroundColor="#FAF7F0">Where?</PopoverHeader>
+                                                <PopoverCloseButton />
+                                                <PopoverBody>
+                                                    <Input placeholder='Destiny' value={location} onChange={(e) => { setLocation(e.target.value); validateLocation(e.target.value) }} />
+                                                </PopoverBody>
+                                            </PopoverContent>
+                                        </Portal>
+                                    </Popover>
 
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Button variant='ghost' style={{ color: dateStartError.dateStartError ? "red" : "black" }} borderRadius={30}>Arrival</Button>
-                                </PopoverTrigger>
-                                <Portal>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
-                                        <PopoverCloseButton />
-                                        <PopoverBody>
-                                            <Input type='date' onChange={(e) => { setDateStart(e.target.value); validateStartDate(e.target.value) }} />
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Portal>
-                            </Popover>
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <Button variant='ghost' style={{ color: dateStartError.dateStartError ? "red" : "black" }} borderRadius={30}>Arrival</Button>
+                                        </PopoverTrigger>
+                                        <Portal>
+                                            <PopoverContent>
+                                                <PopoverArrow />
+                                                <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
+                                                <PopoverCloseButton />
+                                                <PopoverBody>
+                                                    <Input type='date' min={currentDate} onChange={(e) => { setDateStart(e.target.value); validateStartDate(e.target.value) }} />
+                                                </PopoverBody>
+                                            </PopoverContent>
+                                        </Portal>
+                                    </Popover>
 
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Button variant='ghost' style={{ color: dateEndError["dateEndError"] ? "red" : "black" }} borderRadius={30}>Departure</Button>
-                                </PopoverTrigger>
-                                <Portal>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
-                                        <PopoverCloseButton />
-                                        <PopoverBody>
-                                            <Input type='date' onChange={(e) => { setDateEnd(e.target.value); validateEndDate(e.target.value) }} />
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Portal>
-                            </Popover>
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <Button variant='ghost' style={{ color: dateEndError["dateEndError"] ? "red" : "black" }} borderRadius={30}>Departure</Button>
+                                        </PopoverTrigger>
+                                        <Portal>
+                                            <PopoverContent>
+                                                <PopoverArrow />
+                                                <PopoverHeader backgroundColor="#FAF7F0">When?</PopoverHeader>
+                                                <PopoverCloseButton />
+                                                <PopoverBody>
+                                                    <Input type='date' min={currentDate} onChange={(e) => { setDateEnd(e.target.value); validateEndDate(e.target.value) }} />
+                                                </PopoverBody>
+                                            </PopoverContent>
+                                        </Portal>
+                                    </Popover>
 
-                            <Popover>
-                                <PopoverTrigger>
-                                    <Button variant='ghost' borderRadius={30}>Travellers</Button>
-                                </PopoverTrigger>
-                                <Portal>
-                                    <PopoverContent>
-                                        <PopoverArrow />
-                                        <PopoverHeader backgroundColor="#FAF7F0">How many?</PopoverHeader>
-                                        <PopoverCloseButton />
-                                        <PopoverBody>
-                                            <Flex>
-                                                <Button variant='outline' borderRadius={40} disabled={people < 1} onClick={decrease}>-</Button>{' '}
-                                                <Button variant='ghost' placeholder="1" disabled={true}>{people}</Button>
-                                                <Button variant='outline' borderRadius={40} disabled={people > 16} onClick={increase}>+</Button>{' '}
-                                            </Flex>
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <Button variant='ghost' borderRadius={30}>Travellers</Button>
+                                        </PopoverTrigger>
+                                        <Portal>
+                                            <PopoverContent>
+                                                <PopoverArrow />
+                                                <PopoverHeader backgroundColor="#FAF7F0">How many?</PopoverHeader>
+                                                <PopoverCloseButton />
+                                                <PopoverBody>
+                                                    <Flex>
+                                                        <Button variant='outline' borderRadius={40} disabled={people < 1} onClick={decrease}>-</Button>{' '}
+                                                        <Button variant='ghost' placeholder="1" disabled={true}>{people}</Button>
+                                                        <Button variant='outline' borderRadius={40} disabled={people > 16} onClick={increase}>+</Button>{' '}
+                                                    </Flex>
 
-                                        </PopoverBody>
-                                    </PopoverContent>
-                                </Portal>
-                            </Popover>
-                            <IconButton backgroundColor="#98A8F8" borderRadius={30} aria-label='Search' icon={<Search2Icon />}
-                                onClick={handleSubmit}//handleSubmit
-                                isDisabled={locationError.locationError || dateEndError.dateEndError || dateStartError.dateStartError}
-                            />
-                        </FormControl>
+                                                </PopoverBody>
+                                            </PopoverContent>
+                                        </Portal>
+                                    </Popover>
+                                    <IconButton backgroundColor="#98A8F8" borderRadius={30} aria-label='Search' icon={<Search2Icon />}
+                                        onClick={handleSubmit}//handleSubmit
+                                        isDisabled={locationError.locationError || dateEndError.dateEndError || dateStartError.dateStartError}
+                                    />
+                                </FormControl>
+                            </Box>
+                        </Center>
                     </Box>
-                </Center>
-            </Box>
-            <Spacer />
-            <Dropdown
-                avatar={"https://e7.pngegg.com/pngimages/323/705/png-clipart-user-profile-get-em-cardiovascular-disease-zingah-avatar-miscellaneous-white.png"}
-                items={items}
-            />
-        </Flex >
-    );
+                    <Spacer />
+                    <Dropdown
+                        avatar={"https://e7.pngegg.com/pngimages/323/705/png-clipart-user-profile-get-em-cardiovascular-disease-zingah-avatar-miscellaneous-white.png"}
+                        items={items}
+                    />
+                </Flex >
+            </div>
+            <div style={{marginBottom:"120px"}}> </div>
+        </>
+                );
 }
