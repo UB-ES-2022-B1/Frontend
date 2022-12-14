@@ -47,12 +47,33 @@ function arrayRemove(arr, value) {
 }
 
 async function deleteHouse(id){
-    
-
-
+    let token = await getAccessToken()
+    let jsonData = { "id_house": id}
+    let response = fetch(`${SERVER_DNS}/houses/delete-house`, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify(jsonData),
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch((text) => {
+            return {success:false}
+        })
+    response = await response;
+    if (response.success) {
+        return response.ids
+    }
 
    setMyHouses([...arrayRemove(myHouses,id)])
+
+   return []
 }
+
 
 
 
