@@ -66,12 +66,8 @@ async function deleteHouse(id){
         })
     response = await response;
     if (response.success) {
-        return response.ids
+        setMyHouses([...arrayRemove(myHouses,id)])
     }
-
-   setMyHouses([...arrayRemove(myHouses,id)])
-
-   return []
 }
 
 
