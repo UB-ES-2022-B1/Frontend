@@ -13,7 +13,13 @@ describe("search-house", () => {
     cy.get("button[type='button']").contains("Home").click();
     cy.wait(2000)
     cy.get("button[type='button']").contains("Destiny").click({force: true});
-    cy.get("input[placeholder='Destiny']").type("barcelona", {force: true});
+    cy.get("input[placeholder='Destiny']").type("Barcelona", {force: true});
+    cy.get("button[type='button']").contains("Arrival").click({force: true});
+    cy.wait(2000);
+    cy.get("input[type='date']").filter(':visible').type("2023-12-13", {force: true});
+    cy.get("button[type='button']").contains("Departure").click({force: true});
+    cy.wait(2000);
+    cy.get("input[type='date']").filter(':visible').type("2023-12-14", {force: true});
     cy.get("button[type='button']").contains("Travellers").click({force: true});
     cy.get("button[type='button']").contains("+").click({force: true}).click({force: true}).click({force: true});
     cy.get("button[aria-label='Search']").click();

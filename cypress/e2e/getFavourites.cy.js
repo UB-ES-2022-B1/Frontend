@@ -5,7 +5,7 @@ describe.skip("get-favourites", () => {
     cy.visit("https://test-dev--housh.netlify.app");
   })
 
-  it("get info", function () {
+  it("get favs", function () {
     cy.visit("https://test-dev--housh.netlify.app/login/");
     cy.get("input[type='email']").type("cypress@cypressauto.com");
     cy.get("input[type='password']").type("CypressTesting$1");
