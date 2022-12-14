@@ -16,6 +16,7 @@ import {
 import { ChevronLeftIcon } from '@chakra-ui/icons'
 import { FiMapPin, FiUser, FiDollarSign } from "react-icons/fi";
 import { useLoaderData } from "@remix-run/react";
+import moment from "moment";
 
 
 export const loader = async ({
@@ -62,7 +63,7 @@ export default function Index() {
     const [cvcError, setCvcError] = useState({ cvcError: true, cvcErrorMess: "" });
     const [numError, setNumError] = useState({ numError: true, numErrorMess: "" });
     const [isReserved, setIsReserved] = useState(false)
-    
+    const totalDay = moment(datos.dataSalida).diff(datos.dataEntrada,'days');
     
 
     //Validations
@@ -240,9 +241,9 @@ export default function Index() {
                                     <Text fontSize='2xl' as='b'>Price details</Text>
                                 </Box>
                                 <Box display='flex' alignItems='baseline' marginX='5'>
-                                    <Text as='u' fontSize='s' marginBottom='3'>{params.preuDia} € x {datos.diasTotales} nights</Text>
+                                    <Text as='u' fontSize='s' marginBottom='3'>{params.preuDia} € x {totalDay} nights</Text>
                                     <Spacer />
-                                    <Text fontSize='md'>{datos.preuDia * datos.diasTotales} €</Text >
+                                    <Text fontSize='md'>{datos.preuDia * totalDay} €</Text >
                                 </Box>
                                 <Box display='flex' alignItems='baseline' marginX='5'>
                                     <Text as='u' fontSize='s'>Taxes</Text>

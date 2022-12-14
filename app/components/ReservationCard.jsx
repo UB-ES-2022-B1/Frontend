@@ -29,15 +29,16 @@ export default function (params) {
     const [travelersText, setTravelersText] = useState('traveler');
     const maxTravelers = 10;
     const textTravelersMax = 'A maximum of ' + maxTravelers + ' travelers can stay in this accommodation, without including babies.';
-    const [startDay, setStartDay] = useState('');
-    const [endDay, setEndDay] = useState('');
+    const current = new Date();
+    const currentDate = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
+    const [startDay, setStartDay] = useState(currentDate);
+    const [endDay, setEndDay] = useState(currentDate);
     const totalDay = moment(endDay).diff(startDay,'days');
 
 
     const [moneyTotal, setMoneyTotal] = useState(totalDay * preuDia + taxes + extra);
 
-    const current = new Date();
-    const currentDate = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`;
+
     console.log("Prueva " + totalDay)
   
 
@@ -74,7 +75,7 @@ export default function (params) {
                         <Divider orientation='vertical' />
                         <Box >
                             <Text fontSize='xs' >Departure</Text >
-                            <Input type='date' value={endDay} onChange={(e) => setEndDay(e.target.value)} width='170px' variant='unstyled' size='lg' />
+                            <Input type='date' min={startDay} value={endDay} onChange={(e) => setEndDay(e.target.value)} width='170px' variant='unstyled' size='lg' />
                         </Box>
                     </Center>
                     <Divider orientation='horizontal' />
@@ -113,7 +114,7 @@ export default function (params) {
             <Box display='flex' alignItems='baseline'>
                 <Button variant='link'><Text as='u' fontSize='s'>{preuDia} € x {totalDay} nights</Text></Button>
                 <Spacer />
-                <Text fontSize='md'>{totalDay * preuDia + taxes + extra} €</Text >
+                <Text fontSize='md'>{totalDay * preuDia} €</Text >
             </Box>
             <Box display='flex' alignItems='baseline'>
                 <Button variant='link'><Text as='u' fontSize='s'>Taxes</Text></Button>
